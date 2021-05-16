@@ -6,20 +6,20 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 17:55:34 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/16 09:16:23 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/16 23:55:49 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signal_handlers.h"
 
-void	handle_sigint(void)
+void	handle_sigint(int code)
 {
-
+	(void)code;
 }
 
-void	handle_sigquit(void)
+void	handle_sigquit(int code)
 {
-
+	(void)code;
 }
 
 

@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/16 20:01:07 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/16 23:38:43 by eluceon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,6 @@ RM = rm -rf
 
 LIBFT = ./libs/libft/libft.a
 LIBFTDIR = ./libs/libft/
-LIBFTHEADER = libft.h
-LIBFTHEADERDIR = ./libs/libft/includes/
 
 NAME = minishell
 
@@ -35,27 +33,27 @@ SRCS_MAIN = minishell.c
 OBJ_MAIN = $(addprefix $(OBJDIR), $(SRCS_MAIN:.c=.o))
 HEADER_MAIN = $(addprefix $(HEADERDIR), minishell.h)
 
-SRCDIR_READ_LINE_DIR = ./srcs/environment/
-SRCS_READ_LINE = read_line.c
-OBJ_READ_LINE = $(addprefix $(OBJDIR), $(SRCS_READ_LINE:.c=.o))
-HEADER_READ_LINE = $(addprefix $(HEADERDIR), read_line.h)
-
-SRCDIR_SIGNAL_HANDLERS_DIR = ./srcs/signal_handlers/
+SRC_SIGNAL_HANDLERS_DIR = ./srcs/signal_handlers/
 SRCS_SIGNAL_HANDLERS = signal_handlers.c
 OBJ_SIGNAL_HANDLERS = $(addprefix $(OBJDIR), $(SRCS_SIGNAL_HANDLERS:.c=.o))
 HEADER_SIGNAL_HANDLERS = $(addprefix $(HEADERDIR), signal_handlers.h)
 
-SRCDIR_ENVIRONMENT_DIR = ./srcs/environment/
+SRC_ENVIRONMENT_DIR = ./srcs/environment/
 SRCS_ENVIRONMENT = set_environment.c
 OBJ_ENVIRONMENT = $(addprefix $(OBJDIR), $(SRCS_ENVIRONMENT:.c=.o))
 HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
-# SRCDIR_PARSING_DIR = ./srcs/parsing/
+# SRC_READ_LINE_DIR = ./srcs/environment/
+# SRCS_READ_LINE = read_line.c
+# OBJ_READ_LINE = $(addprefix $(OBJDIR), $(SRCS_READ_LINE:.c=.o))
+# HEADER_READ_LINE = $(addprefix $(HEADERDIR), read_line.h)
+
+# SRC_PARSING_DIR = ./srcs/parsing/
 # SRCS_PARSING =
 # OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 # HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
-# SRCDIR_BUILTINS_DIR = ./srcs/builtins/
+# SRC_BUILTINS_DIR = ./srcs/builtins/
 # SRCS_BUILTINS =
 # OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
 # HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
@@ -75,8 +73,7 @@ HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 # OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 # HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
-OBJ_ALL = $(OBJ_MAIN) $(OBJ_READ_LINE) $(OBJ_SIGNAL_HANDLERS)\
-		$(OBJ_ENVIRONMENT)
+OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT)
 
 all: make_libft $(NAME)
 
@@ -95,25 +92,18 @@ $(OBJDIR):
 ##   Main compilation   ##
 ##########################
 
-$(OBJ_MAIN): $(OBJDIR)%.o: $(SRC_MAIN_DIR)%.c $(HEADER_MAIN)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
+$(OBJ_MAIN): $(OBJDIR)%.o: $(SRC_MAIN_DIR)%.c $(HEADER_MAIN) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for main has been created $(NONE)"
 
-#################################
-##    Read_line compilation    ##
-#################################
+###################################
+##    Environment compilation    ##
+###################################
 
-$(OBJ_READ_LINE): $(OBJDIR)%.o: $(SRCDIR_READ_LINE)%.c $(HEADER_READ_LINE)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for read_line has been created $(NONE)"
-
-############################
-##   Error compilation    ##
-############################
-
-$(OBJ_ERROR): $(OBJDIR)%.o: $(SRC_ERROR_DIR)%.c $(HEADER_ERROR)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error has been created $(NONE)"
+$(OBJ_ENVIRONMENT): $(OBJDIR)%.o: $(SRC_ENVIRONMENT_DIR)%.c\
+					 $(HEADER_ENVIRONMENT) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for environment has been created $(B&W)"
 
 #######################################
 ##    Signal handlers compilation    ##
@@ -123,21 +113,31 @@ $(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIG
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for signal handlers has been created $(B&W)"
 
+#################################
+##    Read_line compilation    ##
+#################################
+
+# $(OBJ_READ_LINE): $(OBJDIR)%.o: $(SRC_READ_LINE)%.c $(HEADER_READ_LINE)
+# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
+# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for read_line has been created $(NONE)"
+
+############################
+##   Error compilation    ##
+############################
+
+# $(OBJ_ERROR): $(OBJDIR)%.o: $(SRC_ERROR_DIR)%.c $(HEADER_ERROR)
+# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
+# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error has been created $(NONE)"
+
+
 ############################
 ##    Exec compilation    ##
 ############################
 
-$(OBJ_EXEC): $(OBJDIR)%.o: $(SRC_EXEC_DIR)%.c $(HEADER_EXEC)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(B&W)"
+# $(OBJ_EXEC): $(OBJDIR)%.o: $(SRC_EXEC_DIR)%.c $(HEADER_EXEC)
+# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
+# 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(B&W)"
 
-###################################
-##    Environment compilation    ##
-###################################
-
-$(OBJ_ENVIRONMENT): $(OBJDIR)%.o: $(SRC_ENVIRONMENT_DIR)%.c $(HEADER_ENVIRONMENT) $(LIBFT)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for environment has been created $(B&W)"
 
 clean:
 	$(MAKE)	clean -C $(LIBFTDIR)

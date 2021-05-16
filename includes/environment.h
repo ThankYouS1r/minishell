@@ -6,14 +6,14 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:29:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/16 19:56:23 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/16 23:25:40 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENVIRONMENT_H
 # define ENVIRONMENT_H
 
-#include "libft.h"
+# include "libft.h"
 
 typedef struct s_env
 {

@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/17 11:05:14 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/17 11:10:28 by eluceon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ GREEN = \033[0;32m
 PURPLE = \033[0;35m
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror_handlers -fsanitize=address # Need to delete flag -g and -fsanitize=address before defending the project
+CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address # Need to delete flag -g and -fsanitize=address before defending the project
 RM = rm -rf
 
 LIBFT = ./libs/libft/libft.a

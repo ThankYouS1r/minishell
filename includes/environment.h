@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:29:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/17 10:41:11 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/17 16:26:44 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 # define ENVIRONMENT_H
 
 # include "libft.h"
+# include "utils.h"
 
 typedef struct s_env
 {
 	// More data will be added later!
-	size_t		nbr_variables;
+	size_t		size;
 	char		**array;
 }				t_env;
 

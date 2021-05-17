@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/17 11:36:05 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/17 16:31:41 by eluceon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,11 @@ SRCS_ENVIRONMENT = set_environment.c
 OBJ_ENVIRONMENT = $(addprefix $(OBJDIR), $(SRCS_ENVIRONMENT:.c=.o))
 HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
+SRC_UTILS_DIR = ./srcs/utils/
+SRCS_UTILS = duplicate_string_array.c
+OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
+HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
+
 # SRC_TERMCAP_COMMANDS_DIR = ./srcs/termcap_commands/
 # SRCS_TERMCAP_COMMANDS = termcap_commands.c
 # OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
@@ -69,12 +74,8 @@ HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 # OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
 # HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
 
-# SRC_UTILS_DIR = ./srcs/utils/
-# SRCS_UTILS =
-# OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
-# HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
-OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT)
+OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS)
 
 all: make_libft $(NAME)
 
@@ -95,7 +96,7 @@ $(OBJDIR):
 
 $(OBJ_MAIN): $(OBJDIR)%.o: $(SRC_MAIN_DIR)%.c $(HEADER_MAIN) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for main has been created $(NONE)"
+	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for Main has been created $(NONE)"
 
 ###################################
 ##    Environment compilation    ##
@@ -104,7 +105,7 @@ $(OBJ_MAIN): $(OBJDIR)%.o: $(SRC_MAIN_DIR)%.c $(HEADER_MAIN) $(LIBFT)
 $(OBJ_ENVIRONMENT): $(OBJDIR)%.o: $(SRC_ENVIRONMENT_DIR)%.c\
 					 $(HEADER_ENVIRONMENT) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for environment has been created $(NONE)"
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Environment has been created $(NONE)"
 
 #######################################
 ##    Signal handlers compilation    ##
@@ -112,7 +113,15 @@ $(OBJ_ENVIRONMENT): $(OBJDIR)%.o: $(SRC_ENVIRONMENT_DIR)%.c\
 
 $(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIGNAL_HANDLERS)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for signal handlers has been created $(NONE)"
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Signal handlers has been created $(NONE)"
+
+###############################
+##     Utils compilation     ##
+###############################
+
+$(OBJ_UTILS): $(OBJDIR)%.o: $(SRC_UTILS_DIR)%.c $(HEADER_UTILS)  $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Utils has been created $(NONE)"
 
 ########################################
 ##    termcap_commands compilation    ##
@@ -131,9 +140,9 @@ $(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIG
 # 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error_handlers has been created $(NONE)"
 
 
-############################
-##    Exec compilation    ##
-############################
+###################################
+##   exec_commands compilation   ##
+###################################
 
 # $(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c $(HEADER_EXEC_COMMANDS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@

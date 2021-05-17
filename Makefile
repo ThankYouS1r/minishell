@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/17 11:10:28 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/17 11:23:57 by eluceon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,7 +104,7 @@ $(OBJ_MAIN): $(OBJDIR)%.o: $(SRC_MAIN_DIR)%.c $(HEADER_MAIN) $(LIBFT)
 $(OBJ_ENVIRONMENT): $(OBJDIR)%.o: $(SRC_ENVIRONMENT_DIR)%.c\
 					 $(HEADER_ENVIRONMENT) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for environment has been created $(B&W)"
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for environment has been created $(NONE)"
 
 #######################################
 ##    Signal handlers compilation    ##
@@ -112,19 +112,19 @@ $(OBJ_ENVIRONMENT): $(OBJDIR)%.o: $(SRC_ENVIRONMENT_DIR)%.c\
 
 $(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIGNAL_HANDLERS)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for signal handlers has been created $(B&W)"
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for signal handlers has been created $(NONE)"
 
-#################################
+########################################
 ##    termcap_commands compilation    ##
-#################################
+########################################
 
 # $(OBJ_TERMCAP_COMMANDS): $(OBJDIR)%.o: $(SRC_TERMCAP_COMMANDS)%.c $(HEADER_TERMCAP_COMMANDS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
 # 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for termcap_commands has been created $(NONE)"
 
-############################
+#####################################
 ##   error_handlers compilation    ##
-############################
+#####################################
 
 # $(OBJ_error_handlers_HANDLERS): $(OBJDIR)%.o: $(SRC_error_handlers_HANDLERS_DIR)%.c $(HEADER_error_handlers_HANDLERS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
@@ -137,7 +137,7 @@ $(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIG
 
 # $(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c $(HEADER_EXEC_COMMANDS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(B&W)"
+# 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(NONE)"
 
 
 clean:

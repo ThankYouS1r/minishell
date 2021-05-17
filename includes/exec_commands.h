@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.h                                        :+:      :+:    :+:   */
+/*   exec_commands.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/16 09:32:54 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/16 09:33:13 by eluceon          ###   ########.fr       */
+/*   Created: 2021/05/17 10:57:15 by eluceon           #+#    #+#             */
+/*   Updated: 2021/05/17 10:57:16 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef READ_LINE_H
-# define READ_LINE_H
+#ifndef EXEC_COMMANDS_H
+# define EXEC_COMMANDS_H
 
 
 

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:29:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/16 23:25:40 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/17 10:41:11 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ typedef struct s_env
 {
 	// More data will be added later!
 	size_t		nbr_variables;
-}				t_evp;
+	char		**array;
+}				t_env;
 
+t_env *set_environment(const char *envp[], t_env *env);
 
-t_evp *set_environment(const char *envp[]);
 
 #endif

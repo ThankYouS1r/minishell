@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/16 23:38:43 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/17 11:05:14 by eluceon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ GREEN = \033[0;32m
 PURPLE = \033[0;35m
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror_handlers -fsanitize=address # Need to delete flag -g and -fsanitize=address before defending the project
 RM = rm -rf
 
 LIBFT = ./libs/libft/libft.a
@@ -43,10 +43,10 @@ SRCS_ENVIRONMENT = set_environment.c
 OBJ_ENVIRONMENT = $(addprefix $(OBJDIR), $(SRCS_ENVIRONMENT:.c=.o))
 HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
-# SRC_READ_LINE_DIR = ./srcs/environment/
-# SRCS_READ_LINE = read_line.c
-# OBJ_READ_LINE = $(addprefix $(OBJDIR), $(SRCS_READ_LINE:.c=.o))
-# HEADER_READ_LINE = $(addprefix $(HEADERDIR), read_line.h)
+# SRC_TERMCAP_COMMANDS_DIR = ./srcs/termcap_commands/
+# SRCS_TERMCAP_COMMANDS = termcap_commands.c
+# OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
+# HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
 # SRC_PARSING_DIR = ./srcs/parsing/
 # SRCS_PARSING =
@@ -58,15 +58,16 @@ HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 # OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
 # HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
 
-# SRC_ERROR_DIR = ./srcs/error/
-# SRCS_ERROR =
-# OBJ_ERROR = $(addprefix $(OBJDIR), $(SRCS_ERROR:.c=.o))
-# HEADER_ERROR = $(addprefix $(HEADERDIR), error.h)
+# SRC_error_handlers_HANDLERS_DIR = ./srcs/error_handlers/
+# SRCS_error_handlers_HANDLERS =
+# OBJ_error_handlers_HANDLERS = $(addprefix $(OBJDIR),\
+								$(SRCS_error_handlers_HANDLERS:.c=.o))
+# HEADER_error_handlers_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
 
-# SRC_EXEC_DIR = ./srcs/exec/
-# SRCS_EXEC =
-# OBJ_EXEC = $(addprefix $(OBJDIR), $(SRCS_EXEC:.c=.o))
-# HEADER_EXEC = $(addprefix $(HEADERDIR), get_next_line.h)
+# SRC_EXEC_COMMANDS_COMMANDS_DIR = ./srcs/exec_commands/
+# SRCS_EXEC_COMMANDS =
+# OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
+# HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
 
 # SRC_UTILS_DIR = ./srcs/utils/
 # SRCS_UTILS =
@@ -114,27 +115,27 @@ $(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIG
 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for signal handlers has been created $(B&W)"
 
 #################################
-##    Read_line compilation    ##
+##    termcap_commands compilation    ##
 #################################
 
-# $(OBJ_READ_LINE): $(OBJDIR)%.o: $(SRC_READ_LINE)%.c $(HEADER_READ_LINE)
+# $(OBJ_TERMCAP_COMMANDS): $(OBJDIR)%.o: $(SRC_TERMCAP_COMMANDS)%.c $(HEADER_TERMCAP_COMMANDS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for read_line has been created $(NONE)"
+# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for termcap_commands has been created $(NONE)"
 
 ############################
-##   Error compilation    ##
+##   error_handlers compilation    ##
 ############################
 
-# $(OBJ_ERROR): $(OBJDIR)%.o: $(SRC_ERROR_DIR)%.c $(HEADER_ERROR)
+# $(OBJ_error_handlers_HANDLERS): $(OBJDIR)%.o: $(SRC_error_handlers_HANDLERS_DIR)%.c $(HEADER_error_handlers_HANDLERS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error has been created $(NONE)"
+# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error_handlers has been created $(NONE)"
 
 
 ############################
 ##    Exec compilation    ##
 ############################
 
-# $(OBJ_EXEC): $(OBJDIR)%.o: $(SRC_EXEC_DIR)%.c $(HEADER_EXEC)
+# $(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c $(HEADER_EXEC_COMMANDS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
 # 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(B&W)"
 

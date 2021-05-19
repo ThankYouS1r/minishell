@@ -6,12 +6,12 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/17 16:36:03 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/19 12:44:51 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+#include <stdio.h>
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_env	env;

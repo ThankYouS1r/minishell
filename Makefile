@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/19 11:54:30 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/19 14:50:47 by eluceon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,14 +44,14 @@ OBJ_ENVIRONMENT = $(addprefix $(OBJDIR), $(SRCS_ENVIRONMENT:.c=.o))
 HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
 SRC_UTILS_DIR = ./srcs/utils/
-SRCS_UTILS = duplicate_string_array.c ft_realloc.c
+SRCS_UTILS = duplicate_string_array.c ft_realloc.c ft_malloc.c ft_crash.c
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
-# SRC_TERMCAP_COMMANDS_DIR = ./srcs/termcap_commands/
-# SRCS_TERMCAP_COMMANDS = termcap_commands.c
-# OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
-# HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
+SRC_TERMCAP_COMMANDS_DIR = ./srcs/termcap_commands/
+SRCS_TERMCAP_COMMANDS = termcap_commands.c
+OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
+HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
 SRC_PARSING_DIR = ./srcs/parsing/
 SRCS_PARSING = read_line.c
@@ -76,7 +76,7 @@ HEADER_ERROR_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
 
 
 OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS)\
-		$(OBJ_ERROR_HANDLERS) $(OBJ_PARSING)
+		$(OBJ_ERROR_HANDLERS) $(OBJ_PARSING) $(OBJ_TERMCAP_COMMANDS)
 
 all: make_libft $(NAME)
 
@@ -85,7 +85,7 @@ make_libft:
 
 
 $(NAME): $(OBJDIR) $(OBJ_ALL)
-	$(CC) $(OBJ_ALL) $(LIBFT) -o $@
+	$(CC) -ltermcap $(OBJ_ALL) $(LIBFT) -o $@
 	@echo "$(PURPLE) $(NAME) has been created $(NONE)"
 
 $(OBJDIR):
@@ -137,9 +137,10 @@ $(OBJ_UTILS): $(OBJDIR)%.o: $(SRC_UTILS_DIR)%.c $(HEADER_UTILS) $(LIBFT)
 ##    termcap_commands compilation    ##
 ########################################
 
-# $(OBJ_TERMCAP_COMMANDS): $(OBJDIR)%.o: $(SRC_TERMCAP_COMMANDS)%.c $(HEADER_TERMCAP_COMMANDS)
-# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for termcap_commands has been created $(NONE)"
+$(OBJ_TERMCAP_COMMANDS): $(OBJDIR)%.o: $(SRC_TERMCAP_COMMANDS_DIR)%.c\
+						$(HEADER_TERMCAP_COMMANDS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for termcap_commands has been created $(NONE)"
 
 #####################################
 ##   error_handlers compilation    ##

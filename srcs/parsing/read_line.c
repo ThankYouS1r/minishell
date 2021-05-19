@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 10:03:44 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/19 12:23:44 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/19 12:53:47 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*read_line()
 	if (!line)
 		error_handler(NULL, ENOMEM);
 	len = 0;
-	while (read(0, &ch, 1) && ch != '\n')
+	while (read(STDIN_FILENO, &ch, 1) && ch != '\n')
 	{
 		line = ft_realloc(line, len + 2);
 		if (!line)

@@ -11,19 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d723e6-4e37-4a2c-8153-979471c02119" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/libs/libft/ft_crash.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/srcs/parsing/parsing.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/environment.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/environment.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minishell.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/utils.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/libft/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/libs/libft/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/libft/libft.h" beforeDir="false" afterPath="$PROJECT_DIR$/libs/libft/libft.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/srcs/main/minishell.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/main/minishell.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/srcs/parsing/parscing.c" beforeDir="false" />
-    </list>
+    <list default="true" id="f1d723e6-4e37-4a2c-8153-979471c02119" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +80,7 @@
       <workItem from="1621332955425" duration="21000" />
       <workItem from="1621332994026" duration="4212000" />
       <workItem from="1621338832978" duration="3528000" />
-      <workItem from="1621401147426" duration="15265000" />
+      <workItem from="1621401147426" duration="15399000" />
     </task>
     <servers />
   </component>

@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/17 16:31:41 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/18 15:36:42 by lmellos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,10 +53,10 @@ HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 # OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
 # HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
-# SRC_PARSING_DIR = ./srcs/parsing/
-# SRCS_PARSING =
-# OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
-# HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
+ SRC_PARSING_DIR = ./srcs/parsing/
+ SRCS_PARSING = parsing.c
+ OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
+ HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
 # SRC_BUILTINS_DIR = ./srcs/builtins/
 # SRCS_BUILTINS =
@@ -75,7 +75,7 @@ HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 # HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
 
 
-OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS)
+OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS) $(OBJ_PARSING)
 
 all: make_libft $(NAME)
 
@@ -84,7 +84,7 @@ make_libft:
 
 
 $(NAME): $(OBJDIR) $(OBJ_ALL)
-	$(CC) $(OBJ_ALL) $(LIBFT) -o $@
+	$(CC) -ltermcap $(OBJ_ALL) $(LIBFT) -o $@
 	@echo "$(PURPLE) $(NAME) has been created $(NONE)"
 
 $(OBJDIR):
@@ -96,6 +96,14 @@ $(OBJDIR):
 
 $(OBJ_MAIN): $(OBJDIR)%.o: $(SRC_MAIN_DIR)%.c $(HEADER_MAIN) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for Main has been created $(NONE)"
+
+############################
+##   Parser compilation   ##
+############################
+
+$(OBJ_PARSING): $(OBJDIR)%.o: $(SRC_PARSING_DIR)%.c $(HEADER_MAIN) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) $(LIBS) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for Main has been created $(NONE)"
 
 ###################################
@@ -147,7 +155,6 @@ $(OBJ_UTILS): $(OBJDIR)%.o: $(SRC_UTILS_DIR)%.c $(HEADER_UTILS)  $(LIBFT)
 # $(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c $(HEADER_EXEC_COMMANDS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
 # 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(NONE)"
-
 
 clean:
 	$(MAKE)	clean -C $(LIBFTDIR)

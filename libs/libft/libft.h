@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 14:53:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/04/25 22:01:25 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/18 13:05:58 by lmellos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,8 @@ void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
+void			ft_crash(const char *str);
+void			*ft_malloc(size_t size);
+void			*ft_realloc(void *ptr, size_t size);
 
 #endif

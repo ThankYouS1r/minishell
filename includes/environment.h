@@ -24,6 +24,6 @@ typedef struct s_env
 }				t_env;
 
 t_env *set_environment(const char *envp[], t_env *env);
-
+char	*getenv_from_array(const char *array[], const char *name);
 
 #endif

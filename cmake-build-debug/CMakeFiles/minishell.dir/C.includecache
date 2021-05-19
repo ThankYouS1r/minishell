@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/lmellos/Desktop/projects/minishell/srcs/main/minishell.c
+minishell.h
+/Users/lmellos/Desktop/projects/minishell/srcs/main/minishell.h
+

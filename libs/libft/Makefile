@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/31 02:39:51 by eluceon           #+#    #+#              #
-#    Updated: 2020/11/11 16:26:27 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/18 13:08:22 by lmellos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c \
 		ft_split.c ft_strchr.c ft_strdup.c ft_strjoin.c \
 		ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c \
 		ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c \
-		ft_substr.c ft_tolower.c ft_toupper.c
+		ft_substr.c ft_tolower.c ft_toupper.c ft_crash.c ft_malloc.c \
+		ft_realloc.c
 
 OBJS = $(SRCS:.c=.o)
 

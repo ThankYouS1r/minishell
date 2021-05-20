@@ -6,16 +6,16 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 10:27:47 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/19 10:41:28 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/20 13:59:03 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void *ft_realloc(void *ptr, size_t size)
+void	*ft_realloc(void *ptr, size_t size)
 {
 	void	*new_ptr;
-	
+
 	if (ptr && size == 0)
 	{
 		free(ptr);

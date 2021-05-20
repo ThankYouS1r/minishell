@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   termcap_commands.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/17 11:05:52 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/19 18:51:25 by lmellos          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "termcap_commands.h"
 
 static int	ft_myputchar(int nb)
@@ -70,7 +58,7 @@ int	ft_parse_args(struct termios saved_attributes)
 	ssize_t		l;
 
 	termcap.count = 0;
-	while (strcmp(str, K_CTRL_D)) //идти до CTRL + D(004 по терминалу)
+	while (strcmp(str, K_CTRL_D) && strcmp(str, "\n")) //идти до CTRL + D(004 по терминалу)
 	{
 		tputs(tgetstr("sc", NULL), 1, ft_myputchar); //Сохранение позиции курсора
 		l = read(0, str, 100);
@@ -89,12 +77,12 @@ int	ft_parse_args(struct termios saved_attributes)
 		}
 		else if (!strcmp(str, tgetstr("kD", NULL)))
 			tputs(tgetstr("dc", NULL), 1, ft_myputchar);
-		else if (*str == 10) //ENTER
-		{
-			//write(1, "\n", 1);
-			//write(1, termcap.str, ft_strlen(termcap.str)); //check string
-		//	ft_parse_string()
-		}
+		// else if (*str == 10) //ENTER
+		// {
+		// 	//write(1, "\n", 1);
+		// 	//write(1, parse.str, ft_strlen(parse.str));
+		// 	//ft_parse_str
+		// }
 		else
 		{
 			termcap.count++;

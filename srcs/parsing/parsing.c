@@ -17,7 +17,7 @@ int	find_closing_quotes(char *line, char ch)
 	return (0);
 }
 
-char	*get_token(const char *line, int *i, t_doubly_lst *token_lst)
+char	*get_token(const char *line, int *i, t_doubly_lst *token_lst, int quote)
 {
 	char	*tmp_str;
 
@@ -26,7 +26,7 @@ char	*get_token(const char *line, int *i, t_doubly_lst *token_lst)
 	{
 		if (ft_iswhitespace(line[*i]))
 			return (tmp_str);
-		else if (is_spec_symbols(line[*i]))
+		else if (is_spec_symbols(line[*i]) && !quote) // NEED TO BE REPAIRED
 		{
 			(*i)--;
 			return (tmp_str);
@@ -60,7 +60,7 @@ t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
 			i++;
 			if (find_closing_quotes(&line[i], line[i])) // Temp block, need to be changed
 			{
-				tmp_str = get_token(line, &i, token_lst);
+				tmp_str = get_token(line, &i, token_lst, 1);
 				if (tmp_str && !(doubly_lst_append(&token_lst, doubly_lst_new(tmp_str))))
 				{
 					doubly_lst_clear(&token_lst);
@@ -71,7 +71,7 @@ t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
 				error_handler("No closing quotes", 1);
 
 		}
-		tmp_str = get_token(line, &i, token_lst);
+		tmp_str = get_token(line, &i, token_lst, 0);
 		if (tmp_str && !(doubly_lst_append(&token_lst, doubly_lst_new(tmp_str))))
 		{
 			doubly_lst_clear(&token_lst);

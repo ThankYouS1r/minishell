@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/20 12:53:09 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:29:28 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char *argv[], char *envp[])
 	set_environment((const char **)envp, &env);
 	termcap_start();
 	token_lst = parsing(token_lst);
-	while (token_lst)
+	while (token_lst) // TESTING LIST
 	{
 		printf("%s\n", token_lst->str);
 		token_lst = token_lst->next;

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:59:11 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/20 12:42:07 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:28:40 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void			*ft_realloc(void *ptr, size_t size);
 void			ft_crash(const char *str);
 void			*ft_malloc(size_t size);
 int				ft_iswhitespace(int c);
+int				is_spec_symbols(char ch);
 char			*str_join_char(char *str, char ch);
 t_doubly_lst	*doubly_lst_append(t_doubly_lst **lst, t_doubly_lst *new);
 t_doubly_lst	*doubly_lstlast(t_doubly_lst *lst);
 t_doubly_lst	*doubly_lst_new(char *str);
 void			doubly_lst_clear(t_doubly_lst **lst);
-
 
 #endif

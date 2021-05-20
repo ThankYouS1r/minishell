@@ -6,7 +6,7 @@
 #    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/19 14:50:47 by eluceon          ###   ########.fr        #
+#    Updated: 2021/05/20 12:34:37 by eluceon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,9 @@ OBJ_ENVIRONMENT = $(addprefix $(OBJDIR), $(SRCS_ENVIRONMENT:.c=.o))
 HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
 SRC_UTILS_DIR = ./srcs/utils/
-SRCS_UTILS = duplicate_string_array.c ft_realloc.c ft_malloc.c ft_crash.c
+SRCS_UTILS = duplicate_string_array.c ft_realloc.c ft_malloc.c ft_crash.c\
+			ft_iswhitespace.c str_join_char.c doubly_lst_new.c doubly_lst_last.c\
+			doubly_lst_append.c doubly_lst_clear.c
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
@@ -54,7 +56,7 @@ OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
 HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
 SRC_PARSING_DIR = ./srcs/parsing/
-SRCS_PARSING = read_line.c
+SRCS_PARSING = read_line.c parsing.c special_symbols.c
 OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
@@ -85,7 +87,7 @@ make_libft:
 
 
 $(NAME): $(OBJDIR) $(OBJ_ALL)
-	$(CC) -ltermcap $(OBJ_ALL) $(LIBFT) -o $@
+	$(CC) $(OBJ_ALL) -ltermcap $(LIBFT) -o $@
 	@echo "$(PURPLE) $(NAME) has been created $(NONE)"
 
 $(OBJDIR):

@@ -17,48 +17,30 @@ int	find_closing_quotes(const char *line, char quote)
 	return (0);
 }
 
-char	*get_from_quotes(const char *line, char quote, int *i)
-{
-	int 	start; 
-	int		j;
-	char	*str;
-
-	
-	start = ++(*i);
-	while (line[*i] && line[*i] != quote)
-		++(*i);
-	str = (char *)malloc(*i - start + 1);
-	if (!str)
-		return (NULL);
-	str[*i - start] = '\0';
-	j = -1;
-	while (start < *i)
-		str[++j] = line[start++];
-	++(*i);
-	return (str);
-}
-
-char	*get_token(const char *line, int *i, t_doubly_lst *token_lst, int print_quote)
+char	*get_token(char **line, t_doubly_lst *token_lst, char *spec_symbols, int check_first_symbol)
 {
 	char	*tmp_str;
 
 	tmp_str = NULL;
-	while (line[*i])
+	while (**line)
 	{
-		if (ft_iswhitespace(line[*i]))
+		if (ft_iswhitespace(**line))
 			return (tmp_str);
-		else if (is_spec_symbols(line[*i]) && !print_quote) // NEED TO BE REPAIRED
+		else if (!check_first_symbol && ft_strchr("$|<>\'\\\"", **line))
+			check_first_symbol = 1;
+		else if (ft_strchr(spec_symbols, **line))
 		{
-			(*i)--;
+			if (**line != '\'' || line[0][1] != '\0')
+				(*line)--;
 			return (tmp_str);
 		}
-		tmp_str = str_join_char(tmp_str, line[*i]);
+		tmp_str = str_join_char(tmp_str, **line);
 		if (!tmp_str)
 		{
 			doubly_lst_clear(&token_lst);
 			error_handler(NULL, ENOMEM);
 		}
-		(*i)++;
+		(*line)++;
 	}
 	return (tmp_str);
 }
@@ -66,43 +48,40 @@ char	*get_token(const char *line, int *i, t_doubly_lst *token_lst, int print_quo
 t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
 {
 	char	*line;
-	int		i;
+	char	*old_line;
 	char	*tmp_str;
-	int 	print_quote;
 
 	token_lst = NULL;
 	line = read_line();
-	i = -1;
-	while (line[++i])
+	old_line = line;
+	while (*line)
 	{
-		print_quote = 0;
-		if (line[i] == '\\' && (line[i + 1] == '\'' || line[i + 1] == '"'))	
-			print_quote = ++i;
-		else if (line[i] == '\'' || line[i] == '"')
+		if (*line == '\\' && ++line)
+			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", 0);
+		else if (*line == '\'' || *line == '"')
 		{
-			if (find_closing_quotes(&line[i + 1], line[i])) // Temp block, need to be changed
-			{
-				if (!(doubly_lst_append(&token_lst, doubly_lst_new(get_from_quotes(line, line[i], &i)))))
-				{
-					doubly_lst_clear(&token_lst);
-					error_handler(NULL, ENOMEM);
-				}
-			}
-			else
+			if (!find_closing_quotes((line + 1), *line))
 			{
 				doubly_lst_clear(&token_lst);
 				token_lst = NULL;
 				error_handler("No closing quotes", 1);
 				return (token_lst);
 			}
+			if (*line == '\'' && ++line)
+				tmp_str = get_token(&line, token_lst, "\'", 1);
+			// else if (*line == '\"')					will be done later!!!
+			// 	tmp_str = double_quotes_handler();
 		}
-			tmp_str = get_token(line, &i, token_lst, print_quote);
-			if (tmp_str && !(doubly_lst_append(&token_lst, doubly_lst_new(tmp_str))))
-			{
-				doubly_lst_clear(&token_lst);
-				error_handler(NULL, ENOMEM);
-			}
+		else
+			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", 1);
+		if (tmp_str && !(doubly_lst_append(&token_lst, doubly_lst_new(tmp_str))))
+		{
+			doubly_lst_clear(&token_lst);
+			error_handler(NULL, ENOMEM);
+		}
+		if (*line)
+			line++;
 	}
-	free (line);
+	free (old_line);
 	return (token_lst);
 }

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/21 10:27:20 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/21 22:55:45 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_crash("Too many arguments");
 //	set_signal_handlers(); // Will be done a litle bit later
 	set_environment((const char **)envp, &env);
-//	termcap_start();
+	termcap_start();
 	token_lst = parsing(token_lst);
 	while (token_lst) // TESTING LIST
 	{

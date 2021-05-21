@@ -5,6 +5,12 @@
 # include "utils.h"
 # include "minishell.h"
 
+# define ESCAPE_CHAR			0b00000001
+# define CLOSING_QUOTE			0b00000010
+# define CLOSING_DOUBLE_QUOTE	0b00000100
+# define SPEC_SYMBOLS			0b00001000
+
+
 char			*read_line(void);
 int				is_double_quotes(char ch);
 int				is_single_quotes(char ch);

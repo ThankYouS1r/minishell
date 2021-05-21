@@ -17,7 +17,7 @@ int	find_closing_quotes(const char *line, char quote)
 	return (0);
 }
 
-char	*get_token(char **line, t_doubly_lst *token_lst, char *spec_symbols, int check_first_symbol)
+char	*get_token(char **line, t_doubly_lst *token_lst, char *spec_symbols, int flag_char)
 {
 	char	*tmp_str;
 
@@ -26,11 +26,11 @@ char	*get_token(char **line, t_doubly_lst *token_lst, char *spec_symbols, int ch
 	{
 		if (ft_iswhitespace(**line))
 			return (tmp_str);
-		else if (!check_first_symbol && ft_strchr("$|<>\'\\\"", **line))
-			check_first_symbol = 1;
+		else if ((flag_char & ESCAPE_CHAR) && ft_strchr("$|<>\'\\\"", **line))
+			flag_char &= ~ ESCAPE_CHAR;
 		else if (ft_strchr(spec_symbols, **line))
 		{
-			if (**line != '\'' || line[0][1] != '\0')
+			if (**line == '\'' && flag_char & SPEC_SYMBOLS)
 				(*line)--;
 			return (tmp_str);
 		}
@@ -57,7 +57,7 @@ t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
 	while (*line)
 	{
 		if (*line == '\\' && ++line)
-			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", 0);
+			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", ESCAPE_CHAR | SPEC_SYMBOLS);
 		else if (*line == '\'' || *line == '"')
 		{
 			if (!find_closing_quotes((line + 1), *line))
@@ -68,12 +68,12 @@ t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
 				return (token_lst);
 			}
 			if (*line == '\'' && ++line)
-				tmp_str = get_token(&line, token_lst, "\'", 1);
+				tmp_str = get_token(&line, token_lst, "\'", CLOSING_QUOTE);
 			// else if (*line == '\"')					will be done later!!!
 			// 	tmp_str = double_quotes_handler();
 		}
 		else
-			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", 1);
+			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", SPEC_SYMBOLS);
 		if (tmp_str && !(doubly_lst_append(&token_lst, doubly_lst_new(tmp_str))))
 		{
 			doubly_lst_clear(&token_lst);

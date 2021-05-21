@@ -4,6 +4,7 @@
 # include "error_handlers.h"
 # include "utils.h"
 # include "minishell.h"
+# include "environment.h"
 
 # define ESCAPE_CHAR			0b00000001
 # define CLOSING_QUOTE			0b00000010

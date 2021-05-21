@@ -45,11 +45,12 @@ char	*get_token(char **line, t_doubly_lst *token_lst, char *spec_symbols, int fl
 	return (tmp_str);
 }
 
-t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
+t_doubly_lst	*parsing(t_doubly_lst	*token_lst, t_env *env)
 {
 	char	*line;
 	char	*old_line;
 	char	*tmp_str;
+	char	*tmp;
 
 	token_lst = NULL;
 	line = read_line();
@@ -57,7 +58,8 @@ t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
 	while (*line)
 	{
 		if (*line == '\\' && ++line)
-			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", ESCAPE_CHAR | SPEC_SYMBOLS);
+			tmp_str = get_token(&line, token_lst, "$&;|<>\'\\\"", ESCAPE_CHAR
+			| SPEC_SYMBOLS);
 		else if (*line == '\'' || *line == '"')
 		{
 			if (!find_closing_quotes((line + 1), *line))
@@ -72,8 +74,15 @@ t_doubly_lst	*parsing(t_doubly_lst	*token_lst)
 			// else if (*line == '\"')					will be done later!!!
 			// 	tmp_str = double_quotes_handler();
 		}
+		else if (*line == '$' && ++line)
+		{
+			tmp_str = get_token(&line, token_lst, "\'", SPEC_SYMBOLS);
+			tmp = tmp_str;
+			tmp_str = getenv_from_array((const char **)env->array, tmp_str);
+			free(tmp);
+		}
 		else
-			tmp_str = get_token(&line, token_lst, "$|<>\'\\\"", SPEC_SYMBOLS);
+			tmp_str = get_token(&line, token_lst, "$&;|<>\'\\\"", SPEC_SYMBOLS);
 		if (tmp_str && !(doubly_lst_append(&token_lst, doubly_lst_new(tmp_str))))
 		{
 			doubly_lst_clear(&token_lst);

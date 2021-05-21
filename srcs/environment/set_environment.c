@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:25:30 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/18 12:09:45 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/21 23:55:23 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*getenv_from_array(const char *array[], const char *name)
 	size_t	j;
 	char	*variable_value;
 
+	if (!name || !array)
+		return (NULL);
 	i = 0;
 	while (array[i])
 	{

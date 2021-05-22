@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:32:20 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/20 11:38:35 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/22 17:00:59 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@
 // 	char				*tokens;
 // 	struct s_tokens_lst	*next;
 // 	struct s_tokens_lst	*prev;
-// }				t_doubly_lst;
+// }				t_dlst;
 
 #endif

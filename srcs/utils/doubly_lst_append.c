@@ -1,8 +1,8 @@
 #include "utils.h"
 
-t_doubly_lst	*doubly_lst_append(t_doubly_lst **lst, t_doubly_lst *new)
+t_dlst	*doubly_lst_append(t_dlst **lst, t_dlst *new)
 {
-	t_doubly_lst	*tmp;
+	t_dlst	*tmp;
 
 	if (!new)
 		return (NULL);

@@ -17,6 +17,8 @@ int				is_double_quotes(char ch);
 int				is_single_quotes(char ch);
 int				is_backslash(char ch);
 int				is_dollar(char ch);
-t_doubly_lst	*parsing();
+t_dlst			*parsing();
+char			*quote_handler(char **line, t_dlst *token_lst);
+char			*get_str(char **line, t_dlst *token_lst, char *spec_symbols, int flag_char);
 
 #endif

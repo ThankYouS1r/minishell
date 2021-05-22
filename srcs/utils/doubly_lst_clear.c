@@ -1,9 +1,9 @@
 #include "utils.h"
 
-void	doubly_lst_clear(t_doubly_lst **lst)
+void	doubly_lst_clear(t_dlst **lst)
 {
-	t_doubly_lst	*tmp1;
-	t_doubly_lst	*tmp2;
+	t_dlst	*tmp1;
+	t_dlst	*tmp2;
 
 	if (*lst)
 	{

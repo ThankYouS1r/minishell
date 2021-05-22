@@ -1,6 +1,6 @@
 #include "utils.h"
 
-t_doubly_lst	*doubly_lstlast(t_doubly_lst *lst)
+t_dlst	*doubly_lstlast(t_dlst *lst)
 {
 	if (!lst)
 		return (NULL);

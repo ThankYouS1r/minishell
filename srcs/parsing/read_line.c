@@ -17,7 +17,7 @@ char	*read_line(void)
 		if (ret < 0 && errno == EINTR)
 			continue ;
 		else if (ret < 0)
-			error_handler(NULL, errno); // NEED TO handle errors!!!!
+			error_handler(NULL, errno); // NEED TO free line!!!
 		if (!ret || ch == '\n')
 			break ;
 		line = ft_realloc(line, len + 2);

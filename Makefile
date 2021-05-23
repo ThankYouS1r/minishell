@@ -32,8 +32,9 @@ HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
 SRC_UTILS_DIR = ./srcs/utils/
 SRCS_UTILS = duplicate_string_array.c ft_realloc.c ft_malloc.c ft_crash.c\
-			ft_iswhitespace.c str_join_char.c doubly_lst_new.c doubly_lst_last.c\
-			doubly_lst_append.c doubly_lst_clear.c special_symbols.c
+			ft_iswhitespace.c str_join_char.c free_all_exit.c doubly_lst_new.c\
+			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
+			special_symbols.c
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
@@ -43,7 +44,7 @@ OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
 HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
 SRC_PARSING_DIR = ./srcs/parsing/
-SRCS_PARSING = read_line.c parsing.c quote_handler.c
+SRCS_PARSING = read_line.c parsing.c quote_handler.c handle_special_chars.c
 OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:25:30 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/21 23:55:23 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/23 18:35:53 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*getenv_from_array(const char *array[], const char *name)
 			{
 				variable_value = ft_strdup(array[i] + j + 2);
 				if (!variable_value)
-					return (NULL);
+					error_handler(NULL, ENOMEM);
 				return (variable_value);
 			}
 			j++;
@@ -51,15 +51,17 @@ char	*getenv_from_array(const char *array[], const char *name)
 ** stored in an array of strings.
 */
 
-t_env	*set_environment(const char	*envp[], t_env *env)
+void	set_environment(const char	*envp[], t_env *env)
 {
 	env->size = 0;
 	while (envp[env->size])
 		ft_strchr(envp[env->size++], '=');
 	if (!env->size)
-		return (NULL);
-	env->array = duplicate_string_array(envp, env->size);
-	if (!env->array)
-		return (NULL);
-	return (env);
+		env->array = NULL;
+	else
+	{
+		env->array = duplicate_string_array(envp, env->size);
+		if (!env->array)
+			error_handler(NULL, ENOMEM);
+	}
 }

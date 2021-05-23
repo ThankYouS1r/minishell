@@ -17,12 +17,12 @@ char	*read_line(void)
 		if (ret < 0 && errno == EINTR)
 			continue ;
 		else if (ret < 0)
-			error_handler(NULL, errno); // NEED TO free line!!!
+			return (NULL);
 		if (!ret || ch == '\n')
 			break ;
 		line = ft_realloc(line, len + 2);
 		if (!line)
-			error_handler(NULL, ENOMEM);
+			return (NULL);
 		line[len] = ch;
 		line[++len] = '\0';
 	}

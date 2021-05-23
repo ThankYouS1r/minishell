@@ -6,13 +6,11 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:04:08 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/21 10:41:27 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/22 22:17:23 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error_handlers.h"
-
-
 
 int	error_handler(const char *message, int error_code)
 {

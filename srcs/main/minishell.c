@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/22 17:30:58 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/23 21:30:13 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_env			env;
-	t_dlst	*token_lst;
+	t_all	all;
 
-	token_lst = NULL;
+	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv) // TMP DELETE ME!
-		ft_crash("Too many arguments");
+		return(error_handler("Too many arguments", 1));
 //	set_signal_handlers(); // Will be done a litle bit later
-	set_environment((const char **)envp, &env);
+	set_environment((const char **)envp, &all.env);
+	// open_minishell_history_file();
 	termcap_start();
-	token_lst = parsing(token_lst, &env);
-	while (token_lst) // TESTING LIST
+	all.lst_token = parsing(&all);
+	while (all.lst_token) // TESTING LIST
 	{
-		printf("%s\n", token_lst->str);
-		token_lst = token_lst->next;
+		printf("%s\n", all.lst_token->str);
+		all.lst_token = all.lst_token->next;
 	}
-	//executer(tokens);
+	//executer(&all);
+	//close_minishell_history_file();
 	return (0); // Temp! Replace me!!!
 }

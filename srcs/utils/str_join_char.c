@@ -12,12 +12,13 @@ char	*str_join_char(char *str, char ch)
 			return (NULL);
 		str[0] = '\0';
 	}
-	len = 0;
-	while (str[len])
-		len++;
+	len = ft_strlen(str);
 	new_str = (char *)malloc(len + 2);
 	if (!new_str)
+	{
+		free(str);
 		return (NULL);
+	}
 	len = -1;
 	while (str[++len])
 		new_str[len] = str[len];

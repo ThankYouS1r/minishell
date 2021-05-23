@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-char	*get_str(char **line, t_dlst *token_lst, char *stop_symb, int flag_char)
+char	*get_str(char **line, char *startpos_line, t_all *all)
 {
 	char	*str;
 
@@ -8,53 +8,64 @@ char	*get_str(char **line, t_dlst *token_lst, char *stop_symb, int flag_char)
 	while (**line)
 	{
 		if (ft_iswhitespace(**line))
-			return (str);
-		else if (flag_char & ESCAPE_CHAR)
-			flag_char &= ~ESCAPE_CHAR;
-		else if (ft_strchr(stop_symb, **line))
+			break ;
+		else if (ft_strchr(SRECIAL_CHARS, **line))
 		{
-			if (flag_char & SPEC_SYMBOLS)
-				(*line)--;
-			return (str);
+			(*line)--;
+			break ;
 		}
 		str = str_join_char(str, **line);
 		if (!str)
-		{
-			doubly_lst_clear(&token_lst);
-			error_handler(NULL, ENOMEM);
-		}
+			free_all_exit(all, startpos_line, ENOMEM);
 		(*line)++;
+	}
+	if (!str)
+	{
+		str = ft_strdup("");
+		if (!str)
+			free_all_exit(all, startpos_line, ENOMEM);
 	}
 	return (str);
 }
 
-char	*dollar_handler(char **line, t_dlst *token_lst, t_env *env)
+char	*dollar_handler(char **line, char *startpos_line, t_all *all)
 {
 	char	*str;
 	char	*tmp_str;
 
-	str = get_str(line, token_lst, "$&;|<>\'\\\"", SPEC_SYMBOLS);
+	str = get_str(line, startpos_line, all);
 	tmp_str = str;
-	str = getenv_from_array((const char **)env->array, str);
+	str = getenv_from_array((const char **)all->env.array, str);
+	if (!str)
+	{
+		str = ft_strdup("");
+		if (!str)
+		{
+			free(tmp_str);
+			free_all_exit(all, startpos_line, ENOMEM);
+		}
+	}
 	free(tmp_str);
 	return (str);
 }
 
-char	*parse_line(char **line, char *tmp_line, t_all *all)
+char	*parse_line(char **line, char *startpos_line, t_all *all)
 {
 	char	*str;
 
+	while (ft_iswhitespace(**line))
+		++(*line);
 	if (**line == '\\' && ++(*line))
-		str = handle_backslash(line--, tmp_line, all);
+		str = handle_backslash(line, startpos_line, all);
 	else if (**line == '\'' || **line == '"')
-		str = quote_handler(line--, tmp_line, all);
+		str = quote_handler(line, startpos_line, all);
 	else if (**line == '$' && ++(*line))
-		str = dollar_handler(line, all->lst_token, &all->env);
+		str = dollar_handler(line, startpos_line, all);
 	else if (**line == '|' || **line == ';' || **line == '<'
 		|| **line == '>')
 		str = str_join_char(NULL, **line);
 	else
-		str = get_str(line, all->lst_token, "$&;|<>\'\\\"", SPEC_SYMBOLS);
+		str = get_str(line, startpos_line, all);
 	return (str);
 }
 

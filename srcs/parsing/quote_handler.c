@@ -23,7 +23,7 @@ char	*get_str_single_quotes(char **line, char *startpos_line, t_all *all)
 	str = NULL;
 	while (**line)
 	{
-		if (ft_iswhitespace(**line) || ft_strchr("\'", **line))
+		if (ft_strchr("\'", **line))
 			break ;
 		str = str_join_char(str, **line);
 		if (!str)

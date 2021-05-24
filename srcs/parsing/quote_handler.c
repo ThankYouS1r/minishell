@@ -43,6 +43,7 @@ char	*quote_handler(char **line, char *startpos_line, t_all *all)
 {
 	char	*str;
 
+	str = NULL; // TEMP DELETE ME LATER!!!!
 	if (!find_closing_quotes((*line + 1), **line))
 	{
 		doubly_lst_clear(&all->lst_token);

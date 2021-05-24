@@ -10,10 +10,7 @@ char	*get_str(char **line, char *startpos_line, t_all *all)
 		if (ft_iswhitespace(**line))
 			break ;
 		else if (ft_strchr(SRECIAL_CHARS, **line))
-		{
-		//	(*line)--;
 			break ;
-		}
 		str = str_join_char(str, **line);
 		if (!str)
 			free_all_exit(all, startpos_line, ENOMEM);
@@ -25,27 +22,6 @@ char	*get_str(char **line, char *startpos_line, t_all *all)
 		if (!str)
 			free_all_exit(all, startpos_line, ENOMEM);
 	}
-	return (str);
-}
-
-char	*dollar_handler(char **line, char *startpos_line, t_all *all)
-{
-	char	*str;
-	char	*tmp_str;
-
-	str = get_str(line, startpos_line, all);
-	tmp_str = str;
-	str = getenv_from_array((const char **)all->env.array, str);
-	if (!str)
-	{
-		str = ft_strdup("");
-		if (!str)
-		{
-			free(tmp_str);
-			free_all_exit(all, startpos_line, ENOMEM);
-		}
-	}
-	free(tmp_str);
 	return (str);
 }
 
@@ -63,60 +39,63 @@ char	*parse_line(char **line, char *startpos_line, t_all *all)
 		str = dollar_handler(line, startpos_line, all);
 	else if (**line == '|' || **line == ';' || **line == '<'
 		|| **line == '>')
+	{
 		str = str_join_char(NULL, **line);
+		(*line)++;
+	}
 	else
 		str = get_str(line, startpos_line, all);
 	return (str);
 }
 
-
-void	merge_str_and_lst_append(char **merged_str, char*str, t_all *all, char *start_line, char *line)
+void	merge_str_and_lst_append(t_line *l, t_all *all)
 {
-	if (!*merged_str)
-		*merged_str = ft_strdup(str);
+	if (!l->merged_str)
+		l->merged_str = ft_strdup(l->str);
 	else
-		*merged_str = ft_strjoin(*merged_str, str);
-	if (!*merged_str)
+		l->merged_str = ft_strjoin(l->merged_str, l->str);
+	if (!l->merged_str)
 	{
-		free(str);
-		free_all_exit(all, start_line, 1);
+		free(l->str);
+		free_all_exit(all, l->start_line, 1);
 	}
-	free(str);
-	if (!(*line) || (ft_strchr("\'\"", (*line)) && (!(*line + 1))) || ft_iswhitespace(*line) || ft_strchr("|><;", (*line)))
+	free(l->str);
+	if (!(l->merged_str))
 	{
-		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(*merged_str)))
+		free(l->merged_str);
+		l->merged_str = NULL;
+	}
+	else if (!(l->line) || (ft_strchr("\'\"", (*l->line)) && (!(l->line + 1)))
+		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line)))
+	{
+		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str)))
 		{
-			free(*merged_str);
-			free_all_exit(all, start_line, 1);	
+			free(l->merged_str);
+			free_all_exit(all, l->start_line, 1);
 		}
-		*merged_str = NULL;
+		l->merged_str = NULL;
 	}
 }
 
 t_dlst	*parsing(t_all *all)
 {
-	char	*line;
-	char	*start_line;
-	char	*str;
-	char	*merged_str;
+	t_line	line;
 
-	merged_str = NULL;
-	line = read_line();
-	if (!line)
+	line.merged_str = NULL;
+	line.line = read_line();
+	if (!line.line)
 		free_all_exit(all, NULL, 1);
-	start_line = line;
-	while (*line)
+	line.start_line = line.line;
+	while (*line.line)
 	{
-		str = parse_line(&line, start_line, all);
-		if (!str)
+		line.str = parse_line(&line.line, line.start_line, all);
+		if (!line.str)
 		{
-			free (start_line);
+			free (line.start_line);
 			return (NULL);
 		}
-		merge_str_and_lst_append(&merged_str, str, all, start_line, line);
-		// if (*line)
-		// 	line++;
+		merge_str_and_lst_append(&line, all);
 	}
-	free(start_line);
+	free(line.start_line);
 	return (all->lst_token);
 }

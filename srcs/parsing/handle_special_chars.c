@@ -12,7 +12,7 @@ char	*handle_backslash(char **line, char *startpos_line, t_all *all)
 		str = str_join_char(str, **line);
 		if (!str)
 			free_all_exit(all, startpos_line, ENOMEM);
-		if (ft_strchr(SRECIAL_CHARS, *(*line + 1)))
+		if (ft_strchr(SRECIAL_CHARS, **(line + 1)))
 			return (str);
 		(*line)++;
 	}

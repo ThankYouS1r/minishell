@@ -7,7 +7,7 @@ char	*read_line(void)
 	char	*line;
 	ssize_t	ret;
 
-	line = ft_strdup("\0");
+	line = ft_strdup("");
 	if (!line)
 		error_handler(NULL, ENOMEM);
 	len = 0;

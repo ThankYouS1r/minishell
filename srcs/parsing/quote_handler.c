@@ -54,5 +54,6 @@ char	*quote_handler(char **line, char *startpos_line, t_all *all)
 		str = get_str_single_quotes(line, startpos_line, all);
 	// else if (*line == '\"')					will be done later!!!
 	// 	tmp_str = double_quotes_handler();
+	(*line)++;
 	return (str);
 }

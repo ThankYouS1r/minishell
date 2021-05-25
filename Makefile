@@ -44,7 +44,8 @@ OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
 HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
 SRC_PARSING_DIR = ./srcs/parsing/
-SRCS_PARSING = read_line.c parsing.c quote_handler.c handle_special_chars.c
+SRCS_PARSING = read_line.c parsing.c quote_handler.c handle_special_chars.c\
+			double_quotes.c
 OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
@@ -75,7 +76,7 @@ make_libft:
 
 
 $(NAME): $(OBJDIR) $(OBJ_ALL)
-	$(CC) $(OBJ_ALL) -ltermcap $(LIBFT) -o $@
+	$(CC) $(CFLAGS) $(OBJ_ALL) -ltermcap $(LIBFT) -o $@
 	@echo "$(PURPLE) $(NAME) has been created $(NONE)"
 
 $(OBJDIR):

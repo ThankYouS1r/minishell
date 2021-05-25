@@ -25,26 +25,26 @@ char	*get_str(char **line, char *startpos_line, t_all *all)
 	return (str);
 }
 
-char	*parse_line(char **line, char *startpos_line, t_all *all)
+char	*parse_line(t_line *l, t_all *all)
 {
 	char	*str;
 
-	while (ft_iswhitespace(**line))
-		++(*line);
-	if (**line == '\\' && ++(*line))
-		str = handle_backslash(line, startpos_line, all);
-	else if (**line == '\'' || **line == '"')
-		str = quote_handler(line, startpos_line, all);
-	else if (**line == '$' && ++(*line))
-		str = dollar_handler(line, startpos_line, all);
-	else if (**line == '|' || **line == ';' || **line == '<'
-		|| **line == '>')
+	while (ft_iswhitespace(*l->line))
+		++(l->line);
+	if (*l->line == '\\' && ++(l->line))
+		str = handle_backslash(&l->line, l->start_line, all);
+	else if (*l->line == '\'' || *l->line == '"')
+		str = quote_handler(l, all);
+	else if (*l->line == '$' && ++(l->line))
+		str = dollar_handler(&l->line, l->start_line, all);
+	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
+		|| *l->line == '>')
 	{
-		str = str_join_char(NULL, **line);
-		(*line)++;
+		str = str_join_char(NULL, *l->line);
+		(l->line)++;
 	}
 	else
-		str = get_str(line, startpos_line, all);
+		str = get_str(&l->line, l->start_line, all);
 	return (str);
 }
 
@@ -60,13 +60,14 @@ void	merge_str_and_lst_append(t_line *l, t_all *all)
 		free_all_exit(all, l->start_line, 1);
 	}
 	free(l->str);
-	if (!(l->merged_str))
+	if (!(*l->merged_str))
 	{
 		free(l->merged_str);
 		l->merged_str = NULL;
 	}
-	else if (!(l->line) || (ft_strchr("\'\"", (*l->line)) && (!(l->line + 1)))
-		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line)))
+	else if (*l->merged_str && (!*l->line || (ft_strchr("\'\"", *l->line)
+		 && (!(*(l->line + 1))))
+		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line))))
 	{
 		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str)))
 		{
@@ -88,7 +89,7 @@ t_dlst	*parsing(t_all *all)
 	line.start_line = line.line;
 	while (*line.line)
 	{
-		line.str = parse_line(&line.line, line.start_line, all);
+		line.str = parse_line(&line, all);
 		if (!line.str)
 		{
 			free (line.start_line);

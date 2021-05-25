@@ -39,21 +39,21 @@ char	*get_str_single_quotes(char **line, char *startpos_line, t_all *all)
 	return (str);
 }
 
-char	*quote_handler(char **line, char *startpos_line, t_all *all)
+char	*quote_handler(t_line *l, t_all *all)
 {
 	char	*str;
 
-	str = NULL; // TEMP DELETE ME LATER!!!!
-	if (!find_closing_quotes((*line + 1), **line))
+	str = NULL;
+	if (!find_closing_quotes(l->line + 1, *l->line))
 	{
 		doubly_lst_clear(&all->lst_token);
 		error_handler("No closing quotes", 1);
 		return (NULL);
 	}
-	if (**line == '\'' && ++(*line))
-		str = get_str_single_quotes(line, startpos_line, all);
-	// else if (*line == '\"')					will be done later!!!
-	// 	tmp_str = double_quotes_handler();
-	(*line)++;
+	if (*l->line == '\'' && ++(l->line))
+		str = get_str_single_quotes(&l->line, l->start_line, all);
+	else if (*l->line == '\"' && ++(l->line))
+		str = double_quotes_handler(l, all);
+	(l->line)++;
 	return (str);
 }

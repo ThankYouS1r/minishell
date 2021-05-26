@@ -7,7 +7,9 @@ int	find_closing_quotes(const char *line, char quote)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '\\' && (line[i + 1] == '"' || line[i] == '\''))
+		if (line[i] == '\\' && (line[i + 1] == '\\'))
+			i += 2;
+		if (line[i] == '\\' && (line[i + 1] == '"' || line[i + 1] == '\''))
 			i++;
 		else if (line[i] == quote)
 			return (1);

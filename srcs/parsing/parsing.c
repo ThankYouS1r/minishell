@@ -38,7 +38,7 @@ char	*parse_line(t_line *l, t_all *all)
 	else if (*l->line == '$' && ++(l->line))
 		str = dollar_handler(&l->line, l->start_line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
-		|| *l->line == '>')
+		|| *l->line == '>' || *l->line == '&')
 	{
 		str = str_join_char(NULL, *l->line);
 		(l->line)++;
@@ -65,9 +65,8 @@ void	merge_str_and_lst_append(t_line *l, t_all *all)
 		free(l->merged_str);
 		l->merged_str = NULL;
 	}
-	else if (*l->merged_str && (!*l->line || (ft_strchr("\'\"", *l->line)
-		 && (!(*(l->line + 1))))
-		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line))))
+	else if (!*l->line || (ft_strchr("\'\"", *l->line) && (!(*(l->line + 1))))
+		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line)))
 	{
 		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str)))
 		{

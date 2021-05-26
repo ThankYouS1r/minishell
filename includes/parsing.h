@@ -12,6 +12,7 @@
 # define SPEC_SYMBOLS			0b00001000
 
 # define SRECIAL_CHARS			"$&;|<>\'\\\""
+# define DQUOTES_EXCEPTION		"\\$`\""
 
 typedef struct s_line {
 	char	*line;

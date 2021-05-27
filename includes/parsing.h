@@ -21,7 +21,7 @@ typedef struct s_line {
 	char	*merged_str;
 }				t_line;
 
-char		*read_line(void);
+int			read_line(int fd, char **line);
 int			is_double_quotes(char ch);
 int			is_single_quotes(char ch);
 int			is_backslash(char ch);

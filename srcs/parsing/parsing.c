@@ -82,7 +82,8 @@ t_dlst	*parsing(t_all *all)
 	t_line	line;
 
 	line.merged_str = NULL;
-	line.line = read_line();
+	read_line(STDIN_FILENO, &line.line);
+	//get_next_line(STDIN_FILENO, &line.line);
 	if (!line.line)
 		free_all_exit(all, NULL, 1);
 	line.start_line = line.line;

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/25 15:33:13 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/27 12:21:58 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_all	all;
+	t_dlst 	*tmp; // TMP for printing! Delete me later!!!!!!1
 
 	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv) // TMP DELETE ME!
@@ -24,15 +25,18 @@ int	main(int argc, char *argv[], char *envp[])
 	// open_minishell_history_file();
 	while(1)
 	{
-	//	termcap_start();
+		termcap_start();
 		all.lst_token = parsing(&all);
-		while (all.lst_token) // TESTING LIST. DELETE ME LATER!!!!
+		tmp = all.lst_token;
+		while (tmp) // TESTING LIST. DELETE ME LATER!!!!
 		{
-			printf("%s\n", all.lst_token->str);
-			all.lst_token = all.lst_token->next;
+			printf("%s\n", tmp->str);
+			tmp = tmp->next;
 		}
 		//executer(&all);
+		doubly_lst_clear(&all.lst_token);
 	}
 	//close_minishell_history_file();
+	free_doble_array(all.env.array);
 	return (0); // Temp! Replace me!!!
 }

@@ -98,6 +98,5 @@ char	*double_quotes_handler(t_line *l, t_all *all)
 		if (!merged_str)
 			free_all_exit(all, l->start_line, ENOMEM);
 	}
-	(l->line)++;
 	return (merged_str);
 }

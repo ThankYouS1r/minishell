@@ -3,17 +3,12 @@
 void	free_doble_array(char **array)
 {
 	int	i;
-	int	j;
 
 	i = -1;
 	while (array[++i])
 	{
-		j = -1;
-		while (array[i][++j])
-		{
-			free(array[i]);
-			array[i] = NULL;
-		}
+		free(array[i]);
+		array[i] = NULL;
 	}
 	free(array);
 	array = NULL;

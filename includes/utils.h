@@ -36,5 +36,6 @@ t_dlst			*doubly_lstlast(t_dlst *lst);
 t_dlst			*doubly_lst_new(char *str);
 void			doubly_lst_clear(t_dlst **lst);
 int				free_all_exit(t_all *all, char *line, int error_code);
+void			free_doble_array(char **array);
 
 #endif

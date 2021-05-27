@@ -148,7 +148,7 @@ $(OBJ_ERROR_HANDLERS): $(OBJDIR)%.o: $(SRC_ERROR_HANDLERS_DIR)%.c $(HEADER_ERROR
 
 # $(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c $(HEADER_EXEC_COMMANDS)
 # 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(NONE)"
+# 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(NONE)
 
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:32:20 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/22 19:15:42 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/28 23:00:53 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@
 # include "environment.h"
 # include "parsing.h"
 # include "termcap_commands.h"
+# include "builtins.h"
 
 #endif

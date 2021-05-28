@@ -6,16 +6,25 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/28 10:08:11 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/28 23:37:53 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	executer(t_all *all)
+{
+	t_dlst		*ptr_token;
+
+	ptr_token = all->lst_token;
+	all->exit_status = execute_builtin(&ptr_token, all);
+	// if (!execute_builtin(&ptr_token, all))
+	// 	execute_program(&ptr_token, all);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_all	all;
-	t_dlst 	*tmp; // TMP for printing! Delete me later!!!!!!1
 
 	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv) // TMP DELETE ME!
@@ -27,13 +36,8 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		termcap_start();
 		all.lst_token = parsing(&all);
-		tmp = all.lst_token;
-		while (tmp) // TESTING LIST. DELETE ME LATER!!!!
-		{
-			printf("%s\n", tmp->str);
-			tmp = tmp->next;
-		}
-		//executer(&all);
+		if (all.lst_token)
+			executer(&all);
 		doubly_lst_clear(&all.lst_token);
 	}
 	//close_minishell_history_file();

@@ -30,21 +30,28 @@ char	*handle_backslash(char **line, char *startpos_line, t_all *all)
 
 char	*dollar_handler(char **line, char *startpos_line, t_all *all)
 {
-	char	*str;
-	char	*tmp_str;
+	char	*name;
+	char	*value;
 
-	str = get_str(line, startpos_line, all);
-	tmp_str = str;
-	str = getenv_from_array((const char **)all->env.array, str);
-	if (!str)
+	if (**line == '?')
 	{
-		str = ft_strdup("");
-		if (!str)
+		value = ft_itoa(all->exit_status);
+		if (!value)
+			free_all_exit(all, startpos_line, ENOMEM);
+		(*line)++;
+		return (value);
+	}
+	name = get_str(line, startpos_line, all);
+	value = getenv_from_array((const char **)all->env.array, name);
+	if (!value)
+	{
+		value = ft_strdup("");
+		if (!value)
 		{
-			free(tmp_str);
+			free(name);
 			free_all_exit(all, startpos_line, ENOMEM);
 		}
 	}
-	free(tmp_str);
-	return (str);
+	free(name);
+	return (value);
 }

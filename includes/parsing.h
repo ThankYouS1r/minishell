@@ -22,10 +22,6 @@ typedef struct s_line {
 }				t_line;
 
 int			read_line(int fd, char **line);
-int			is_double_quotes(char ch);
-int			is_single_quotes(char ch);
-int			is_backslash(char ch);
-int			is_dollar(char ch);
 t_dlst		*parsing(t_all *all);
 char		*quote_handler(t_line *l, t_all *all);
 char		*handle_backslash(char **line, char *startpos_line, t_all *all);

@@ -49,10 +49,10 @@ SRCS_PARSING = read_line.c parsing.c quote_handler.c handle_special_chars.c\
 OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
-# SRC_BUILTINS_DIR = ./srcs/builtins/
-# SRCS_BUILTINS =
-# OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
-# HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
+SRC_BUILTINS_DIR = ./srcs/builtins/
+SRCS_BUILTINS = builtins.c echo.c env.c
+OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
+HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
 
 SRC_ERROR_HANDLERS_DIR = ./srcs/error_handlers/
 SRCS_ERROR_HANDLERS = error_handlers.c
@@ -67,7 +67,8 @@ HEADER_ERROR_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
 
 
 OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS)\
-		$(OBJ_ERROR_HANDLERS) $(OBJ_PARSING) $(OBJ_TERMCAP_COMMANDS)
+		$(OBJ_ERROR_HANDLERS) $(OBJ_PARSING) $(OBJ_TERMCAP_COMMANDS)\
+		$(OBJ_BUILTINS)
 
 all: make_libft $(NAME)
 
@@ -140,6 +141,14 @@ $(OBJ_TERMCAP_COMMANDS): $(OBJDIR)%.o: $(SRC_TERMCAP_COMMANDS_DIR)%.c\
 $(OBJ_ERROR_HANDLERS): $(OBJDIR)%.o: $(SRC_ERROR_HANDLERS_DIR)%.c $(HEADER_ERROR_HANDLERS) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error_handlers has been created $(NONE)"
+
+###############################
+##   builtins compilation    ##
+###############################
+
+$(OBJ_BUILTINS): $(OBJDIR)%.o: $(SRC_BUILTINS_DIR)%.c $(HEADER_BUILTINS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for builtins has been created $(NONE)"
 
 
 ###################################

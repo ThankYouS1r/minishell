@@ -112,8 +112,8 @@ $(OBJ_PARSING): $(OBJDIR)%.o: $(SRC_PARSING_DIR)%.c\
 ##    Signal handlers compilation    ##
 #######################################
 
-$(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIGNAL_HANDLERS)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
+$(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIGNAL_HANDLERS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Signal handlers has been created $(NONE)"
 
 ###############################

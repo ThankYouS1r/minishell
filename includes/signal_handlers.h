@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:15:46 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/17 10:31:11 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/27 15:48:10 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SIGNAL_HANDLER_H
 
 # include <signal.h>
+# include "libft.h"
 
 void	set_signal_handlers(void);
 // void	handle_sigint(int signum);

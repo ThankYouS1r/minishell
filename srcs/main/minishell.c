@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/27 12:21:58 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/28 10:08:11 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv) // TMP DELETE ME!
 		return(error_handler("Too many arguments", 1));
-//	set_signal_handlers(); // Will be done a litle bit later
+	//set_signal_handlers(); // Will be done a litle bit later
 	set_environment((const char **)envp, &all.env);
 	// open_minishell_history_file();
-	while(1)
+	while (1)
 	{
 		termcap_start();
 		all.lst_token = parsing(&all);

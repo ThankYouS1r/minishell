@@ -33,12 +33,10 @@ typedef struct s_all
 	t_dlst		*lst_token;
 	t_dlst		*shell_history;
 	t_dlst		*ptr_history;
-	t_env		env;
+	t_dlst		*lst_env;
 	int			exit_status;
 }				t_all;
 
-
-char			**duplicate_string_array(const char *str_array[], size_t size);
 void			*ft_realloc(void *ptr, size_t size);
 void			ft_crash(const char *str);
 void			*ft_malloc(size_t size);

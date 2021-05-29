@@ -41,6 +41,11 @@ char	*parse_line(t_line *l, t_all *all)
 		|| *l->line == '>' || *l->line == '&')
 	{
 		str = str_join_char(NULL, *l->line);
+		if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str)))
+			free_all_exit(all, l->start_line, 1);
+		str = str_join_char(NULL, '\0');
+		if (!str)
+			free_all_exit(all, l->start_line, 1);
 		(l->line)++;
 	}
 	else

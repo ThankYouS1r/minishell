@@ -31,7 +31,7 @@ OBJ_ENVIRONMENT = $(addprefix $(OBJDIR), $(SRCS_ENVIRONMENT:.c=.o))
 HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
 SRC_UTILS_DIR = ./srcs/utils/
-SRCS_UTILS = duplicate_string_array.c ft_realloc.c ft_malloc.c ft_crash.c\
+SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
 			ft_iswhitespace.c str_join_char.c free_all_exit.c doubly_lst_new.c\
 			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
 			special_symbols.c

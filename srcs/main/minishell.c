@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/28 23:37:53 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/29 14:52:10 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc != 1 || !argv) // TMP DELETE ME!
 		return(error_handler("Too many arguments", 1));
 	//set_signal_handlers(); // Will be done a litle bit later
-	set_environment((const char **)envp, &all.env);
+	set_environment((const char **)envp, &all);
+
 	// open_minishell_history_file();
 	while (1)
 	{
@@ -41,6 +42,6 @@ int	main(int argc, char *argv[], char *envp[])
 		doubly_lst_clear(&all.lst_token);
 	}
 	//close_minishell_history_file();
-	free_doble_array(all.env.array);
-	return (0); // Temp! Replace me!!!
+	doubly_lst_clear(&all.lst_env);
+	return (0);
 }

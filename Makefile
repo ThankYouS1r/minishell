@@ -34,7 +34,7 @@ SRC_UTILS_DIR = ./srcs/utils/
 SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
 			ft_iswhitespace.c str_join_char.c free_all_exit.c doubly_lst_new.c\
 			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
-			special_symbols.c
+			special_symbols.c doubly_lst_delete_element.c
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
@@ -50,7 +50,7 @@ OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
 SRC_BUILTINS_DIR = ./srcs/builtins/
-SRCS_BUILTINS = builtins.c echo.c env.c
+SRCS_BUILTINS = builtins.c echo.c env.c unset.c cmd_error_message.c
 OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
 HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
 

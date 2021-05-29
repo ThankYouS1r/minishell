@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   doubly_lst_delete_element.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/28 20:09:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/29 17:13:22 by eluceon          ###   ########.fr       */
+/*   Created: 2021/05/29 17:22:34 by eluceon           #+#    #+#             */
+/*   Updated: 2021/05/29 17:23:38 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "utils.h"
 
-# include "utils.h"
-
-# define RED_COLOR	"\033[1;31m"
-# define NONE_COLOR "\033[0;0m"
-
-int		execute_builtin(t_dlst **ptr_token, t_all *all);
-int		echo_cmd(t_dlst **ptr_token);
-int		unset_cmd(t_dlst **ptr_token, t_all *all);
-void	cmd_error_message(char *cmd_name, char *arg_name, char *description);
-
-#endif
+void	doubly_lst_delete_element(t_dlst **lst)
+{
+	if (*lst)
+	{
+		if ((*lst)->prev)
+			(*lst)->prev->next = (*lst)->next;
+		if ((*lst)->next)
+			(*lst)->next->prev = (*lst)->prev;
+		free((*lst)->str);
+		(*lst)->str = NULL;
+		free(*lst);
+		*lst = NULL;
+	}
+}

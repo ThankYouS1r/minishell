@@ -14,6 +14,7 @@ t_dlst	*doubly_lst_append(t_dlst **lst, t_dlst *new)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+		new->prev = tmp;
 	}
 	return (*lst);
 }

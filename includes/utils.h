@@ -1,10 +1,12 @@
 #ifndef UTILS_H
 # define UTILS_H
 
+# include <errno.h>
 # include "libft.h"
 
-# define METACHARACTERS		"|;<>"
-# define SUCCESS			0
+//# define METACHARACTERS		"|;<>"
+# define SUCCESS	0
+# define ERROR 		1
 
 enum	e_separators
 {
@@ -46,6 +48,7 @@ t_dlst			*doubly_lst_append(t_dlst **lst, t_dlst *new);
 t_dlst			*doubly_lstlast(t_dlst *lst);
 t_dlst			*doubly_lst_new(char *str);
 void			doubly_lst_clear(t_dlst **lst);
+void			doubly_lst_delete_element(t_dlst **lst);
 int				free_all_exit(t_all *all, char *line, int error_code);
 void			free_doble_array(char **array);
 int				is_separator(char	*str);

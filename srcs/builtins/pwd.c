@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/28 13:17:23 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/29 21:12:48 by eluceon          ###   ########.fr       */
+/*   Created: 2021/05/29 21:29:36 by eluceon           #+#    #+#             */
+/*   Updated: 2021/05/29 21:49:46 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int		env_cmd(t_dlst **ptr_token, t_dlst *lst_env)
+int		pwd_cmd(t_dlst **ptr_token)
 {
+	char	*cwd;
+
 	*ptr_token = (*ptr_token)->next;
-	if (!lst_env)
-		return (errno = 126);
 	while (*ptr_token && !is_separator((*ptr_token)->str))
 		*ptr_token = (*ptr_token)->next;
-	while (lst_env)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
-		ft_putendl_fd(lst_env->str, STDOUT_FILENO);
-		lst_env = lst_env->next;
+		cmd_error_message("pwd", NULL, strerror(errno));
+		return (errno);
 	}
+	ft_putendl_fd(cwd, STDOUT_FILENO);
+	free(cwd);
 	return (SUCCESS);
 }

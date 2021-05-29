@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 15:30:10 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/29 17:22:26 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/29 21:18:02 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_valid_variable_name(char *variable_name)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (variable_name[0] != '_' && !ft_isalpha(variable_name[0]))
@@ -22,46 +22,45 @@ int	is_valid_variable_name(char *variable_name)
 	while (variable_name[++i])
 	{
 		if (variable_name[i] != '_' && !ft_isalnum(variable_name[i]))
-		return (0);
+			return (0);
 	}
 	return (1);
 }
 
 void	remove_variable(char *name, t_dlst *lst_env)
 {
-	t_dlst	*tmp_lst;
 	int		len;
 
-	tmp_lst = lst_env;
-	while (tmp_lst)
+	while (lst_env)
 	{
 		len = ft_strlen(name);
-		if (!ft_strncmp(name, tmp_lst->str, len) && tmp_lst->str[len] == '=')
+		if (!ft_strncmp(name, lst_env->str, len) && lst_env->str[len] == '=')
 		{
-			doubly_lst_delete_element(&tmp_lst);
+			doubly_lst_delete_element(&lst_env);
 			return ;
 		}
-		tmp_lst = tmp_lst->next;
+		lst_env = lst_env->next;
 	}
 }
 
-int	unset_cmd(t_dlst **ptr_token, t_all *all)
+int	unset_cmd(t_dlst **ptr_token, t_dlst *lst_env)
 {
-	int status;
+	int	status;
 
 	*ptr_token = (*ptr_token)->next;
-	if (!all->lst_env)
-		return(errno = ERROR);
+	if (!lst_env)
+		return (errno = ERROR);
 	status = 0;
 	while (*ptr_token && !is_separator((*ptr_token)->str))
 	{
 		if (is_valid_variable_name((*ptr_token)->str))
-			remove_variable((*ptr_token)->str, all->lst_env);
+			remove_variable((*ptr_token)->str, lst_env);
 		else
 		{
 			status = ERROR;
+			errno = ERROR;
 			cmd_error_message("unset", (*ptr_token)->str,
-								"not a valid identifier");
+				"not a valid identifier");
 		}
 		*ptr_token = (*ptr_token)->next;
 	}

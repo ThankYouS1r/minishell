@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 16:24:47 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/29 16:39:24 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/29 20:45:55 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	cmd_error_message(char *cmd_name, char *arg_name, char *description)
 	ft_putstr_fd(NONE_COLOR, STDERR_FILENO);
 	ft_putstr_fd(cmd_name, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
-	if(arg_name)
+	if (arg_name)
 	{
 		ft_putstr_fd("`", STDERR_FILENO);
 		ft_putstr_fd(arg_name, STDERR_FILENO);

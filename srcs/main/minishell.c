@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/29 21:10:32 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/30 22:55:37 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char *argv[], char *envp[])
 	// open_minishell_history_file();
 	while (1)
 	{
-		//termcap_start();
+		termcap_start();
 		all.lst_token = parsing(&all);
 		if (all.lst_token)
 			executer(&all);

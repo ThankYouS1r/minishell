@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.h                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/16 09:29:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/30 20:51:08 by eluceon          ###   ########.fr       */
+/*   Created: 2020/11/04 11:03:43 by eluceon           #+#    #+#             */
+/*   Updated: 2021/05/30 15:17:16 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVIRONMENT_H
-# define ENVIRONMENT_H
+#include "libft.h"
 
-# include "utils.h"
-# include "error_handlers.h"
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t			i;
+	unsigned char	*tmp_s1;
+	unsigned char	*tmp_s2;
 
-
-void	set_environment(const char	*envp[], t_all *all);
-char	*getenv_from_array(t_dlst *lst_env, const char *name);
-
-#endif
+	tmp_s1 = (unsigned char *)s1;
+	tmp_s2 = (unsigned char *)s2;
+	i = 0;
+	while (tmp_s1[i] && tmp_s1[i] == tmp_s2[i])
+		i++;
+	return (tmp_s1[i] - tmp_s2[i]);
+}

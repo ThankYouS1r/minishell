@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 21:35:34 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/29 14:19:22 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/30 15:23:05 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	echo_cmd(t_dlst **ptr_token)
 
 	n_option = 0;
 	*ptr_token = (*ptr_token)->next;
-	if (*ptr_token && !ft_strncmp((*ptr_token)->str, "-n", 3))
+	if (*ptr_token && !ft_strcmp((*ptr_token)->str, "-n"))
 	{
 		n_option = 1;
 		*ptr_token = (*ptr_token)->next;

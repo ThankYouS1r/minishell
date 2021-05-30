@@ -6,26 +6,11 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 15:30:10 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/29 21:18:02 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/30 22:54:55 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-int	is_valid_variable_name(char *variable_name)
-{
-	int	i;
-
-	i = 0;
-	if (variable_name[0] != '_' && !ft_isalpha(variable_name[0]))
-		return (0);
-	while (variable_name[++i])
-	{
-		if (variable_name[i] != '_' && !ft_isalnum(variable_name[i]))
-			return (0);
-	}
-	return (1);
-}
 
 void	remove_variable(char *name, t_dlst *lst_env)
 {
@@ -53,7 +38,7 @@ int	unset_cmd(t_dlst **ptr_token, t_dlst *lst_env)
 	status = 0;
 	while (*ptr_token && !is_separator((*ptr_token)->str))
 	{
-		if (is_valid_variable_name((*ptr_token)->str))
+		if (is_valid_variable_name((*ptr_token)->str, '\0'))
 			remove_variable((*ptr_token)->str, lst_env);
 		else
 		{

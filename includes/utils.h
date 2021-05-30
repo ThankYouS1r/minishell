@@ -52,5 +52,7 @@ void			doubly_lst_delete_element(t_dlst **lst);
 int				free_all_exit(t_all *all, char *line, int error_code);
 void			free_doble_array(char **array);
 int				is_separator(char	*str);
+t_dlst 			*doubly_lst_dup(t_dlst *head);
+void			doubly_lst_merge_sort(t_dlst **head);
 
 #endif

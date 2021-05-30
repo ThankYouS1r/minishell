@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.h                                      :+:      :+:    :+:   */
+/*   doubly_lst_dup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/16 09:29:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/30 20:51:08 by eluceon          ###   ########.fr       */
+/*   Created: 2021/05/30 16:40:27 by eluceon           #+#    #+#             */
+/*   Updated: 2021/05/30 19:10:03 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVIRONMENT_H
-# define ENVIRONMENT_H
+#include "utils.h"
 
-# include "utils.h"
-# include "error_handlers.h"
+t_dlst *doubly_lst_dup(t_dlst *head)
+{
+	t_dlst	*new_head;
+	char	*str_dup;
 
-
-void	set_environment(const char	*envp[], t_all *all);
-char	*getenv_from_array(t_dlst *lst_env, const char *name);
-
-#endif
+	if (!head)
+		return (NULL);
+	new_head = NULL;
+	while (head)
+	{
+		str_dup = ft_strdup(head->str);
+		if (!str_dup)
+			return (NULL);
+		new_head = doubly_lst_append(&new_head, doubly_lst_new(str_dup));
+		if (!new_head)
+			return (NULL);
+		head = head->next;
+	}
+	return (new_head);
+}

@@ -6,40 +6,43 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 15:30:10 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/30 22:54:55 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/31 14:26:33 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	remove_variable(char *name, t_dlst *lst_env)
+void	remove_variable(char *name, t_dlst *env)
 {
 	int		len;
 
-	while (lst_env)
+	while (env)
 	{
 		len = ft_strlen(name);
-		if (!ft_strncmp(name, lst_env->str, len) && lst_env->str[len] == '=')
+		if (!ft_strncmp(name, env->str, len) && env->str[len] == '=')
 		{
-			doubly_lst_delete_element(&lst_env);
+			doubly_lst_delete_element(&env);
 			return ;
 		}
-		lst_env = lst_env->next;
+		env = env->next;
 	}
 }
 
-int	unset_cmd(t_dlst **ptr_token, t_dlst *lst_env)
+int	unset_cmd(t_dlst **ptr_token, t_dlst *env)
 {
 	int	status;
 
 	*ptr_token = (*ptr_token)->next;
-	if (!lst_env)
+	if (!env)
+	{
+		go_to_end_or_separator(ptr_token);
 		return (errno = ERROR);
+	}
 	status = 0;
 	while (*ptr_token && !is_separator((*ptr_token)->str))
 	{
 		if (is_valid_variable_name((*ptr_token)->str, '\0'))
-			remove_variable((*ptr_token)->str, lst_env);
+			remove_variable((*ptr_token)->str, env);
 		else
 		{
 			status = ERROR;

@@ -16,8 +16,8 @@ void	free_doble_array(char **array)
 
 int	free_all_exit(t_all *all, char *line, int error_code)
 {
-	if (all->lst_env)
-		doubly_lst_clear(&all->lst_env);
+	if (all->env)
+		doubly_lst_clear(&all->env);
 	if (all->lst_token)
 		doubly_lst_clear(&all->lst_token);
 	if (line)

@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   other.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/28 13:17:23 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 14:26:33 by eluceon          ###   ########.fr       */
+/*   Created: 2021/05/31 14:10:50 by eluceon           #+#    #+#             */
+/*   Updated: 2021/05/31 14:14:00 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "utils.h"
 
-int		env_cmd(t_dlst **ptr_token, t_dlst *env)
+void	go_to_end_or_separator(t_dlst **ptr_token)
 {
-	*ptr_token = (*ptr_token)->next;
-	go_to_end_or_separator(ptr_token);
-	if (!env)
-		return (errno = 126);
-	while (env)
-	{
-		ft_putendl_fd(env->str, STDOUT_FILENO);
-		env = env->next;
-	}
-	return (SUCCESS);
+	while (*ptr_token && !is_separator((*ptr_token)->str))
+			*ptr_token = (*ptr_token)->next;
 }

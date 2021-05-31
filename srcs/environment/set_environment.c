@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:25:30 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/30 20:51:28 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/31 14:26:33 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 ** string. Returns NULL if there is no match. Exit if malloc problem.
 */
 
-char	*getenv_from_array(t_dlst *lst_env, const char *name)
+char	*getenv_from_array(t_dlst *env, const char *name)
 {
 	size_t	len;
 	t_dlst *tmp_lst;
 	char	*variable_value;
 
-	if (!name || !lst_env)
+	if (!name || !env)
 		return (NULL);
-	tmp_lst = lst_env;
+	tmp_lst = env;
 	while (tmp_lst)
 	{
 		len = ft_strlen(name);
@@ -58,13 +58,13 @@ void	set_environment(const char	*envp[], t_all *all)
 		tmp_str = ft_strdup(envp[i]);
 		if (!tmp_str)
 		{
-			doubly_lst_clear(&all->lst_env);
+			doubly_lst_clear(&all->env);
 			error_handler(NULL, ENOMEM);
 		}
-		if (!doubly_lst_append(&all->lst_env, doubly_lst_new(tmp_str)))
+		if (!doubly_lst_append(&all->env, doubly_lst_new(tmp_str)))
 		{
 			free(tmp_str);
-			doubly_lst_clear(&all->lst_env);
+			doubly_lst_clear(&all->env);
 			error_handler(NULL, ENOMEM);
 		}
 	}

@@ -18,6 +18,6 @@
 
 
 void	set_environment(const char	*envp[], t_all *all);
-char	*getenv_from_array(t_dlst *env, const char *name);
+char	*getenv_from_lst(t_dlst *env, const char *name);
 
 #endif

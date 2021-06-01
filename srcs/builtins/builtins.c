@@ -14,6 +14,8 @@ int		execute_builtin(t_dlst **ptr_token, t_all *all)
 	  	all->exit_status = unset_cmd(ptr_token, all->env);
 	else if (!ft_strcmp((*ptr_token)->str, "env"))
 		all->exit_status = env_cmd(ptr_token, all->env);
+	else if (!ft_strcmp((*ptr_token)->str, "exit"))
+		all->exit_status = exit_cmd(ptr_token, all->exit_status);
 	return (all->exit_status);
 }
 

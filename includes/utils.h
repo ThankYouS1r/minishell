@@ -32,11 +32,11 @@ typedef struct s_env
 
 typedef struct s_all
 {
-	t_dlst		*lst_token;
-	t_dlst		*shell_history;
-	t_dlst		*ptr_history;
-	t_dlst		*env;
-	int			exit_status;
+	t_dlst			*lst_token;
+	t_dlst			*shell_history;
+	t_dlst			*ptr_history;
+	t_dlst			*env;
+	unsigned char	exit_status;
 }				t_all;
 
 void			*ft_realloc(void *ptr, size_t size);
@@ -55,5 +55,6 @@ int				is_separator(char	*str);
 t_dlst 			*doubly_lst_dup(t_dlst *head);
 void			doubly_lst_merge_sort(t_dlst **head);
 void			go_to_end_or_separator(t_dlst **ptr_token);
+int				is_number(char *str);
 
 #endif

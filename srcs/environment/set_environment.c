@@ -13,12 +13,12 @@
 #include "environment.h"
 
 /*
-** The getenv_from_array() function searches the environment array to find the
+** The getenv_from_lst() function searches the environment array to find the
 ** environment variable name, and returns a pointer to the corresponding value
 ** string. Returns NULL if there is no match. Exit if malloc problem.
 */
 
-char	*getenv_from_array(t_dlst *env, const char *name)
+char	*getenv_from_lst(t_dlst *env, const char *name)
 {
 	size_t	len;
 	t_dlst *tmp_lst;

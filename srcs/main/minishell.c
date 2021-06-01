@@ -35,7 +35,7 @@ int	main(int argc, char *argv[], char *envp[])
 	// open_minishell_history_file();
 	while (1)
 	{
-		//termcap_start();
+		termcap_start();
 		all.lst_token = parsing(&all);
 		if (all.lst_token)
 			executer(&all);

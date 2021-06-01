@@ -29,5 +29,7 @@ int		pwd_cmd(t_dlst **ptr_token);
 int		export_cmd(t_dlst **ptr_token, t_dlst *env);
 int		cd_cmd(t_dlst **ptr_token, t_dlst *env);
 int		is_valid_variable_name(char *variable_name, char end_char);
+int     exit_cmd(t_dlst **ptr_token, unsigned char exit_status);
+
 
 #endif

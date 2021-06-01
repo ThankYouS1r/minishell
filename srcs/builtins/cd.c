@@ -17,7 +17,7 @@ int	go_home(t_dlst *env)
 	char	*home;
 	int		ret;
 
-	home = getenv_from_array(env, "HOME");
+	home = getenv_from_lst(env, "HOME");
 	if (!home)
 	{
 		cmd_error_message("cd", NULL, "HOME not set");
@@ -28,7 +28,7 @@ int	go_home(t_dlst *env)
 	if (ret)
 	{
 		cmd_error_message("cd", NULL, strerror(errno));
-		return (errno);
+		return (ERROR);
 	}
 	return (SUCCESS);
 }
@@ -42,7 +42,7 @@ int	go_path(t_dlst **ptr_token)
 	if (ret)
 	{
 		cmd_error_message("cd", NULL, strerror(errno));
-		return (errno);
+		return (ERROR);
 	}
 	return (SUCCESS);
 }
@@ -79,7 +79,7 @@ int change_pwd(char *oldpwd, t_dlst **env)
 	if (!cwd)
 	{
 		cmd_error_message("pwd", NULL, strerror(errno));
-		status = errno;
+		status = ERROR;
 	}
 	else
 	{
@@ -96,7 +96,8 @@ int	cd_cmd(t_dlst **ptr_token, t_dlst *env)
 	int		status;
 
 	*ptr_token = (*ptr_token)->next;
-	if ((*ptr_token) && (*ptr_token)->next && !is_separator((*ptr_token)->next->str))
+	if ((*ptr_token) && !is_separator((*ptr_token)->str)
+		&& (*ptr_token)->next && !is_separator((*ptr_token)->next->str))
 	{
 		cmd_error_message("cd", NULL, "too many arguments");
 		go_to_end_or_separator(ptr_token);
@@ -107,7 +108,7 @@ int	cd_cmd(t_dlst **ptr_token, t_dlst *env)
 	{
 		cmd_error_message("cd", NULL, strerror(errno));
 		go_to_end_or_separator(ptr_token);
-		return (errno);
+		return (ERROR);
 	}
 	status = 0;
 	if (*ptr_token && !is_separator((*ptr_token)->str))

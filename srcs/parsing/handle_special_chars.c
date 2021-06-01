@@ -42,7 +42,7 @@ char	*dollar_handler(char **line, char *startpos_line, t_all *all)
 		return (value);
 	}
 	name = get_str(line, startpos_line, all);
-	value = getenv_from_array(all->env, name);
+	value = getenv_from_lst(all->env, name);
 	if (!value)
 	{
 		value = ft_strdup("");

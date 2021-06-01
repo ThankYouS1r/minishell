@@ -22,7 +22,7 @@ int		pwd_cmd(t_dlst **ptr_token)
 	if (!cwd)
 	{
 		cmd_error_message("pwd", NULL, strerror(errno));
-		return (errno);
+		return (ERROR);
 	}
 	ft_putendl_fd(cwd, STDOUT_FILENO);
 	free(cwd);

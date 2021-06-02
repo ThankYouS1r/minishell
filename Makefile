@@ -35,7 +35,7 @@ SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
 			ft_iswhitespace.c str_join_char.c free_all_exit.c doubly_lst_new.c\
 			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
 			special_symbols.c doubly_lst_delete_element.c doubly_lst_dup.c\
-			doubly_lst_merge_sort.c other.c is_number.c
+			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c
 
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
@@ -52,26 +52,25 @@ OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
 SRC_BUILTINS_DIR = ./srcs/builtins/
-SRCS_BUILTINS = builtins.c cd.c echo.c env.c pwd.c unset.c export.c\
-cmd_error_message.c exit.c
+SRCS_BUILTINS = builtins.c cd.c echo.c env.c pwd.c unset.c export.c exit.c
 OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
 HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
 
 SRC_ERROR_HANDLERS_DIR = ./srcs/error_handlers/
-SRCS_ERROR_HANDLERS = error_handlers.c
+SRCS_ERROR_HANDLERS = error_handlers.c cmd_error_message.c
 OBJ_ERROR_HANDLERS = $(addprefix $(OBJDIR),\
 								$(SRCS_ERROR_HANDLERS:.c=.o))
 HEADER_ERROR_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
 
-# SRC_EXEC_COMMANDS_COMMANDS_DIR = ./srcs/exec_commands/
-# SRCS_EXEC_COMMANDS =
-# OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
-# HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
+SRC_EXEC_COMMANDS_DIR = ./srcs/exec_commands/
+SRCS_EXEC_COMMANDS = exec_commands.c make_arrrays.c
+OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
+HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
 
 
 OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS)\
 		$(OBJ_ERROR_HANDLERS) $(OBJ_PARSING) $(OBJ_TERMCAP_COMMANDS)\
-		$(OBJ_BUILTINS)
+		$(OBJ_BUILTINS) $(OBJ_EXEC_COMMANDS)
 
 all: make_libft $(NAME)
 
@@ -149,7 +148,8 @@ $(OBJ_ERROR_HANDLERS): $(OBJDIR)%.o: $(SRC_ERROR_HANDLERS_DIR)%.c $(HEADER_ERROR
 ##   builtins compilation    ##
 ###############################
 
-$(OBJ_BUILTINS): $(OBJDIR)%.o: $(SRC_BUILTINS_DIR)%.c $(HEADER_BUILTINS) $(LIBFT)
+$(OBJ_BUILTINS): $(OBJDIR)%.o: $(SRC_BUILTINS_DIR)%.c $(HEADER_BUILTINS)\
+	$(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for builtins has been created $(NONE)"
 
@@ -158,9 +158,10 @@ $(OBJ_BUILTINS): $(OBJDIR)%.o: $(SRC_BUILTINS_DIR)%.c $(HEADER_BUILTINS) $(LIBFT
 ##   exec_commands compilation   ##
 ###################################
 
-# $(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c $(HEADER_EXEC_COMMANDS)
-# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(NONE)
+$(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c\
+	$(HEADER_EXEC_COMMANDS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec commands has been created $(NONE)"
 
 
 clean:

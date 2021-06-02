@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   doubly_lst_size.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/16 09:32:20 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/02 16:17:53 by eluceon          ###   ########.fr       */
+/*   Created: 2021/06/02 20:35:24 by eluceon           #+#    #+#             */
+/*   Updated: 2021/06/02 20:35:26 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "utils.h"
 
-# include "signal_handlers.h"
-# include "environment.h"
-# include "parsing.h"
-# include "termcap_commands.h"
-# include "builtins.h"
-# include "exec_commands.h"
+int	doubly_lst_size(t_dlst *lst)
+{
+	int		size;
+	t_dlst	*tmp;
 
-#endif
+	size = 0;
+	tmp = lst;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		size++;
+	}
+	return (size);
+}

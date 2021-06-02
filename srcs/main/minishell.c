@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 16:18:51 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/02 23:10:40 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	executer(t_all *all)
 	t_dlst		*ptr_token;
 
 	ptr_token = all->lst_token;
-	all->exit_status = execute_builtin(&ptr_token, all);
-	// if (!execute_builtin(&ptr_token, all))
-	// 	execute_program(&ptr_token, all);
+	if (!execute_builtin(&ptr_token, all) && !execute_program(&ptr_token, all))
+	{
+		cmd_error_message(ptr_token->str, NULL, "command not found");
+		all->exit_status = 127;
+	}
+
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -29,7 +32,7 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv) // TMP DELETE ME!
 		return(error_handler("Too many arguments", 1));
-	//set_signal_handlers(); // Will be done a litle bit later
+	set_signal_handlers(); // Will be done a litle bit later
 	set_environment((const char **)envp, &all);
 
 	// open_minishell_history_file();

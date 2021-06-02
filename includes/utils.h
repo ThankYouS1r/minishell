@@ -47,13 +47,14 @@ char			*str_join_char(char *str, char ch);
 t_dlst			*doubly_lst_append(t_dlst **lst, t_dlst *new);
 t_dlst			*doubly_lstlast(t_dlst *lst);
 t_dlst			*doubly_lst_new(char *str);
+t_dlst 			*doubly_lst_dup(t_dlst *head);
+void			doubly_lst_merge_sort(t_dlst **head);
+int				doubly_lst_size(t_dlst *lst);
 void			doubly_lst_clear(t_dlst **lst);
 void			doubly_lst_delete_element(t_dlst **lst);
 int				free_all_exit(t_all *all, char *line, int error_code);
 void			free_doble_array(char **array);
 int				is_separator(char	*str);
-t_dlst 			*doubly_lst_dup(t_dlst *head);
-void			doubly_lst_merge_sort(t_dlst **head);
 void			go_to_end_or_separator(t_dlst **ptr_token);
 int				is_number(char *str);
 

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 17:55:34 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/27 19:48:59 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/01 21:20:48 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	handle_sigint(int signum)
 {
 	(void)signum;
-	ft_putstr_fd("Testing sigint", STDERR_FILENO); // TMP
+	write(1, "\n", 1) ;// TMP
 }
 
 void	handle_sigquit(int signum)
 {
-	(void)signum;
-	ft_putstr_fd("Testing sigquit", STDERR_FILENO); // TMP
+	(void)signum; // TMP
+	ft_putstr_fd("\b\b  \b\b", STDERR_FILENO);
 }
 
 

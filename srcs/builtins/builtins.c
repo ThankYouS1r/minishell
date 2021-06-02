@@ -16,7 +16,9 @@ int		execute_builtin(t_dlst **ptr_token, t_all *all)
 		all->exit_status = env_cmd(ptr_token, all->env);
 	else if (!ft_strcmp((*ptr_token)->str, "exit"))
 		all->exit_status = exit_cmd(ptr_token, all->exit_status);
-	return (all->exit_status);
+	else
+		return (0);
+	return (1);
 }
 
 int	is_valid_variable_name(char *variable_name, char end_char)

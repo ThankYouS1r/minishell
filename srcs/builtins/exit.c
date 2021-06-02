@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/01 21:35:26 by eluceon           #+#    #+#             */
+/*   Updated: 2021/06/01 21:36:27 by eluceon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 int exit_cmd(t_dlst **ptr_token, unsigned char exit_status)
@@ -11,7 +23,8 @@ int exit_cmd(t_dlst **ptr_token, unsigned char exit_status)
         status = exit_status;
     else if (!is_number((*ptr_token)->str) && !is_separator((*ptr_token)->str))
 	{
-		cmd_error_message("exit", (*ptr_token)->str, "numeric argument required");
+		cmd_error_message("exit", (*ptr_token)->str,
+			"numeric argument required");
 		go_to_end_or_separator(ptr_token);
 		status = 2;
 	}

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 20:09:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 15:01:43 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/02 23:04:10 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 int		execute_builtin(t_dlst **ptr_token, t_all *all);
 int		echo_cmd(t_dlst **ptr_token);
 int		unset_cmd(t_dlst **ptr_token, t_dlst *env);
-void	cmd_error_message(char *cmd_name, char *arg_name, char *description);
 int		env_cmd(t_dlst **ptr_token, t_dlst *env);
 int		pwd_cmd(t_dlst **ptr_token);
 int		export_cmd(t_dlst **ptr_token, t_dlst *env);

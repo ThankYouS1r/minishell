@@ -92,7 +92,7 @@ int	ft_parse_args(struct termios saved_attributes, t_dlst **ptr_history)
 			write (1, str, l);
 		}
 	}
-	write (1, "\n", 1);
+//	write (1, "\n", 1);
 	tcsetattr(0, TCSANOW, &saved_attributes);
 	return (0);
 }
@@ -101,7 +101,7 @@ int	termcap_start(t_dlst **ptr_history)
 {
 	struct termios saved_attributes;
 
-	write (1, "\033[0;32mminishell->", 18);
+	write (1, "\033[0;32mminishell-> ", 19);
 	write (1, "\033[0;0m", 6);
 	saved_attributes = ft_init_settings();
 	ft_parse_args(saved_attributes, ptr_history);

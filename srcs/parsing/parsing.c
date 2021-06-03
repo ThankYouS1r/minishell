@@ -102,6 +102,5 @@ t_dlst	*parsing(t_all *all)
 		merge_str_and_lst_append(&line, all);
 	}
 	add_history_to_lst(line.start_line, &all->shell_history, &all->ptr_history);
-	//free(line.start_line);
 	return (all->lst_token);
 }

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 14:15:22 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/03 21:25:56 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/03 22:13:31 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ void	open_history_file(t_dlst **head_history, t_dlst **ptr_history)
 	if (fd == -1)
 		error_handler(NULL, errno);
 	else
+	{
 		write_to_lst(head_history, ptr_history, fd, &line);
-	close (fd);
+		close(fd);
+	}
 }
 
 void save_history_to_file_and_close(t_dlst **head_history)

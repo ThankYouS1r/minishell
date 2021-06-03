@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/03 21:28:09 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/03 22:46:53 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,25 @@ void	executer(t_all *all)
 	t_dlst		*ptr_token;
 
 	ptr_token = all->lst_token;
-	if (!execute_builtin(&ptr_token, all) && !execute_program(&ptr_token, all))
+	if (!ft_strcmp(ptr_token->str, ";"))
 	{
-		cmd_error_message(ptr_token->str, NULL, "command not found");
-		all->exit_status = 127;
+		ptr_token = ptr_token->next;
+		cmd_error_message(NULL, NULL, "syntax error near unexpected token `;'");
+		go_to_end_or_separator(&ptr_token);
+		all->exit_status = 2;
 	}
-
+	while (ptr_token)
+	{
+		if (!execute_builtin(&ptr_token, all) &&
+			!execute_program(&ptr_token, all))
+		{
+			cmd_error_message(ptr_token->str, NULL, "command not found");
+			go_to_end_or_separator(&ptr_token);
+			all->exit_status = 127;
+		}
+		if (ptr_token && !ft_strcmp(ptr_token->str, ";"))
+			ptr_token = ptr_token->next;
+	}
 }
 
 int	main(int argc, char *argv[], char *envp[])

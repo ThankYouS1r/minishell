@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/03 22:46:53 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/03 23:00:57 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	executer(t_all *all)
 	t_dlst		*ptr_token;
 
 	ptr_token = all->lst_token;
-	if (!ft_strcmp(ptr_token->str, ";"))
+	if (is_separator(ptr_token->str))
 	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
+		ft_putstr_fd(ptr_token->str, STDERR_FILENO);
+		ft_putendl_fd("'", STDERR_FILENO);
 		ptr_token = ptr_token->next;
-		cmd_error_message(NULL, NULL, "syntax error near unexpected token `;'");
 		go_to_end_or_separator(&ptr_token);
 		all->exit_status = 2;
 	}

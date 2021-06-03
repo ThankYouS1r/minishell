@@ -107,3 +107,25 @@ l
 ;
 echo $PATH
 exit
+;s
+ls
+[A[A[A[A[B[B[B[B[B[B[A
+[B
+
+;[5~
+[A[A
+exit
+;
+exit
+;
+|
+>
+<<
+>>
+.
+>
+<
+ls |
+ls ; fg
+ls |df
+ls | exit

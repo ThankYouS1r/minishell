@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:32:54 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/19 21:23:07 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/03 16:54:22 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct	s_termcap
 	int			count;
 }				t_termcap;
 
-int	termcap_start(void);
+int		termcap_start(t_dlst **ptr_history);
+void	print_minishell_history(t_dlst **ptr_history, int direction);
+
 
 #endif

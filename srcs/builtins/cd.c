@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:20:44 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 16:21:21 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/03 20:08:35 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	change_environment(t_dlst **env, char *name, char *value)
 	return (SUCCESS);
 }
 
-int change_pwd(char *oldpwd, t_dlst **env)
+int	change_pwd(char *oldpwd, t_dlst **env)
 {
 	char	*cwd;
 	int		status;

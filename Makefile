@@ -16,7 +16,7 @@ OBJDIR = ./obj/
 HEADERDIR = ./includes/
 
 SRC_MAIN_DIR = ./srcs/main/
-SRCS_MAIN = minishell.c
+SRCS_MAIN = minishell.c history.c
 OBJ_MAIN = $(addprefix $(OBJDIR), $(SRCS_MAIN:.c=.o))
 HEADER_MAIN = $(addprefix $(HEADERDIR), minishell.h)
 

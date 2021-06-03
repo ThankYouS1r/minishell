@@ -20,6 +20,8 @@ int	free_all_exit(t_all *all, char *line, int error_code)
 		doubly_lst_clear(&all->env);
 	if (all->lst_token)
 		doubly_lst_clear(&all->lst_token);
+	if (all->shell_history)
+		doubly_lst_clear(&all->shell_history);
 	if (line)
 	{
 		free(line);

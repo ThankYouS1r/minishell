@@ -29,5 +29,6 @@ char		*dollar_handler(char **line, char *startpos_line, t_all *all);
 char		*get_str(char **line, char *startpos_line, t_all *all);
 void		merge_str_and_lst_append(t_line *l, t_all *all);
 char		*double_quotes_handler(t_line *l, t_all *all);
+void 		add_history_to_lst(char *str, t_dlst **head, t_dlst **p_history);
 
 #endif

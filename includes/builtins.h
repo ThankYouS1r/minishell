@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 20:09:43 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/02 23:04:10 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/03 21:10:49 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int		pwd_cmd(t_dlst **ptr_token);
 int		export_cmd(t_dlst **ptr_token, t_dlst *env);
 int		cd_cmd(t_dlst **ptr_token, t_dlst *env);
 int		is_valid_variable_name(char *variable_name, char end_char);
-int     exit_cmd(t_dlst **ptr_token, unsigned char exit_status);
-
+int		exit_cmd(t_dlst **ptr_token, unsigned char exit_status,
+			t_dlst **shell_hist);
+void 	save_history_to_file_and_close(t_dlst **head_history);
 
 #endif

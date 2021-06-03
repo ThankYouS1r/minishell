@@ -6,13 +6,13 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 21:29:36 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 14:17:14 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/03 20:08:15 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int		pwd_cmd(t_dlst **ptr_token)
+int	pwd_cmd(t_dlst **ptr_token)
 {
 	char	*cwd;
 

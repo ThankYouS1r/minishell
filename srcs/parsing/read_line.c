@@ -26,7 +26,7 @@ int	read_line(int fd, char **line)
 		if (ret < 0 && errno == EINTR)
 			continue ;
 		else if (ret < 0)
-			return (free_null_str(line, 0));
+			return (free_null_str(line, ret));
 		if (!ret || ch == '\n')
 			break ;
 		*line = ft_realloc(*line, len + 2);

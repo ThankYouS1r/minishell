@@ -51,7 +51,7 @@ int	ft_escape_press(int count)
 	return (count);
 }
 
-int	ft_parse_args(struct termios saved_attributes)
+int	ft_parse_args(struct termios saved_attributes, t_dlst **ptr_history)
 {
 	char		str[1000];
 	t_termcap	termcap;
@@ -67,12 +67,14 @@ int	ft_parse_args(struct termios saved_attributes)
 			termcap.count = ft_escape_press(termcap.count);
 		else if (!ft_strncmp(str, K_UP, 3))
 		{
-			write(1, "up", 2);
+			print_minishell_history(ptr_history, PREVIOUS_HISTORY);
+			//write(1, "up", 2);
 			//			history_check(arguments, flag for argument(1 up, 2 for down);
 		}
 		else if (!ft_strncmp(str, K_DOWN, 3))
 		{
-			write(1, "down", 4);
+			print_minishell_history(ptr_history, NEXT_HISTORY);
+			//write(1, "down", 4);
 			//			history_check(arguments, flag for argument(1 up, 2 for down);
 		}
 		else if (!strcmp(str, tgetstr("kD", NULL)))
@@ -95,14 +97,14 @@ int	ft_parse_args(struct termios saved_attributes)
 	return (0);
 }
 
-int	termcap_start(void)
+int	termcap_start(t_dlst **ptr_history)
 {
 	struct termios saved_attributes;
 
 	write (1, "\033[0;32mminishell->", 18);
 	write (1, "\033[0;0m", 6);
 	saved_attributes = ft_init_settings();
-	ft_parse_args(saved_attributes);
+	ft_parse_args(saved_attributes, ptr_history);
 
 	return (0);
 }

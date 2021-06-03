@@ -1,6 +1,18 @@
- #include "builtins.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/03 20:09:12 by eluceon           #+#    #+#             */
+/*   Updated: 2021/06/03 21:11:46 by eluceon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		execute_builtin(t_dlst **ptr_token, t_all *all)
+#include "builtins.h"
+
+int	execute_builtin(t_dlst **ptr_token, t_all *all)
 {
 	if (!ft_strcmp(((*ptr_token))->str, "echo"))
 		all->exit_status = echo_cmd(ptr_token);
@@ -11,11 +23,12 @@ int		execute_builtin(t_dlst **ptr_token, t_all *all)
 	else if (!ft_strcmp((*ptr_token)->str, "export"))
 		all->exit_status = export_cmd(ptr_token, all->env);
 	else if (!ft_strcmp((*ptr_token)->str, "unset"))
-	  	all->exit_status = unset_cmd(ptr_token, all->env);
+		all->exit_status = unset_cmd(ptr_token, all->env);
 	else if (!ft_strcmp((*ptr_token)->str, "env"))
 		all->exit_status = env_cmd(ptr_token, all->env);
 	else if (!ft_strcmp((*ptr_token)->str, "exit"))
-		all->exit_status = exit_cmd(ptr_token, all->exit_status);
+		all->exit_status = exit_cmd(ptr_token, all->exit_status,
+			&all->shell_history);
 	else
 		return (0);
 	return (1);

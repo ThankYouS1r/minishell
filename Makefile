@@ -4,7 +4,7 @@ GREEN = \033[0;32m
 PURPLE = \033[0;35m
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address # Need to delete flag -g and -fsanitize=address before defending the project
+CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address # Need to delete flag -g and -fsanitize=address before defending the project
 RM = rm -rf
 
 LIBFT = ./libs/libft/libft.a

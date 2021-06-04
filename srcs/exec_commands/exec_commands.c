@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:57:25 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/04 15:18:10 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/04 15:32:28 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,9 @@ int	execute_program(t_dlst **ptr_token, t_all *all)
 	char		*path_lst;
 	struct stat	s_stat;
 
-	if (stat((*ptr_token)->str, &s_stat) == -1)
+	if (!stat((*ptr_token)->str, &s_stat))
+		run_program(ptr_token, all, (*ptr_token)->str);
+	else
 	{
 		path_lst = getenv_from_lst(all->env, "PATH");
 		if (!path_lst)
@@ -123,8 +125,6 @@ int	execute_program(t_dlst **ptr_token, t_all *all)
 		run_program(ptr_token, all, path);
 		free(path);
 	}
-	else
-		run_program(ptr_token, all, (*ptr_token)->str);
 	go_to_end_or_separator(ptr_token);
 	return (1);
 }

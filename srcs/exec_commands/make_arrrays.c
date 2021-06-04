@@ -43,7 +43,6 @@ char	**make_array_from_lst(t_dlst *head)
 	return (array);
 }
 
-
 char	**make_arg_array_from_lst(t_dlst *head)
 {
 	char	**array;

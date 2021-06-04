@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:57:15 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/02 22:51:04 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/04 14:38:36 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "environment.h"
 # include "utils.h"
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>

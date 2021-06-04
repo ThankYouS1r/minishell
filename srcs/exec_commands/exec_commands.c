@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:57:25 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/02 23:08:39 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/04 15:18:10 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,36 +82,49 @@ char	*find_path(t_dlst *ptr_token, char *path_lst)
 	return (NULL);
 }
 
-int	execute_program(t_dlst **ptr_token, t_all *all)
+void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 {
-	char	*path;
-	char	*path_lst;
 	char	**arg_array;
 	char	**envp_array;
 	pid_t	pid;
 	int		status;
 
-	path_lst = getenv_from_lst(all->env, "PATH");
-	if (!path_lst)
-		return (0);
-	path = find_path(*ptr_token, path_lst);
-	free(path_lst);
-	if (!path)
-		return (0);
-	arg_array = make_arg_array_from_lst(*ptr_token);
-	envp_array = make_array_from_lst(all->env);
 	pid = fork();
 	if (pid == -1)
 		error_handler(NULL, errno);
 	if (!pid)
 	{
+		arg_array = make_arg_array_from_lst(*ptr_token);
+		envp_array = make_array_from_lst(all->env);
 		status = execve(path, arg_array, envp_array);
 		cmd_error_message((*ptr_token)->str, NULL, "Problem with execution");
+		clear_array(arg_array);
+		clear_array(envp_array);
 		exit(status);
 	}
-	clear_array(arg_array);
-	clear_array(envp_array);
-	go_to_end_or_separator(ptr_token);
 	waitpid(pid, NULL, 0);
+}
+
+int	execute_program(t_dlst **ptr_token, t_all *all)
+{
+	char		*path;
+	char		*path_lst;
+	struct stat	s_stat;
+
+	if (stat((*ptr_token)->str, &s_stat) == -1)
+	{
+		path_lst = getenv_from_lst(all->env, "PATH");
+		if (!path_lst)
+			return (0);
+		path = find_path(*ptr_token, path_lst);
+		free(path_lst);
+		if (!path)
+			return (0);
+		run_program(ptr_token, all, path);
+		free(path);
+	}
+	else
+		run_program(ptr_token, all, (*ptr_token)->str);
+	go_to_end_or_separator(ptr_token);
 	return (1);
 }

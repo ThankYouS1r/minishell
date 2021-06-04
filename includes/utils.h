@@ -39,6 +39,7 @@ typedef struct s_all
 	t_dlst			*ptr_history;
 	t_dlst			*env;
 	unsigned char	exit_status;
+	int				next_operator;
 }				t_all;
 
 void			*ft_realloc(void *ptr, size_t size);

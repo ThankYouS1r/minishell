@@ -6,15 +6,23 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/04 15:27:16 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/04 19:20:06 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	next_operator(t_dlst *ptr_token)
+{
+	while (ptr_token->next && !is_separator(ptr_token->str))
+		ptr_token = ptr_token->next;
+	return (is_separator(ptr_token->str));
+}
+
 void	executer(t_all *all)
 {
 	t_dlst		*ptr_token;
+	int			fd[2];
 
 	ptr_token = all->lst_token;
 	if (is_separator(ptr_token->str))
@@ -28,6 +36,12 @@ void	executer(t_all *all)
 	}
 	while (ptr_token)
 	{
+		all->next_operator = next_operator(ptr_token);
+		if (all->next_operator == PIPE)
+		{
+			if (pipe(fd) < 0)
+				(error_handler(NULL, errno));//return (error_handler(NULL, errno));
+		}
 		if (!execute_builtin(&ptr_token, all) &&
 			!execute_program(&ptr_token, all))
 		{

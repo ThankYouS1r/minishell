@@ -17,12 +17,12 @@ void	print_minishell_history(t_dlst **ptr_history, int direction)
 	if (direction == PREVIOUS_HISTORY && *ptr_history && (*ptr_history)->prev)
 	{
 		(*ptr_history) = (*ptr_history)->prev;
-		ft_putstr_fd((*ptr_history)->str, STDIN_FILENO);
+	//ft_putstr_fd((*ptr_history)->str, STDIN_FILENO);
 	}
 	else if (direction == NEXT_HISTORY && *ptr_history && (*ptr_history)->next)
 	{
 		(*ptr_history) = (*ptr_history)->next;
-		ft_putstr_fd((*ptr_history)->str, STDIN_FILENO);
+		//ft_putstr_fd((*ptr_history)->str, STDIN_FILENO);
 	}
 }
 

@@ -38,6 +38,8 @@ typedef struct s_all
 	t_dlst			*shell_history;
 	t_dlst			*ptr_history;
 	t_dlst			*env;
+	char			*line;
+	int 			cursor_counter;
 	unsigned char	exit_status;
 }				t_all;
 

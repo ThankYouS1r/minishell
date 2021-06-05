@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/03 23:00:57 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/05 15:21:13 by lmellos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char *argv[], char *envp[])
 	open_history_file(&all.shell_history, &all.ptr_history);
 	while (1)
 	{
-		termcap_start(&all.ptr_history);
+		termcap_start(&all, &all.ptr_history);
 		all.lst_token = parsing(&all);
 		if (all.lst_token)
 			executer(&all);

@@ -1,16 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/08 06:51:59 by eluceon           #+#    #+#              #
-#    Updated: 2021/05/18 15:36:42 by lmellos          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-
 NONE = \033[0;0m
 RED = \033[0;31m
 GREEN = \033[0;32m
@@ -29,7 +16,7 @@ OBJDIR = ./obj/
 HEADERDIR = ./includes/
 
 SRC_MAIN_DIR = ./srcs/main/
-SRCS_MAIN = minishell.c
+SRCS_MAIN = minishell.c history.c
 OBJ_MAIN = $(addprefix $(OBJDIR), $(SRCS_MAIN:.c=.o))
 HEADER_MAIN = $(addprefix $(HEADERDIR), minishell.h)
 
@@ -44,38 +31,46 @@ OBJ_ENVIRONMENT = $(addprefix $(OBJDIR), $(SRCS_ENVIRONMENT:.c=.o))
 HEADER_ENVIRONMENT = $(addprefix $(HEADERDIR), environment.h)
 
 SRC_UTILS_DIR = ./srcs/utils/
-SRCS_UTILS = duplicate_string_array.c
+SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
+			ft_iswhitespace.c str_join_char.c free_all_exit.c doubly_lst_new.c\
+			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
+			special_symbols.c doubly_lst_delete_element.c doubly_lst_dup.c\
+			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c
+
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
-# SRC_TERMCAP_COMMANDS_DIR = ./srcs/termcap_commands/
-# SRCS_TERMCAP_COMMANDS = termcap_commands.c
-# OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
-# HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
+SRC_TERMCAP_COMMANDS_DIR = ./srcs/termcap_commands/
+SRCS_TERMCAP_COMMANDS = termcap_commands.c
+OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
+HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
- SRC_PARSING_DIR = ./srcs/parsing/
- SRCS_PARSING = parsing.c
- OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
- HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
+SRC_PARSING_DIR = ./srcs/parsing/
+SRCS_PARSING = read_line.c parsing.c quote_handler.c handle_special_chars.c\
+			double_quotes.c
+OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
+HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 
-# SRC_BUILTINS_DIR = ./srcs/builtins/
-# SRCS_BUILTINS =
-# OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
-# HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
+SRC_BUILTINS_DIR = ./srcs/builtins/
+SRCS_BUILTINS = builtins.c cd.c echo.c env.c pwd.c unset.c export.c exit.c
+OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
+HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
 
-# SRC_error_handlers_HANDLERS_DIR = ./srcs/error_handlers/
-# SRCS_error_handlers_HANDLERS =
-# OBJ_error_handlers_HANDLERS = $(addprefix $(OBJDIR),\
-								$(SRCS_error_handlers_HANDLERS:.c=.o))
-# HEADER_error_handlers_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
+SRC_ERROR_HANDLERS_DIR = ./srcs/error_handlers/
+SRCS_ERROR_HANDLERS = error_handlers.c cmd_error_message.c
+OBJ_ERROR_HANDLERS = $(addprefix $(OBJDIR),\
+								$(SRCS_ERROR_HANDLERS:.c=.o))
+HEADER_ERROR_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
 
-# SRC_EXEC_COMMANDS_COMMANDS_DIR = ./srcs/exec_commands/
-# SRCS_EXEC_COMMANDS =
-# OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
-# HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
+SRC_EXEC_COMMANDS_DIR = ./srcs/exec_commands/
+SRCS_EXEC_COMMANDS = exec_commands.c make_arrrays.c
+OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
+HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
 
 
-OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS) $(OBJ_PARSING)
+OBJ_ALL = $(OBJ_MAIN) $(OBJ_SIGNAL_HANDLERS) $(OBJ_ENVIRONMENT) $(OBJ_UTILS)\
+		$(OBJ_ERROR_HANDLERS) $(OBJ_PARSING) $(OBJ_TERMCAP_COMMANDS)\
+		$(OBJ_BUILTINS) $(OBJ_EXEC_COMMANDS)
 
 all: make_libft $(NAME)
 
@@ -84,7 +79,7 @@ make_libft:
 
 
 $(NAME): $(OBJDIR) $(OBJ_ALL)
-	$(CC) -ltermcap $(OBJ_ALL) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) $(OBJ_ALL) -ltermcap $(LIBFT) -o $@
 	@echo "$(PURPLE) $(NAME) has been created $(NONE)"
 
 $(OBJDIR):
@@ -98,14 +93,6 @@ $(OBJ_MAIN): $(OBJDIR)%.o: $(SRC_MAIN_DIR)%.c $(HEADER_MAIN) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for Main has been created $(NONE)"
 
-############################
-##   Parser compilation   ##
-############################
-
-$(OBJ_PARSING): $(OBJDIR)%.o: $(SRC_PARSING_DIR)%.c $(HEADER_MAIN) $(LIBFT)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) $(LIBS) -c $< -o $@
-	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for Main has been created $(NONE)"
-
 ###################################
 ##    Environment compilation    ##
 ###################################
@@ -115,19 +102,28 @@ $(OBJ_ENVIRONMENT): $(OBJDIR)%.o: $(SRC_ENVIRONMENT_DIR)%.c\
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Environment has been created $(NONE)"
 
+###############################
+##    Parsing compilation    ##
+###############################
+
+$(OBJ_PARSING): $(OBJDIR)%.o: $(SRC_PARSING_DIR)%.c\
+					 $(HEADER_PARSING) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Parsing has been created $(NONE)"
+
 #######################################
 ##    Signal handlers compilation    ##
 #######################################
 
-$(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIGNAL_HANDLERS)
-	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
+$(OBJ_SIGNAL_HANDLERS): $(OBJDIR)%.o: $(SRC_SIGNAL_HANDLERS_DIR)%.c $(HEADER_SIGNAL_HANDLERS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Signal handlers has been created $(NONE)"
 
 ###############################
 ##     Utils compilation     ##
 ###############################
 
-$(OBJ_UTILS): $(OBJDIR)%.o: $(SRC_UTILS_DIR)%.c $(HEADER_UTILS)  $(LIBFT)
+$(OBJ_UTILS): $(OBJDIR)%.o: $(SRC_UTILS_DIR)%.c $(HEADER_UTILS) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for Utils has been created $(NONE)"
 
@@ -135,26 +131,38 @@ $(OBJ_UTILS): $(OBJDIR)%.o: $(SRC_UTILS_DIR)%.c $(HEADER_UTILS)  $(LIBFT)
 ##    termcap_commands compilation    ##
 ########################################
 
-# $(OBJ_TERMCAP_COMMANDS): $(OBJDIR)%.o: $(SRC_TERMCAP_COMMANDS)%.c $(HEADER_TERMCAP_COMMANDS)
-# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for termcap_commands has been created $(NONE)"
+$(OBJ_TERMCAP_COMMANDS): $(OBJDIR)%.o: $(SRC_TERMCAP_COMMANDS_DIR)%.c\
+						$(HEADER_TERMCAP_COMMANDS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN)for termcap_commands has been created $(NONE)"
 
 #####################################
 ##   error_handlers compilation    ##
 #####################################
 
-# $(OBJ_error_handlers_HANDLERS): $(OBJDIR)%.o: $(SRC_error_handlers_HANDLERS_DIR)%.c $(HEADER_error_handlers_HANDLERS)
-# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error_handlers has been created $(NONE)"
+$(OBJ_ERROR_HANDLERS): $(OBJDIR)%.o: $(SRC_ERROR_HANDLERS_DIR)%.c $(HEADER_ERROR_HANDLERS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for error_handlers has been created $(NONE)"
+
+###############################
+##   builtins compilation    ##
+###############################
+
+$(OBJ_BUILTINS): $(OBJDIR)%.o: $(SRC_BUILTINS_DIR)%.c $(HEADER_BUILTINS)\
+	$(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@ $(GREEN) for builtins has been created $(NONE)"
 
 
 ###################################
 ##   exec_commands compilation   ##
 ###################################
 
-# $(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c $(HEADER_EXEC_COMMANDS)
-# 	$(CC) $(CFLAGS) -I$(HEADERDIR) -c $< -o $@
-# 	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec has been created $(NONE)"
+$(OBJ_EXEC_COMMANDS): $(OBJDIR)%.o: $(SRC_EXEC_COMMANDS_DIR)%.c\
+	$(HEADER_EXEC_COMMANDS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(HEADERDIR) -I$(LIBFTDIR) -c $< -o $@
+	@echo "$(GREEN) Object file $(PURPLE)$@$(GREEN) for exec commands has been created $(NONE)"
+
 
 clean:
 	$(MAKE)	clean -C $(LIBFTDIR)

@@ -1,115 +1,109 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/17 11:05:52 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/19 12:56:10 by lmellos          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parsing.h"
 
-# define K_UP	"\e[A"
-# define K_DOWN 	"\e[B"
-# define K_CTRL_D "\4"
-# define K_ENTER	"\10"
-
-static int	ft_myputchar(int nb)
+char	*get_str(char **line, char *startpos_line, t_all *all)
 {
-	return (write (1, &nb, 1));
+	char	*str;
+
+	str = NULL;
+	while (**line)
+	{
+		if (ft_iswhitespace(**line))
+			break ;
+		else if (ft_strchr(SRECIAL_CHARS, **line))
+			break ;
+		str = str_join_char(str, **line);
+		if (!str)
+			free_all_exit(all, startpos_line, ENOMEM);
+		(*line)++;
+	}
+	if (!str)
+	{
+		str = ft_strdup("");
+		if (!str)
+			free_all_exit(all, startpos_line, ENOMEM);
+	}
+	return (str);
 }
 
-
-struct termios ft_init_settings(void)
+char	*parse_line(t_line *l, t_all *all)
 {
-	int		check_get;
-	struct termios term;
-	struct termios saved_attributes;
+	char	*str;
 
-	check_get = 0;
-	tcgetattr(0, &saved_attributes); //Получить атрибут терминала. Данные будут записаны в структуру term
-	memcpy(&term, &saved_attributes, sizeof(term));
-	term.c_lflag &= ~(ECHO); //Без этого флага не будет отображения набираемых символов
-	term.c_lflag &= ~(ICANON); //Не канонический режим. В каноническом read завершается по нажатию enter
-	tcsetattr(0, TCSANOW, &term); //Установить атрибут терминала. Вернуть параметры в терминал
-	check_get = tgetent(0, getenv("TERM")); //ЗАГРУЗИТЬ ДАННЫЕ ИЗ МАССИВА //Загружаем базу данных оригинального терминала. Первый параметр не нужен, так как более нигде не используется
-	if (check_get == -1)
-		ft_crash("Error");
-	return (saved_attributes);
+	while (ft_iswhitespace(*l->line))
+		++(l->line);
+	if (*l->line == '\\' && ++(l->line))
+		str = handle_backslash(&l->line, l->start_line, all);
+	else if (*l->line == '\'' || *l->line == '"')
+		str = quote_handler(l, all);
+	else if (*l->line == '$' && ++(l->line))
+		str = dollar_handler(&l->line, l->start_line, all);
+	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
+		|| *l->line == '>' || *l->line == '&')
+	{
+		str = str_join_char(NULL, *l->line);
+		if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str)))
+			free_all_exit(all, l->start_line, 1);
+		str = str_join_char(NULL, '\0');
+		if (!str)
+			free_all_exit(all, l->start_line, 1);
+		(l->line)++;
+	}
+	else
+		str = get_str(&l->line, l->start_line, all);
+	return (str);
 }
 
-void ft_save_str(char *str, t_parser *parse)
+void	merge_str_and_lst_append(t_line *l, t_all *all)
 {
-	int counter;
-
-	counter = parse->count;
-	if (counter == 1)
+	if (!l->merged_str)
+		l->merged_str = ft_strdup(l->str);
+	else
+		l->merged_str = ft_strjoin(l->merged_str, l->str);
+	if (!l->merged_str)
 	{
-		parse->str = ft_malloc(2);
-		parse->str[0] = str[0];
-		parse->str[1] = '\0';
+		free(l->str);
+		free_all_exit(all, l->start_line, 1);
 	}
-	else if (counter > 1)
+	free(l->str);
+	if (!(*l->merged_str))
 	{
-		parse->str = ft_realloc(parse->str, counter);
-		parse->str[counter - 1] = str[0];
-		parse->str[counter] = '\0';
+		free(l->merged_str);
+		l->merged_str = NULL;
+	}
+	else if (!*l->line || (ft_strchr("\'\"", *l->line) && (!(*(l->line + 1))))
+		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line)))
+	{
+		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str)))
+		{
+			free(l->merged_str);
+			free_all_exit(all, l->start_line, 1);
+		}
+		l->merged_str = NULL;
 	}
 }
 
-
-int	ft_parse_args(int ac, char **av, struct termios saved_attributes)
+t_dlst	*parsing(t_all *all)
 {
-	char	str[1000];
-	char **temp;
-	t_parser parse;
-	ssize_t l;
+	t_line	line;
 
-
-	ac = 1;
-	temp = av;
-	parse.count = 0;
-	while (strcmp(str, K_CTRL_D)) //идти до CTRL + D(004 по терминалу)
+	line.merged_str = NULL;
+	//read_line(STDIN_FILENO, &line.line);
+	line.line = ft_strdup(all->line);
+	//write(1, all->line, ft_strlen(all->line));
+	//free(all->line);
+	if (!line.line)
+		free_all_exit(all, NULL, 1);
+	line.start_line = line.line;
+	while (*line.line)
 	{
-		tputs(tgetstr("sc", NULL), 1, ft_myputchar); //Сохранение позиции курсора
-		l = read(0, str, 100);
-		str[l] = 0;
-		if (!strcmp(str, tgetstr("kb", NULL)) || !strcmp(str, "\177"))
+		line.str = parse_line(&line, all);
+		if (!line.str)
 		{
-			if (parse.count > 0)
-			{
-				tputs(tgetstr("le", NULL), 1, ft_myputchar);
-				tputs(tgetstr("dc", NULL), 1, ft_myputchar);
-				parse.count--;
-			}
+			free (line.start_line);
+			return (NULL);
 		}
-		else if (!ft_strncmp(str, K_UP, 3))
-		{
-			write(1, "UP", 2);
-		}
-		else if (!ft_strncmp(str, K_DOWN, 3))
-		{
-			write(1, "DOWN", 5);
-		}
-		else if (!strcmp(str, tgetstr("kD", NULL)))
-			tputs(tgetstr("dc", NULL), 1, ft_myputchar);
-		else if (*str == 10) //ENTER
-		{
-			//write(1, "\n", 1);
-			//write(1, parse.str, ft_strlen(parse.str));
-			//ft_parse_str
-		}
-		else
-		{
-			parse.count++;
-			ft_save_str(str, &parse);
-			write (1, str, l);
-		}
+		merge_str_and_lst_append(&line, all);
 	}
-	write (1, "\n", 1);
-	tcsetattr(0, TCSANOW, &saved_attributes);
-	return (0);
+	add_history_to_lst(line.start_line, &all->shell_history, &all->ptr_history);
+	return (all->lst_token);
 }

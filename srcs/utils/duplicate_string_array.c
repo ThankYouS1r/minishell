@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 16:16:00 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/17 16:44:36 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/05/22 21:45:11 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	**duplicate_string_array(const char *str_array[], size_t size)
 			}
 			free(new_str_array);
 			new_str_array = NULL;
+			return (NULL);
 		}
 	}
 	return (new_str_array);

@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrdima <mrdima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/16 09:32:20 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/06 16:04:27 by mrdima           ###   ########.fr       */
+/*   Created: 2021/06/06 15:59:38 by mrdima            #+#    #+#             */
+/*   Updated: 2021/06/06 16:25:21 by mrdima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <fcntl.h>
-# include "signal_handlers.h"
-# include "environment.h"
-# include "parsing.h"
-# include "termcap_commands.h"
-# include "builtins.h"
-# include "exec_commands.h"
-
-void	open_history_file(t_dlst **head_history, t_dlst **ptr_history);
-
-
-#endif
+void    close_fds(t_all *all)
+{
+    if (all->fd_in != STDIN_FILENO)
+    {
+        close(all->fd_in);
+        all->fd_in = STDIN_FILENO;
+    }
+    if (all->fd_out != STDOUT_FILENO)
+    {
+        close(all->fd_out);
+        all->fd_out = STDOUT_FILENO;
+    }
+}

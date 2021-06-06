@@ -3,55 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: mrdima <mrdima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/04 19:20:06 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 17:01:47 by mrdima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	next_operator(t_dlst *ptr_token)
+void	exec_builtins_or_external_programs(t_all *all, t_dlst **ptr_token)
 {
-	while (ptr_token->next && !is_separator(ptr_token->str))
-		ptr_token = ptr_token->next;
-	return (is_separator(ptr_token->str));
+	if (!builtins(ptr_token, all) && !external_programs(ptr_token, all))
+	{
+		cmd_error_message((*ptr_token)->str, NULL, "command not found");
+		go_to_end_or_separator(ptr_token);
+		all->exit_status = 127;
+	}
 }
 
-void	executer(t_all *all)
+int	executer(t_all *all)
 {
 	t_dlst		*ptr_token;
 	int			fd[2];
 
 	ptr_token = all->lst_token;
-	if (is_separator(ptr_token->str))
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
-		ft_putstr_fd(ptr_token->str, STDERR_FILENO);
-		ft_putendl_fd("'", STDERR_FILENO);
-		ptr_token = ptr_token->next;
-		go_to_end_or_separator(&ptr_token);
-		all->exit_status = 2;
-	}
+	if (is_separator(ptr_token))
+		syntax_error_message(all, &ptr_token);
 	while (ptr_token)
 	{
 		all->next_operator = next_operator(ptr_token);
 		if (all->next_operator == PIPE)
 		{
 			if (pipe(fd) < 0)
-				(error_handler(NULL, errno));//return (error_handler(NULL, errno));
+				return (error_handler(NULL, errno));
+			all->fd_out = fd[1];
 		}
-		if (!execute_builtin(&ptr_token, all) &&
-			!execute_program(&ptr_token, all))
-		{
-			cmd_error_message(ptr_token->str, NULL, "command not found");
-			go_to_end_or_separator(&ptr_token);
-			all->exit_status = 127;
-		}
-		if (ptr_token && !ft_strcmp(ptr_token->str, ";"))
+		else
+			all->fd_out = STDOUT_FILENO;
+		exec_builtins_or_external_programs(all, &ptr_token);
+		close_fds(all);
+		if (all->next_operator == PIPE)
+			all->fd_in = fd[0];
+		else
+			all->fd_in = STDIN_FILENO;
+		if (ptr_token && (is_separator(ptr_token)))
 			ptr_token = ptr_token->next;
 	}
+	close_fds(all);
+	return (1);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -60,13 +60,13 @@ int	main(int argc, char *argv[], char *envp[])
 
 	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv)
-		return(error_handler("Wrong arguments", 1));
+		return (error_handler("Wrong arguments", 1));
 	set_signal_handlers(); // Will be done a litle bit later
 	set_environment((const char **)envp, &all);
 	open_history_file(&all.shell_history, &all.ptr_history);
 	while (1)
 	{
-		termcap_start(&all.ptr_history);
+		//termcap_start(&all.ptr_history);
 		all.lst_token = parsing(&all);
 		if (all.lst_token)
 			executer(&all);

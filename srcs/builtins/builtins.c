@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: mrdima <mrdima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 20:09:12 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/03 21:11:46 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 17:04:23 by mrdima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	execute_builtin(t_dlst **ptr_token, t_all *all)
+int	builtins(t_dlst **ptr_token, t_all *all)
 {
 	if (!ft_strcmp(((*ptr_token))->str, "echo"))
-		all->exit_status = echo_cmd(ptr_token);
+		all->exit_status = echo_cmd(ptr_token, all->fd_out);
 	else if (!ft_strcmp((*ptr_token)->str, "cd"))
 		all->exit_status = cd_cmd(ptr_token, all->env);
 	else if (!ft_strcmp((*ptr_token)->str, "pwd"))
-		all->exit_status = pwd_cmd(ptr_token);
+		all->exit_status = pwd_cmd(ptr_token, all->fd_out);
 	else if (!ft_strcmp((*ptr_token)->str, "export"))
-		all->exit_status = export_cmd(ptr_token, all->env);
+		all->exit_status = export_cmd(ptr_token, all->env, all->fd_out);
 	else if (!ft_strcmp((*ptr_token)->str, "unset"))
 		all->exit_status = unset_cmd(ptr_token, all->env);
 	else if (!ft_strcmp((*ptr_token)->str, "env"))
-		all->exit_status = env_cmd(ptr_token, all->env);
+		all->exit_status = env_cmd(ptr_token, all->env, all->fd_out);
 	else if (!ft_strcmp((*ptr_token)->str, "exit"))
 		all->exit_status = exit_cmd(ptr_token, all->exit_status,
-			&all->shell_history);
+				&all->shell_history);
 	else
 		return (0);
 	return (1);

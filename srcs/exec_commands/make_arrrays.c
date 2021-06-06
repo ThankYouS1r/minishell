@@ -51,7 +51,7 @@ char	**make_arg_array_from_lst(t_dlst *head)
 
 	i = 0;
 	tmp = head;
-	while (tmp && !is_separator(tmp->str))
+	while (tmp && !is_separator(tmp))
 	{
 		tmp = tmp->next;
 		i++;
@@ -61,7 +61,7 @@ char	**make_arg_array_from_lst(t_dlst *head)
 		error_handler(NULL, ENOMEM);
 	tmp = head;
 	i = -1;
-	while (tmp && !is_separator(tmp->str))
+	while (tmp && !is_separator(tmp))
 	{
 		array[++i] = ft_strdup(tmp->str);
 		if (!array[i])

@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/29 15:30:10 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 14:26:33 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 08:21:06 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	unset_cmd(t_dlst **ptr_token, t_dlst *env)
 		return (errno = ERROR);
 	}
 	status = 0;
-	while (*ptr_token && !is_separator((*ptr_token)->str))
+	while (*ptr_token && !is_separator(*ptr_token))
 	{
 		if (is_valid_variable_name((*ptr_token)->str, '\0'))
 			remove_variable((*ptr_token)->str, env);

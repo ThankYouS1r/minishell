@@ -17,7 +17,8 @@ enum	e_separators
 	SEMICOLON,
 	REDIRECT_INPUT,
 	REDIRECT_OUTPUT,
-	APPEND_REDIRECT_OUTPUT
+	APPEND_REDIRECT_OUTPUT,
+	LAST_PIPE
 };
 
 typedef struct s_doubly_lst {
@@ -40,6 +41,11 @@ typedef struct s_all
 	t_dlst			*env;
 	unsigned char	exit_status;
 	int				next_operator;
+	int				fd_in;
+	int				fd_out;
+	int				pipe_in;
+	int				pipe_out;
+
 }				t_all;
 
 void			*ft_realloc(void *ptr, size_t size);
@@ -50,15 +56,18 @@ char			*str_join_char(char *str, char ch);
 t_dlst			*doubly_lst_append(t_dlst **lst, t_dlst *new);
 t_dlst			*doubly_lstlast(t_dlst *lst);
 t_dlst			*doubly_lst_new(char *str);
-t_dlst 			*doubly_lst_dup(t_dlst *head);
+t_dlst			*doubly_lst_dup(t_dlst *head);
 void			doubly_lst_merge_sort(t_dlst **head);
 int				doubly_lst_size(t_dlst *lst);
 void			doubly_lst_clear(t_dlst **lst);
 void			doubly_lst_delete_element(t_dlst **lst);
 int				free_all_exit(t_all *all, char *line, int error_code);
 void			free_doble_array(char **array);
-int				is_separator(char	*str);
+int				is_separator(t_dlst *ptr_token);
 void			go_to_end_or_separator(t_dlst **ptr_token);
 int				is_number(char *str);
+int				next_operator(t_dlst *ptr_token);
+void			init_fd(t_all *all);
+void			close_fds(t_all *all);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: mrdima <mrdima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 14:15:22 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/04 13:53:00 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 16:33:49 by mrdima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	open_history_file(t_dlst **head_history, t_dlst **ptr_history)
 	}
 }
 
-void save_history_to_file_and_close(t_dlst **head_history)
+void	save_history_to_file_and_close(t_dlst **head_history)
 {
 	t_dlst	*tmp;
 	int		fd;

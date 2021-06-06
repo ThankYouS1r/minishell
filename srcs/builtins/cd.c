@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:20:44 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/03 20:08:35 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 08:20:11 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int	cd_cmd(t_dlst **ptr_token, t_dlst *env)
 	int		status;
 
 	*ptr_token = (*ptr_token)->next;
-	if ((*ptr_token) && !is_separator((*ptr_token)->str)
-		&& (*ptr_token)->next && !is_separator((*ptr_token)->next->str))
+	if ((*ptr_token) && !is_separator(*ptr_token)
+		&& (*ptr_token)->next && !is_separator((*ptr_token)->next))
 	{
 		cmd_error_message("cd", NULL, "too many arguments");
 		go_to_end_or_separator(ptr_token);
@@ -111,9 +111,9 @@ int	cd_cmd(t_dlst **ptr_token, t_dlst *env)
 		return (ERROR);
 	}
 	status = 0;
-	if (*ptr_token && !is_separator((*ptr_token)->str))
+	if (*ptr_token && !is_separator(*ptr_token))
 		status = go_path(ptr_token);
-	else if (!*ptr_token || is_separator((*ptr_token)->str))
+	else if (!*ptr_token || is_separator(*ptr_token))
 		status = go_home(env);
 	if (!status)
 		change_pwd(oldpwd, &env);

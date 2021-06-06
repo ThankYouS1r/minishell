@@ -6,13 +6,13 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/30 11:02:56 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 14:26:33 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 08:21:24 by eluceon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	print_sorted_env(t_dlst *env)
+void	print_sorted_env(t_dlst *env, int fd_out)
 {
 	t_dlst	*sorted_env;
 	t_dlst	*tmp;
@@ -24,8 +24,8 @@ void	print_sorted_env(t_dlst *env)
 	tmp = sorted_env;
 	while (tmp)
 	{
-		ft_putstr_fd("declare -x ", STDIN_FILENO);
-		ft_putendl_fd(tmp->str, STDIN_FILENO);
+		ft_putstr_fd("declare -x ", fd_out);
+		ft_putendl_fd(tmp->str, fd_out);
 		tmp = tmp->next;
 	}
 	doubly_lst_clear(&sorted_env);
@@ -59,7 +59,7 @@ void	add_environment(t_dlst **env, char *str)
 		error_handler(NULL, ENOMEM);
 }
 
-int	export_cmd(t_dlst **ptr_token, t_dlst *env)
+int	export_cmd(t_dlst **ptr_token, t_dlst *env, int fd_out)
 {
 	int	status;
 
@@ -70,12 +70,12 @@ int	export_cmd(t_dlst **ptr_token, t_dlst *env)
 	}
 	*ptr_token = (*ptr_token)->next;
 	status = SUCCESS;
-	if (!(*ptr_token))
+	if (!(*ptr_token) || next_operator(*ptr_token))
 	{
-		print_sorted_env(env);
+		print_sorted_env(env, fd_out);
 		return (SUCCESS);
 	}
-	while (*ptr_token && !is_separator((*ptr_token)->str))
+	while (*ptr_token && !is_separator(*ptr_token))
 	{
 		if (!is_valid_variable_name((*ptr_token)->str, '='))
 		{

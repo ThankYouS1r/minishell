@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: mrdima <mrdima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:57:25 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/04 15:32:28 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 17:10:22 by mrdima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 		error_handler(NULL, errno);
 	if (!pid)
 	{
+		if (all->fd_in != 0)
+			dup2(all->fd_in, 0);
+		if ((all->fd_out != 1))
+			dup2(all->fd_out, 1);
+		close_fds(all);
 		arg_array = make_arg_array_from_lst(*ptr_token);
 		envp_array = make_array_from_lst(all->env);
 		status = execve(path, arg_array, envp_array);
@@ -105,7 +110,7 @@ void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 	waitpid(pid, NULL, 0);
 }
 
-int	execute_program(t_dlst **ptr_token, t_all *all)
+int	external_programs(t_dlst **ptr_token, t_all *all)
 {
 	char		*path;
 	char		*path_lst;

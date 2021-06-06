@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_environment.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: mrdima <mrdima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:25:30 by eluceon           #+#    #+#             */
-/*   Updated: 2021/05/31 14:26:33 by eluceon          ###   ########.fr       */
+/*   Updated: 2021/06/06 17:07:30 by mrdima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 char	*getenv_from_lst(t_dlst *env, const char *name)
 {
 	size_t	len;
-	t_dlst *tmp_lst;
+	t_dlst	*tmp_lst;
 	char	*variable_value;
 
 	if (!name || !env)
@@ -51,7 +51,7 @@ void	set_environment(const char	*envp[], t_all *all)
 {
 	int		i;
 	char	*tmp_str;
-;
+
 	i = -1;
 	while (envp[++i])
 	{

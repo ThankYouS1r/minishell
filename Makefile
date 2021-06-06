@@ -35,7 +35,7 @@ SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
 			ft_iswhitespace.c str_join_char.c free_all_exit.c doubly_lst_new.c\
 			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
 			special_symbols.c doubly_lst_delete_element.c doubly_lst_dup.c\
-			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c
+			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c fd.c
 
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
@@ -57,7 +57,7 @@ OBJ_BUILTINS = $(addprefix $(OBJDIR), $(SRCS_BUILTINS:.c=.o))
 HEADER_BUILTINS = $(addprefix $(HEADERDIR), builtins.h)
 
 SRC_ERROR_HANDLERS_DIR = ./srcs/error_handlers/
-SRCS_ERROR_HANDLERS = error_handlers.c cmd_error_message.c
+SRCS_ERROR_HANDLERS = error_handlers.c error_messages.c
 OBJ_ERROR_HANDLERS = $(addprefix $(OBJDIR),\
 								$(SRCS_ERROR_HANDLERS:.c=.o))
 HEADER_ERROR_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)

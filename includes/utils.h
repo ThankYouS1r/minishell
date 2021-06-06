@@ -40,6 +40,7 @@ typedef struct s_all
 	t_dlst			*env;
 	char			*line;
 	int 			cursor_counter;
+	int 			sh_counter;
 	unsigned char	exit_status;
 }				t_all;
 
@@ -61,5 +62,7 @@ void			free_doble_array(char **array);
 int				is_separator(char	*str);
 void			go_to_end_or_separator(t_dlst **ptr_token);
 int				is_number(char *str);
+int				myputchar(int nb);
+void			print_logo(void);
 
 #endif

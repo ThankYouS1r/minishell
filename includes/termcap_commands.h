@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 09:32:54 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/05 17:35:41 by lmellos          ###   ########.fr       */
+/*   Updated: 2021/06/06 13:00:12 by lmellos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ typedef struct	s_termcap
 void		termcap_start(t_all *all, t_dlst **ptr_history);
 void		print_minishell_history(t_dlst **ptr_history, int direction);
 void 		ft_parse_args(struct termios s_ats, t_all *all, t_dlst **ptr_history);
+void		ctrld_press(t_all *all, t_dlst **ptr_history, int counter);
+char		*history_operation(t_dlst **ptr_history, t_all *all, int iter_hist);
+char		*enter_press(t_all * all);
+char		*printf_symbols(char c, t_all *all);
+char		*escape_press(t_all *all);
 
 
 #endif

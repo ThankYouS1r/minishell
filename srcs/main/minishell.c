@@ -6,7 +6,7 @@
 /*   By: eluceon <eluceon@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 08:58:31 by eluceon           #+#    #+#             */
-/*   Updated: 2021/06/05 15:21:13 by lmellos          ###   ########.fr       */
+/*   Updated: 2021/06/06 12:19:40 by lmellos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,15 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		termcap_start(&all, &all.ptr_history);
-		all.lst_token = parsing(&all);
-		if (all.lst_token)
-			executer(&all);
-		doubly_lst_clear(&all.lst_token);
+		if (all.line)
+		{
+			all.lst_token = parsing(&all);
+			if (all.lst_token)
+				executer(&all);
+			doubly_lst_clear(&all.lst_token);
+		}
 	}
-	save_history_to_file_and_close(&all.shell_history);
+	//save_history_to_file_and_close(&all.shell_history);
 	doubly_lst_clear(&all.env);
 	return (0);
 }

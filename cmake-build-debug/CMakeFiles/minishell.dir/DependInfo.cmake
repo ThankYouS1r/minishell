@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/lmellos/Desktop/projects/minishell/libs/libft/ft_crash.c" "/Users/lmellos/Desktop/projects/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_crash.c.o"
-  "/Users/lmellos/Desktop/projects/minishell/libs/libft/ft_malloc.c" "/Users/lmellos/Desktop/projects/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_malloc.c.o"
-  "/Users/lmellos/Desktop/projects/minishell/libs/libft/ft_realloc.c" "/Users/lmellos/Desktop/projects/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_realloc.c.o"
-  "/Users/lmellos/Desktop/projects/minishell/srcs/main/minishell.c" "/Users/lmellos/Desktop/projects/minishell/cmake-build-debug/CMakeFiles/minishell.dir/srcs/main/minishell.c.o"
+  "/Users/lmellos/Desktop/projects/minishell4/libs/libft/ft_crash.c" "/Users/lmellos/Desktop/projects/minishell4/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_crash.c.o"
+  "/Users/lmellos/Desktop/projects/minishell4/libs/libft/ft_malloc.c" "/Users/lmellos/Desktop/projects/minishell4/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_malloc.c.o"
+  "/Users/lmellos/Desktop/projects/minishell4/libs/libft/ft_realloc.c" "/Users/lmellos/Desktop/projects/minishell4/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_realloc.c.o"
+  "/Users/lmellos/Desktop/projects/minishell4/srcs/main/minishell.c" "/Users/lmellos/Desktop/projects/minishell4/cmake-build-debug/CMakeFiles/minishell.dir/srcs/main/minishell.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 

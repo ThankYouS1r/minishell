@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="minishell" targetName="minishell" />
@@ -11,13 +14,75 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1d723e6-4e37-4a2c-8153-979471c02119" name="Default Changelist" comment="" />
+    <list default="true" id="67d95e51-0f7d-4334-820a-b7fc113ecff4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/srcs/termcap_commands/handle_key_manage.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/srcs/utils/my_putchar.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/srcs/utils/print_logo.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/count.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_crash.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_malloc.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/minishell.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/minishell.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/builtins.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/builtins.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/environment.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/environment.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/error_handlers.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/error_handlers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/exec_commands.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/exec_commands.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minishell.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/signal_handlers.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/signal_handlers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/termcap_commands.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/termcap_commands.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/utils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/libft/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/libs/libft/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/libft/ft_strcmp.c" beforeDir="false" afterPath="$PROJECT_DIR$/libs/libft/ft_strcmp.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/libft/libft.h" beforeDir="false" afterPath="$PROJECT_DIR$/libs/libft/libft.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minishell_history" beforeDir="false" afterPath="$PROJECT_DIR$/minishell_history" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/builtins.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/builtins.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/cd.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/cd.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/echo.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/echo.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/env.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/env.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/exit.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/exit.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/export.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/export.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/pwd.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/pwd.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/builtins/unset.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/builtins/unset.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/environment/set_environment.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/environment/set_environment.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/error_handlers/cmd_error_message.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/error_handlers/cmd_error_message.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/error_handlers/error_handlers.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/error_handlers/error_handlers.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/exec_commands/exec_commands.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_commands/exec_commands.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/main/history.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/main/history.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/main/minishell.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/main/minishell.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/signal_handlers/signal_handlers.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/signal_handlers/signal_handlers.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/termcap_commands/termcap_commands.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/termcap_commands/termcap_commands.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/utils/doubly_lst_delete_element.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/utils/doubly_lst_delete_element.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/utils/doubly_lst_dup.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/utils/doubly_lst_dup.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/utils/doubly_lst_merge_sort.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/utils/doubly_lst_merge_sort.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/utils/doubly_lst_size.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/utils/doubly_lst_size.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/utils/duplicate_string_array.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/utils/duplicate_string_array.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/utils/ft_realloc.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/utils/ft_realloc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/utils/other.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/utils/other.c" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ClangdSettings">
+    <option name="clangTidyViaClangd" value="false" />
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
@@ -69,7 +134,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f1d723e6-4e37-4a2c-8153-979471c02119" name="Default Changelist" comment="" />
+      <changelist id="67d95e51-0f7d-4334-820a-b7fc113ecff4" name="Default Changelist" comment="" />
       <created>1621265207952</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -81,6 +146,7 @@
       <workItem from="1621332994026" duration="4212000" />
       <workItem from="1621338832978" duration="3528000" />
       <workItem from="1621401147426" duration="15399000" />
+      <workItem from="1622961807125" duration="12582000" />
     </task>
     <servers />
   </component>

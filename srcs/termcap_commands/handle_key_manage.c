@@ -84,21 +84,50 @@ char		*history_operation(t_dlst **ptr_history, t_all *all, int iter_hist)
 
 void 	ctrld_press(t_all *all, t_dlst **ptr_history, int counter)
 {
-	char	*beep;
+	char	*str;
+	int 	i = 0;
 
 	if (counter == 0 && !all->line)
 	{
 		write(1, "exit", 4);
-		if (ptr_history)
-			free((*ptr_history)->str);  //Не забыть все очистить
-		ft_crash("do svyazi");
+		if (ptr_history) //Не забыть все очистить
+			i = 1;
+		ft_crash(" do svyazi");
 	}
 	else
 	{
-		beep = tgetstr("bl", NULL);
-		if (beep == NULL)
-			return ;
-		tputs(beep, 1, myputchar);
+		str = tgetstr("bl", NULL);
+		if (!str)
+			ft_crash("temp_error");
+		tputs(str, 1, myputchar);
 	}
 }
 
+char  *ctrlc_press(t_all *all)
+{
+	if (all->line)
+		free(all->line);
+	all->line = ft_strdup(" ");
+	all->cursor_counter = 12;
+	all->sh_counter = 0;
+	print_logo();
+	return (all->line);
+}
+
+char  *ctrll_press(t_all *all)
+{
+	char 	*clear_scr;
+
+	clear_scr = tgetstr("cl", NULL);
+	if (!clear_scr)
+		ft_crash("temp_error");
+	tputs(clear_scr, 1, myputchar);
+	print_logo();
+	if (all->line && all->sh_counter > 0 && all->cursor_counter > 10)
+	{
+		ft_putstr_fd(all->line, 1);
+		all->sh_counter = ft_strlen(all->line);
+		all->cursor_counter = 12 + all->sh_counter;;
+	}
+	return (all->line);
+}

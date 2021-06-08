@@ -24,9 +24,11 @@ void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 	int			ret;
 
 	// Защитить ft_strdup
-	// Обработать сигнал control + косая черта (sigquit sigignore)
-	// Если сохранить в историю команду на много строчек, то при листании истории на этом моменте он будет сам принтить. Обработка множества строк - бонус
-	all->sh_counter = 0;
+	// Обработать сигнал control + косая черта (sigquit sigignore) + обработать сигнал ctrl + c
+	// Если сохранить в историю команду на большое количество строк, то при перелистывании истории клавишами, на моменте вывода этой истории он будет сам принтить в терминал. Обработка множества строк - бонус
+	// Доделать вывод начала истории
+	//Не забыть все очистить в ctrld
+
 	while ((ret = read(0, str, 100))) //идти до CTRL + D(004 по терминалу)
 	{
 		str[ret] = 0;
@@ -38,10 +40,14 @@ void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 			all->line = history_operation(ptr_history, all, PREVIOUS_HISTORY);
 		else if (!ft_strncmp(str, K_DOWN, 3) && strcmp(str, "\n"))
 			all->line = history_operation(ptr_history, all, NEXT_HISTORY);
+		else if (*str == 12)
+			all->line = ctrll_press(all);
+		else if (*str == 3)
+			all->line = ctrlc_press(all);
 		else if (*str == 10 || !ft_strcmp(str, "\n"))
 		{
 			all->line = enter_press(all);
-			break;
+			break; 							//переделаю
 		}
 		else if (str[0] > 31 && str[0] < 127)
 			all->line = printf_symbols(str[0], all);
@@ -56,13 +62,19 @@ void 	termcap_start(t_all *all, t_dlst **ptr_history)
 	struct termios saved_attributes;
 
 	print_logo();
-	all->cursor_counter = 11;
+	all->sh_counter = 0;
+	all->cursor_counter = 12;
+	if (all->line)
+	{
+		free(all->line);
+		all->line = NULL;
+	}
 	saved_attributes = init_settings();
 	input_control(saved_attributes, all, ptr_history);
 }
 
 
-//		else if (!ft_strncmp(str, K_LEFT, 3) && all->cursor_counter >= 12) В ОСНОВНОЙ ЧАСТИ ИХ ОБРАБАТЫВАТЬ(РЕДАКТИРОВАТЬ СТРОКУ) НЕ ТРЕБУЮТ. ПОКА ОСТАВЛЮ НА ПЕРСПЕКТИВУ
+//		else if (!ft_strncmp(str, K_LEFT, 3) && all->cursor_counter >= 12)
 //		{
 //			j++;
 //			tputs(tgetstr("le", NULL), 1, myputchar);

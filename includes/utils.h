@@ -4,11 +4,11 @@
 # include <errno.h>
 # include "libft.h"
 
-# define SUCCESS	0
+# define SUCCESS		0
 # define ERROR 		1
 
-# define PREVIOUS_HISTORY 1
-# define NEXT_HISTORY 2
+# define PREVIOUS_HISTORY	1
+# define NEXT_HISTORY		2
 
 enum	e_separators
 {

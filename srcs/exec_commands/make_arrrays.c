@@ -43,36 +43,55 @@ char	**make_array_from_lst(t_dlst *head)
 	return (array);
 }
 
-char	**make_arg_array_from_lst(t_dlst *head)
+char	**fill_arg_array(t_dlst *head, int len, char ***array)
+{
+	int i;
+
+	i = -1;
+	while (++i < len)
+	{
+		if (is_separator(head) == REDIRECT_INPUT)
+			head = head->next->next;
+		(*array)[i] = ft_strdup(head->str);
+		if (!(*array)[i])
+		{
+			while (--i >= 0)
+				free((*array)[i]);
+			free(*array);
+			(*array) = NULL;
+			error_handler(NULL, ENOMEM);
+		}
+		head = head->next;
+	}
+	return (*array);
+}
+
+char	**make_arg_array_from_lst(t_dlst *head, int operator)
 {
 	char	**array;
 	t_dlst	*tmp;
-	int		i;
+	int		len;
+	int		nbr_redirections;
 
-	i = 0;
+	len = 0;
 	tmp = head;
-	while (tmp && !is_separator(tmp))
+	nbr_redirections = 0;
+	while (tmp)
 	{
+		if (operator == REDIRECT_INPUT
+			&& is_separator(tmp) == REDIRECT_INPUT
+			&& nbr_redirections == 0)
+		{
+			nbr_redirections++;
+			tmp = tmp->next->next;
+		}
+		if (!tmp || is_separator(tmp))
+			break ;
+		len++;
 		tmp = tmp->next;
-		i++;
 	}
-	array = (char **)ft_calloc(i + 1, sizeof(char *));
+	array = (char **)ft_calloc(len + 1, sizeof(char *));
 	if (!array)
 		error_handler(NULL, ENOMEM);
-	tmp = head;
-	i = -1;
-	while (tmp && !is_separator(tmp))
-	{
-		array[++i] = ft_strdup(tmp->str);
-		if (!array[i])
-		{
-			while (--i >= 0)
-				free(array[i]);
-			free(array);
-			array = NULL;
-			error_handler(NULL, ENOMEM);
-		}
-		tmp = tmp->next;
-	}
-	return (array);
+	return(fill_arg_array(head, len, &array));
 }

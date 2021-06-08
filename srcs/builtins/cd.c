@@ -99,10 +99,11 @@ int	cd_cmd(t_dlst **ptr_token, t_dlst *env)
 		return (ERROR);
 	}
 	status = 0;
-	if (*ptr_token && !is_separator(*ptr_token))
+	if (*ptr_token && !is_separator(*ptr_token) && prev_operator(*ptr_token) != PIPE)
 		status = go_path(ptr_token);
-	else if (!*ptr_token || is_separator(*ptr_token))
+	else if ((!*ptr_token || is_separator(*ptr_token)) && prev_operator(*ptr_token) != PIPE)
 		status = go_home(env);
+	go_to_end_or_separator(ptr_token);
 	if (!status)
 		change_pwd(oldpwd, &env);
 	free(oldpwd);

@@ -63,7 +63,7 @@ OBJ_ERROR_HANDLERS = $(addprefix $(OBJDIR),\
 HEADER_ERROR_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
 
 SRC_EXEC_COMMANDS_DIR = ./srcs/exec_commands/
-SRCS_EXEC_COMMANDS = exec_commands.c make_arrrays.c
+SRCS_EXEC_COMMANDS = exec_commands.c make_arrrays.c find_path.c
 OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
 HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
 

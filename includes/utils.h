@@ -17,8 +17,7 @@ enum	e_separators
 	SEMICOLON,
 	REDIRECT_INPUT,
 	REDIRECT_OUTPUT,
-	APPEND_REDIRECT_OUTPUT,
-	LAST_PIPE
+	APPEND_REDIRECT_OUTPUT
 };
 
 typedef struct s_doubly_lst {
@@ -67,6 +66,7 @@ int				is_separator(t_dlst *ptr_token);
 void			go_to_end_or_separator(t_dlst **ptr_token);
 int				is_number(char *str);
 int				next_operator(t_dlst *ptr_token);
+int				prev_operator(t_dlst *ptr_token);
 void			init_fd(t_all *all);
 void			close_fds(t_all *all);
 

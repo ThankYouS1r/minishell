@@ -50,8 +50,8 @@ void	open_history_file(t_dlst **head_history, t_dlst **ptr_history)
 	int		fd;
 	char	*line;
 
-	fd = open("./minishell_history", O_RDONLY);
-	if (fd == -1)
+	fd = open("./minishell_history", O_RDONLY, S_IRWXU);
+	if (fd < 0)
 		error_handler("Can't read old minishell history", errno);
 	else
 	{

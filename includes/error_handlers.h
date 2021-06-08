@@ -10,6 +10,6 @@
 
 int		error_handler(const char *message, int error_code);
 void	cmd_error_message(char *cmd_name, char *arg_name, char *description);
-void	syntax_error_message(t_all *all, t_dlst **ptr_token);
+void	syntax_error_message(t_all *all, t_dlst **ptr_token, char *unexpected);
 
 #endif

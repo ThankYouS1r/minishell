@@ -10,6 +10,6 @@
 # include "exec_commands.h"
 
 void	open_history_file(t_dlst **head_history, t_dlst **ptr_history);
-
+int     executor_loop(t_all *all);
 
 #endif

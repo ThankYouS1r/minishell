@@ -16,7 +16,7 @@ OBJDIR = ./obj/
 HEADERDIR = ./includes/
 
 SRC_MAIN_DIR = ./srcs/main/
-SRCS_MAIN = minishell.c history.c
+SRCS_MAIN = minishell.c history.c executor.c
 OBJ_MAIN = $(addprefix $(OBJDIR), $(SRCS_MAIN:.c=.o))
 HEADER_MAIN = $(addprefix $(HEADERDIR), minishell.h)
 
@@ -64,7 +64,7 @@ OBJ_ERROR_HANDLERS = $(addprefix $(OBJDIR),\
 HEADER_ERROR_HANDLERS = $(addprefix $(HEADERDIR), error_handlers.h)
 
 SRC_EXEC_COMMANDS_DIR = ./srcs/exec_commands/
-SRCS_EXEC_COMMANDS = exec_commands.c make_arrrays.c find_path.c
+SRCS_EXEC_COMMANDS = exec_commands.c make_arrrays.c find_path.c redirects.c
 OBJ_EXEC_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_EXEC_COMMANDS:.c=.o))
 HEADER_EXEC_COMMANDS = $(addprefix $(HEADERDIR), exec_commands.h)
 

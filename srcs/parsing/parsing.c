@@ -37,17 +37,12 @@ char	*parse_line(t_line *l, t_all *all)
 		str = quote_handler(l, all);
 	else if (*l->line == '$' && ++(l->line))
 		str = dollar_handler(&l->line, l->start_line, all);
+	else if ((*l->line == '>' && l->line[1] == '>')
+		|| (*l->line == '<' && l->line[1] == '<'))
+		str = double_operator_handler(&l->line, l->start_line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
 		|| *l->line == '>' || *l->line == '&')
-	{
-		str = str_join_char(NULL, *l->line);
-		if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str)))
-			free_all_exit(all, l->start_line, 1);
-		str = str_join_char(NULL, '\0');
-		if (!str)
-			free_all_exit(all, l->start_line, 1);
-		(l->line)++;
-	}
+		str = single_operator_handler(&l->line, l->start_line, all);
 	else
 		str = get_str(&l->line, l->start_line, all);
 	return (str);
@@ -87,8 +82,8 @@ t_dlst	*parsing(t_all *all)
 	t_line	line;
 
 	line.merged_str = NULL;
-	//read_line(STDIN_FILENO, &line.line);
-	line.line = ft_strdup(all->line);
+	read_line(STDIN_FILENO, &line.line);
+	//line.line = ft_strdup(all->line);
 	if (!line.line)
 		free_all_exit(all, NULL, 1);
 	line.start_line = line.line;

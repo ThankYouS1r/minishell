@@ -4,9 +4,6 @@ int	is_separator(t_dlst *ptr_token)
 {
 	if (ptr_token->str[0] == '|' && ptr_token->str[1] == '\0')
 		return (PIPE);
-	// else if (ptr_token->str[0] == '|' && ptr_token->str[1] == '\0' &&
-	// 	(!ptr_token->next || is_separator(ptr_token->next)))
-	// 	return (LAST_PIPE);
 	else if (ptr_token->str[0] == ';' && ptr_token->str[1] == '\0')
 		return (SEMICOLON);
 	else if (ptr_token->str[0] == '<' && ptr_token->str[1] == '\0')

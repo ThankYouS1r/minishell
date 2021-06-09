@@ -35,13 +35,14 @@ SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
 			ft_iswhitespace.c str_join_char.c free_all_exit.c doubly_lst_new.c\
 			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
 			special_symbols.c doubly_lst_delete_element.c doubly_lst_dup.c\
-			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c fd.c
+			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c fd.c \
+			my_putchar.c print_logo.c
 
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
 
 SRC_TERMCAP_COMMANDS_DIR = ./srcs/termcap_commands/
-SRCS_TERMCAP_COMMANDS = termcap_commands.c
+SRCS_TERMCAP_COMMANDS = termcap_commands.c handle_key_manage.c
 OBJ_TERMCAP_COMMANDS = $(addprefix $(OBJDIR), $(SRCS_TERMCAP_COMMANDS:.c=.o))
 HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 

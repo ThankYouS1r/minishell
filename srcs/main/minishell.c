@@ -111,7 +111,7 @@ int	main(int argc, char *argv[], char *envp[])
 	open_history_file(&all.shell_history, &all.ptr_history);
 	while (1)
 	{
-		//termcap_start(&all.ptr_history);
+		termcap_start(&all, &all.ptr_history);
 		all.lst_token = parsing(&all);
 		if (all.lst_token)
 			executer(&all);

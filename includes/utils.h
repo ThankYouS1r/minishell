@@ -42,8 +42,9 @@ typedef struct s_all
 	int				next_operator;
 	int				fd_in;
 	int				fd_out;
-	int				pipe_in;
-	int				pipe_out;
+	char			*line;
+	int 			cursor_counter;
+	int 			sh_counter;
 
 }				t_all;
 
@@ -69,5 +70,7 @@ int				next_operator(t_dlst *ptr_token);
 int				prev_operator(t_dlst *ptr_token);
 void			init_fd(t_all *all);
 void			close_fds(t_all *all);
+int				myputchar(int nb);
+void			print_logo(void);
 
 #endif

@@ -2,3 +2,5 @@
 tmp*
 .idea
 cmake*
+CMakeLists.txt
+.VSCodeCounter

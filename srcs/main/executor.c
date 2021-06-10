@@ -37,7 +37,8 @@ void	skip_separator(t_dlst **ptr_token)
 {
 	if (*ptr_token && (is_separator(*ptr_token) == REDIRECT_INPUT
         || is_separator(*ptr_token) == REDIRECT_OUTPUT
-		|| is_separator(*ptr_token) == APPEND_REDIRECT_OUTPUT))
+		|| is_separator(*ptr_token) == APPEND_REDIRECT_OUTPUT
+		|| is_separator(*ptr_token) == HERE_DOCUMENT))
 	{
 		*ptr_token = (*ptr_token)->next;
 		go_to_end_or_separator(ptr_token);
@@ -68,6 +69,8 @@ int	executor_loop(t_all *all)
         else if (all->next_operator == REDIRECT_OUTPUT
             || all->next_operator == APPEND_REDIRECT_OUTPUT)
 			all->fd_out = open_fd_output_redirect(all, &ptr_token);
+		else if (all->next_operator == HERE_DOCUMENT)
+			all->fd_in = open_fd_here_document(all, &ptr_token);
 		exec_builtins_or_external_programs(all, &ptr_token);
 		close_fds(all);
 		if (all->next_operator == PIPE)

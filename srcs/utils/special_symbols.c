@@ -13,6 +13,9 @@ int	is_separator(t_dlst *ptr_token)
 	else if (ptr_token->str[0] == '>' &&
 		ptr_token->str[1] == '>' && ptr_token->str[2] == '\0')
 		return (APPEND_REDIRECT_OUTPUT);
+	else if (ptr_token->str[0] == '<' &&
+		ptr_token->str[1] == '<' && ptr_token->str[2] == '\0')
+		return (HERE_DOCUMENT);
 	return (NONE);
 }
 

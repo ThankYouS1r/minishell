@@ -52,7 +52,8 @@ char	**fill_arg_array(t_dlst *head, int len, char ***array)
 	{
 		if (is_separator(head) == REDIRECT_INPUT
 			|| is_separator(head) == REDIRECT_OUTPUT
-			|| is_separator(head) == APPEND_REDIRECT_OUTPUT)
+			|| is_separator(head) == APPEND_REDIRECT_OUTPUT
+			|| is_separator(head) == HERE_DOCUMENT)
 			head = head->next->next;
 		(*array)[i] = ft_strdup(head->str);
 		if (!(*array)[i])
@@ -81,7 +82,7 @@ char	**make_arg_array_from_lst(t_dlst *head, int operator)
 	while (tmp)
 	{
 		if ((operator == REDIRECT_INPUT || operator == REDIRECT_OUTPUT
-			|| operator == APPEND_REDIRECT_OUTPUT)
+			|| operator == APPEND_REDIRECT_OUTPUT || operator == HERE_DOCUMENT)
 			&& (operator == is_separator(tmp)) && nbr_redirections == 0)
 		{
 			nbr_redirections++;

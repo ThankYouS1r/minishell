@@ -53,6 +53,7 @@ int	external_programs(t_dlst **ptr_token, t_all *all)
 	char		*path_lst;
 	struct stat	s_stat;
 
+	path = NULL;
 	path_lst = getenv_from_lst(all->env, "PATH");
 	if (path_lst)
 	{

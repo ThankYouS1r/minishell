@@ -17,7 +17,8 @@ enum	e_separators
 	SEMICOLON,
 	REDIRECT_INPUT,
 	REDIRECT_OUTPUT,
-	APPEND_REDIRECT_OUTPUT
+	APPEND_REDIRECT_OUTPUT,
+	HERE_DOCUMENT
 };
 
 typedef struct s_doubly_lst {

@@ -5,7 +5,7 @@
 # include "libft.h"
 # include "utils.h"
 
-// extern int g_sigint;
+extern int g_sigint;
 
 void	set_signal_handlers(void);
 // void	handle_sigint(int signum);

@@ -57,7 +57,7 @@ int     open_fd_output_redirect(t_all *all, t_dlst **ptr_token)
 
 int	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 {
-	// int		fd;
+	int		fd;
 	t_dlst	*tmp;
 	char	*line;
 	int		ret;
@@ -66,15 +66,15 @@ int	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 	go_to_end_or_separator(&tmp);
 	if (tmp->next)
 	{
-		// fd = open("tmpheredocument", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
-		// if (fd < 0)
-		// {
-		// 	(cmd_error_message(NULL, tmp->next->str, strerror(errno)));
-		// 	while (*ptr_token)
-		// 		*ptr_token = (*ptr_token)->next;
-		// 	all->exit_status = 1;
-		// 	return (STDOUT_FILENO);
-		// }
+		fd = open("tmpheredocument", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+		if (fd < 0)
+		{
+			(cmd_error_message(NULL, tmp->next->str, strerror(errno)));
+			while (*ptr_token)
+				*ptr_token = (*ptr_token)->next;
+			all->exit_status = 1;
+			return (STDOUT_FILENO);
+		}
 		while (1)
 		{
 			ret = read_line(all->fd_in, &line);

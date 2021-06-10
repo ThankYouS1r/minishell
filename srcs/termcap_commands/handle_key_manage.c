@@ -54,6 +54,10 @@ char	*enter_press(t_all * all)
 		free(all->line);
 		all->line = NULL;
 	}
+	if (!all->line)
+		all->line = ft_strdup("");
+	if (!all->line)
+		error_handler(NULL, ENOMEM);
 	write(1, "\n", 1);
 	return (all->line);
 }

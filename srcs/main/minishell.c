@@ -1,9 +1,8 @@
 #include "minishell.h"
-
+int g_sigint;
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_all	all;
-//	int		g_sigint = 0;
 
 	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv)
@@ -14,10 +13,18 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		termcap_start(&all, &all.ptr_history);
+		if (g_sigint)
+		{
+			free(all.line);
+			continue ;
+			all.line = ft_strdup("");
+			printf("AFTER termacap\n");
+		}
 		all.lst_token = parsing(&all);
 		if (all.lst_token)
 			executor_loop(&all);
 		doubly_lst_clear(&all.lst_token);
+
 	}
 	save_history_to_file_and_close(&all.shell_history);
 	doubly_lst_clear(&all.env);

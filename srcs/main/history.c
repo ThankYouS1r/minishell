@@ -11,6 +11,8 @@ void	print_minishell_history(t_dlst **ptr_history, int direction)
 
 void	add_history_to_lst(char *str, t_dlst **head, t_dlst **p_history)
 {
+	if (str[0] == '\0')
+		return ;
 	if (!doubly_lst_append(head, doubly_lst_new(str)))
 		error_handler(NULL, ENOMEM);
 	*p_history = *head;

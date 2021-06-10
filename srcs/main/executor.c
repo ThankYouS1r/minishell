@@ -54,7 +54,6 @@ int	executor_loop(t_all *all)
 	t_dlst		*ptr_token;
 	int			fd[2];
 
-	// g_sigint = 0;
 	ptr_token = check_syntax_and_get_token_pos(all);
 	while (ptr_token)
 	{
@@ -81,8 +80,6 @@ int	executor_loop(t_all *all)
 		else
 			all->fd_in = STDIN_FILENO;
 		skip_separator(&ptr_token);
-		printf("g_sigint = %d\n", g_sigint);
-	
 	}
-	return (1);
+	return (all->exit_status);
 }

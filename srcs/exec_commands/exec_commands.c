@@ -30,6 +30,7 @@ void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 		all->exit_status = error_handler(NULL, errno);
 	else if (!pid)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (all->fd_in != STDIN_FILENO)
 			dup2(all->fd_in, STDIN_FILENO);
 		if ((all->fd_out != STDOUT_FILENO))

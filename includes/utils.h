@@ -46,6 +46,7 @@ typedef struct s_all
 	int				next_operator;
 	int				fd_in;
 	int				fd_out;
+	int				sigint_exit_status;
 	char			*line;
 	int 			cursor_counter;
 	int 			sh_counter;

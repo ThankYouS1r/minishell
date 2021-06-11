@@ -8,7 +8,7 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_bzero(&all, sizeof(t_all));
 	if (argc != 1 || !argv)
 		return (error_handler("Wrong arguments", 1));
-	set_signal_handlers(); // Will be done a litle bit later
+	set_signal_handlers();
 	set_environment((const char **)envp, &all);
 	open_history_file(&all.shell_history, &all.ptr_history);
 	while (1)

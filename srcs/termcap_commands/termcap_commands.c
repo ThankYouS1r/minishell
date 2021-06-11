@@ -33,6 +33,15 @@ void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 	{
 		str[ret] = 0;
 		
+		if (g_sigint)
+		{
+			free(all->line);
+			all->line = NULL;
+			all->sh_counter = 0; 
+			all->cursor_counter = 12;
+			all->exit_status = 130;
+			g_sigint = 0;
+		}
 		if (!ft_strncmp(str, K_CTRL_D, 3) || *str == '\t')
 			ctrld_press(all, ptr_history, all->sh_counter);
 		else if (!ft_strcmp(str, "\177")) 	//!strcmp(str, tgetstr("kb", NULL)) временно убрал
@@ -52,15 +61,6 @@ void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 		}
 		else if (str[0] > 31 && str[0] < 127)
 			all->line = printf_symbols(str[0], all);
-		if (g_sigint) // Не работает корректно. Надо обработаь сигнал
-		{
-			free(all->line);
-			all->line = NULL;
-			all->sh_counter = 0; 
-			all->cursor_counter = 12;
-			all->exit_status = 130;
-			g_sigint = 0;
-		}
 	}
 	tcsetattr(0, TCSANOW, &s_ats);
 }

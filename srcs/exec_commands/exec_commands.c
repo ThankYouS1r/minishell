@@ -9,7 +9,7 @@ int get_exit_status(int wstatus)
 		signal = WTERMSIG(wstatus);
 		if (signal == SIGQUIT)
 		{
-			ft_putstr_fd(" quit:\t", STDERR_FILENO);
+			ft_putstr_fd("Quit:\t", STDERR_FILENO);
 			ft_putnbr_fd(signal, STDERR_FILENO);
 			write(STDERR_FILENO, "\n", 1);
 		}

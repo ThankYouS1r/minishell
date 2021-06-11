@@ -1,7 +1,5 @@
 #include <minishell.h>
 
-// int g_sigint;
-
 void	exec_builtins_or_external_programs(t_all *all, t_dlst **ptr_token)
 {
 	if (!*ptr_token)

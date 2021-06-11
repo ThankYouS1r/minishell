@@ -20,7 +20,7 @@ enum	e_separators
 	REDIRECT_OUTPUT,
 	APPEND_REDIRECT_OUTPUT,
 	HERE_DOCUMENT,
-	IN_QUOTES
+	ESCAPED_CHAR
 };
 
 typedef struct s_doubly_lst {

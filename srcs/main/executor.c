@@ -23,7 +23,9 @@ t_dlst	*check_syntax_and_get_token_pos(t_all *all)
 	tmp = ptr_token;
 	while (tmp->next)
 		tmp = tmp->next;
-	if (is_separator(ptr_token) == PIPE || is_separator(ptr_token) == SEMICOLON)
+	if (ptr_token->flag == ESCAPED_CHAR)
+		return (ptr_token);
+	else if (is_separator(ptr_token) == PIPE || is_separator(ptr_token) == SEMICOLON)
 		syntax_error_message(all, &ptr_token, ptr_token->str);
 	else if ((is_separator(tmp) == PIPE)
 		|| (is_separator(tmp) == SEMICOLON

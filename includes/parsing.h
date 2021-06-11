@@ -18,11 +18,12 @@ typedef struct s_line {
 	char	*start_line;
 	char	*str;
 	char	*merged_str;
+	int		escaped_char;
 }				t_line;
 
 typedef struct s_str {
 	char 	*str;
-	int		escaping;
+	int		escaped_char;
 }				t_str;
 
 int		read_line(int fd, char **line);

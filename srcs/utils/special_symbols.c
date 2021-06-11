@@ -2,19 +2,22 @@
 
 int	is_separator(t_dlst *ptr_token)
 {
-	if (ptr_token->str[0] == '|' && ptr_token->str[1] == '\0')
+	if (ptr_token->str[0] == '|' && ptr_token->str[1] == '\0'
+		&& ptr_token->flag == NONE)
 		return (PIPE);
 	else if (ptr_token->str[0] == ';' && ptr_token->str[1] == '\0')
 		return (SEMICOLON);
-	else if (ptr_token->str[0] == '<' && ptr_token->str[1] == '\0')
+	else if (ptr_token->str[0] == '<' && ptr_token->str[1] == '\0'
+		&& ptr_token->flag == NONE)
 		return (REDIRECT_INPUT);
-	else if (ptr_token->str[0] == '>' && ptr_token->str[1] == '\0')
+	else if (ptr_token->str[0] == '>' && ptr_token->str[1] == '\0'
+		&& ptr_token->flag == NONE)
 		return (REDIRECT_OUTPUT);
-	else if (ptr_token->str[0] == '>' &&
-		ptr_token->str[1] == '>' && ptr_token->str[2] == '\0')
+	else if (ptr_token->str[0] == '>' && ptr_token->str[1] == '>'
+		&& ptr_token->str[2] == '\0' && ptr_token->flag == NONE)
 		return (APPEND_REDIRECT_OUTPUT);
-	else if (ptr_token->str[0] == '<' &&
-		ptr_token->str[1] == '<' && ptr_token->str[2] == '\0')
+	else if (ptr_token->str[0] == '<' && ptr_token->str[1] == '<'
+		&& ptr_token->str[2] == '\0' && ptr_token->flag == NONE)
 		return (HERE_DOCUMENT);
 	return (NONE);
 }

@@ -42,7 +42,7 @@ char	*parse_line(t_line *l, t_all *all)
 		str = double_operator_handler(&l->line, l->start_line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
 		|| *l->line == '>' || *l->line == '&')
-		str = single_operator_handler(&l->line, l->start_line, all);
+		str =(single_operator_handler(&l->line, l->start_line, all));
 	else
 		str = get_str(&l->line, l->start_line, all);
 	return (str);
@@ -68,7 +68,7 @@ void	merge_str_and_lst_append(t_line *l, t_all *all)
 	else if (!*l->line || (ft_strchr("\'\"", *l->line) && (!(*(l->line + 1))))
 		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line)))
 	{
-		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str)))
+		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str, NONE)))
 		{
 			free(l->merged_str);
 			free_all_exit(all, l->start_line, 1);

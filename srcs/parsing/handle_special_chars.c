@@ -61,7 +61,7 @@ char	*single_operator_handler(char **line, char *startpos_line, t_all *all)
 	char	*str;
 
 	str = str_join_char(NULL, **line);
-	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str)))
+	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str, NONE)))
 		free_all_exit(all, startpos_line, 1);
 	str = str_join_char(NULL, '\0');
 	if (!str)
@@ -76,7 +76,7 @@ char	*double_operator_handler(char **line, char *startpos_line, t_all *all)
 
 	str = str_join_char(NULL, **line);
 	str = ft_substr(*line, 0, 2);
-	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str)))
+	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str, NONE)))
 		free_all_exit(all, startpos_line, 1);
 	str = str_join_char(NULL, '\0');
 	if (!str)

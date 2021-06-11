@@ -42,7 +42,7 @@ void	add_environment(t_dlst **env, char *str)
 		}
 		tmp = tmp->next;
 	}
-	*env = doubly_lst_append(env, doubly_lst_new(new_str));
+	*env = doubly_lst_append(env, doubly_lst_new(new_str, NONE));
 	if (!*env)
 		error_handler(NULL, ENOMEM);
 }

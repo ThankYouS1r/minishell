@@ -9,6 +9,7 @@
 
 # define PREVIOUS_HISTORY 1
 # define NEXT_HISTORY 2
+# define LAST_HISTORY 3
 
 enum	e_separators
 {
@@ -18,11 +19,13 @@ enum	e_separators
 	REDIRECT_INPUT,
 	REDIRECT_OUTPUT,
 	APPEND_REDIRECT_OUTPUT,
-	HERE_DOCUMENT
+	HERE_DOCUMENT,
+	IN_QUOTES
 };
 
 typedef struct s_doubly_lst {
 	char				*str;
+	int					flag;
 	struct s_doubly_lst	*next;
 	struct s_doubly_lst	*prev;
 }				t_dlst;
@@ -56,7 +59,7 @@ int				ft_iswhitespace(int c);
 char			*str_join_char(char *str, char ch);
 t_dlst			*doubly_lst_append(t_dlst **lst, t_dlst *new);
 t_dlst			*doubly_lstlast(t_dlst *lst);
-t_dlst			*doubly_lst_new(char *str);
+t_dlst			*doubly_lst_new(char *str, int flag);
 t_dlst			*doubly_lst_dup(t_dlst *head);
 void			doubly_lst_merge_sort(t_dlst **head);
 int				doubly_lst_size(t_dlst *lst);

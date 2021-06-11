@@ -2,9 +2,11 @@
 
 void	print_minishell_history(t_dlst **ptr_history, int direction)
 {
-	if (direction == PREVIOUS_HISTORY && *ptr_history && (*ptr_history)->prev)
+	
+	if (direction == PREVIOUS_HISTORY && *ptr_history && (*ptr_history)->flag == LAST_HISTORY)
+		(*ptr_history)->flag = NONE;
+	else if (direction == PREVIOUS_HISTORY && *ptr_history && (*ptr_history)->prev)
 		(*ptr_history) = (*ptr_history)->prev;
-
 	else if (direction == NEXT_HISTORY && *ptr_history && (*ptr_history)->next)
 		(*ptr_history) = (*ptr_history)->next;
 }
@@ -13,11 +15,16 @@ void	add_history_to_lst(char *str, t_dlst **head, t_dlst **p_history)
 {
 	if (str[0] == '\0')
 		return ;
-	if (!doubly_lst_append(head, doubly_lst_new(str)))
+	if (!doubly_lst_append(head, doubly_lst_new(str, LAST_HISTORY)))
 		error_handler(NULL, ENOMEM);
 	*p_history = *head;
 	while (*p_history && (*p_history)->next)
+	{
+		if ((*p_history)->flag)
+			(*p_history)->flag = NONE;
 		*p_history = (*p_history)->next;
+	}
+
 }
 
 void	write_to_lst(t_dlst **head, t_dlst **p_history, int fd, char **line)
@@ -32,7 +39,7 @@ void	write_to_lst(t_dlst **head, t_dlst **p_history, int fd, char **line)
 			error_handler(NULL, errno);
 			exit(errno);
 		}
-		if (!doubly_lst_append(head, doubly_lst_new(*line)))
+		if (!doubly_lst_append(head, doubly_lst_new(*line, NONE)))
 			error_handler(NULL, ENOMEM);
 		if (ret == 0)
 			break ;
@@ -40,6 +47,7 @@ void	write_to_lst(t_dlst **head, t_dlst **p_history, int fd, char **line)
 	*p_history = *head;
 	while (*p_history && (*p_history)->next)
 		*p_history = (*p_history)->next;
+	(*p_history)->flag = LAST_HISTORY;
 }
 
 void	open_history_file(t_dlst **head_history, t_dlst **ptr_history)

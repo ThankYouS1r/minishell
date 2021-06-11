@@ -13,7 +13,7 @@ t_dlst *doubly_lst_dup(t_dlst *head)
 		str_dup = ft_strdup(head->str);
 		if (!str_dup)
 			return (NULL);
-		new_head = doubly_lst_append(&new_head, doubly_lst_new(str_dup));
+		new_head = doubly_lst_append(&new_head, doubly_lst_new(str_dup, NONE));
 		if (!new_head)
 			return (NULL);
 		head = head->next;

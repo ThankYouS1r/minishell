@@ -9,7 +9,6 @@
 # define ESCAPE_CHAR			0b00000001
 # define CLOSING_QUOTE			0b00000010
 # define CLOSING_DOUBLE_QUOTE	0b00000100
-# define SPEC_SYMBOLS			0b00001000
 
 # define SRECIAL_CHARS			"$&;|<>\'\\\""
 # define DQUOTES_EXCEPTION		"\\$`\""
@@ -20,6 +19,11 @@ typedef struct s_line {
 	char	*str;
 	char	*merged_str;
 }				t_line;
+
+typedef struct s_str {
+	char 	*str;
+	int		escaping;
+}				t_str;
 
 int		read_line(int fd, char **line);
 t_dlst	*parsing(t_all *all);

@@ -49,7 +49,7 @@ void	set_environment(const char	*envp[], t_all *all)
 			doubly_lst_clear(&all->env);
 			error_handler(NULL, ENOMEM);
 		}
-		if (!doubly_lst_append(&all->env, doubly_lst_new(tmp_str)))
+		if (!doubly_lst_append(&all->env, doubly_lst_new(tmp_str, NONE)))
 		{
 			free(tmp_str);
 			doubly_lst_clear(&all->env);

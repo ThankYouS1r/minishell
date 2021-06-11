@@ -1,6 +1,6 @@
 #include "utils.h"
 
-t_dlst	*doubly_lst_new(char *str)
+t_dlst	*doubly_lst_new(char *str, int flag)
 {
 	t_dlst	*new;
 
@@ -10,5 +10,6 @@ t_dlst	*doubly_lst_new(char *str)
 	new->next = NULL;
 	new->prev = NULL;
 	new->str = str;
+	new->flag = flag;
 	return (new);
 }

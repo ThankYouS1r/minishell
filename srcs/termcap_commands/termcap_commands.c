@@ -52,8 +52,8 @@ void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 			all->line = history_operation(ptr_history, all, NEXT_HISTORY);
 		else if (*str == 12)
 			all->line = ctrll_press(all);
-		else if (*str == 3)
-			all->line = ctrlc_press(all);
+		// else if (*str == 3)
+		// 	all->line = ctrlc_press(all);
 		else if (*str == 10 || !ft_strcmp(str, "\n"))
 		{
 			all->line = enter_press(all);
@@ -70,7 +70,6 @@ void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 void 	termcap_start(t_all *all, t_dlst **ptr_history)
 {
 	struct termios saved_attributes;
-
 	print_logo();
 	all->sh_counter = 0;
 	all->cursor_counter = 12;

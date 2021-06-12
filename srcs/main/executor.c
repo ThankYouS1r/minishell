@@ -58,7 +58,7 @@ int	executor_loop(t_all *all)
 	while (ptr_token)
 	{
 		all->next_operator = next_operator(ptr_token);
-		if (all->next_operator == PIPE)
+		if (all->next_operator == PIPE || all->next_operator == HERE_DOCUMENT)
 		{
 			if (pipe(fd) < 0)
 				return (error_handler(NULL, errno));
@@ -72,7 +72,11 @@ int	executor_loop(t_all *all)
             || all->next_operator == APPEND_REDIRECT_OUTPUT)
 			all->fd_out = open_fd_output_redirect(all, &ptr_token);
 		else if (all->next_operator == HERE_DOCUMENT)
+		{
 			all->fd_in = open_fd_here_document(all, &ptr_token);
+			close(all->fd_out);
+			all->fd_in = fd[0];
+		}
 		exec_builtins_or_external_programs(all, &ptr_token);
 		close_fds(all);
 		if (all->next_operator == PIPE)

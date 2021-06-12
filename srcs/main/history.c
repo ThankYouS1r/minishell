@@ -56,9 +56,7 @@ void	open_history_file(t_dlst **head_history, t_dlst **ptr_history)
 	char	*line;
 
 	fd = open("./minishell_history", O_RDONLY, S_IRWXU);
-	if (fd < 0)
-		error_handler("Can't read old minishell history", errno);
-	else
+	if (fd > -1)
 	{
 		write_to_lst(head_history, ptr_history, fd, &line);
 		close(fd);

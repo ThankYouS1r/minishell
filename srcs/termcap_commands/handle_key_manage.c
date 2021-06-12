@@ -108,16 +108,16 @@ void 	ctrld_press(t_all *all, t_dlst **ptr_history, int counter)
 	}
 }
 
-char  *ctrlc_press(t_all *all)
-{
-	if (all->line)
-		free(all->line);
-	all->line = ft_strdup(" ");
-	all->cursor_counter = 12;
-	all->sh_counter = 0;
-	print_logo();
-	return (all->line);
-}
+// char  *ctrlc_press(t_all *all)
+// {
+// 	if (all->line)
+// 		free(all->line);
+// 	all->line = ft_strdup(" ");
+// 	all->cursor_counter = 12;
+// 	all->sh_counter = 0;
+// 	print_logo();
+// 	return (all->line);
+// }
 
 char  *ctrll_press(t_all *all)
 {

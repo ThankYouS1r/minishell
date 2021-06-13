@@ -73,7 +73,7 @@ int	executor_loop(t_all *all)
 			all->fd_out = open_fd_output_redirect(all, &ptr_token);
 		else if (all->next_operator == HERE_DOCUMENT)
 		{
-			all->fd_in = open_fd_here_document(all, &ptr_token);
+			open_fd_here_document(all, &ptr_token);
 			close(all->fd_out);
 			all->fd_in = fd[0];
 		}

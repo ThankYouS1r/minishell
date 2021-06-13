@@ -15,7 +15,6 @@ int		env_cmd(t_dlst **ptr_token, t_dlst *env, int fd_outs);
 int		pwd_cmd(t_dlst **ptr_token, int fd_outs);
 int		export_cmd(t_dlst **ptr_token, t_dlst *env, int fd_out);
 int		cd_cmd(t_dlst **ptr_token, t_dlst *env);
-int		is_valid_variable_name(char *variable_name, char end_char);
 int		exit_cmd(t_dlst **ptr_token, unsigned char exit_status,
 			t_dlst **shell_hist);
 void 	save_history_to_file_and_close(t_dlst **head_history);

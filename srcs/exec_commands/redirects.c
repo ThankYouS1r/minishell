@@ -54,8 +54,86 @@ int     open_fd_output_redirect(t_all *all, t_dlst **ptr_token)
 	}
 	return (all->fd_in);
 }
+char *get_variable_value(char *line, t_all *all, int *i)
+{
+	char	*value;
+	int		start;
+	char	*sub_str;
 
-int	open_fd_here_document(t_all *all, t_dlst **ptr_token)
+	start = ++(*i);
+	if (line[*i] == '?')
+	{
+		value = ft_itoa(all->exit_status);
+		if (!value)
+			error_handler(NULL, ENOMEM);
+		return (value);
+	}
+	while (line[*i] && !ft_strchr(SPECIAL_CHARS, line[*i]))
+		(*i)++;
+	if (*i - start == 0)
+	{
+		value = ft_strdup("$");
+		if (!value)
+			error_handler(NULL, ENOMEM);
+	}
+	else
+	{
+		sub_str = ft_substr(line, start, *i - start);
+		if (!sub_str)
+			error_handler(NULL, ENOMEM);
+		value = getenv_from_lst(all->env, sub_str);
+		free(sub_str);
+		if (!value)
+		{
+			value = ft_strdup("");
+			if (!value)
+				error_handler(NULL, ENOMEM);
+		}
+	}
+	(*i)--;
+	return (value);
+}
+
+char	*handle_dollar_in_line(char *line, t_all *all)
+{
+	int		i;
+	int		start;
+	char	*new_line;
+	char	*sub_str;
+
+
+	if (!ft_strchr(line, '$') || is_last_token_escaped(all->lst_token) == ESCAPED_CHAR)
+		return (line);
+	i = -1;
+	new_line =  ft_strdup("");
+	if (!new_line)
+		error_handler(NULL, ENOMEM);
+	
+	while(line[++i])
+	{
+		start = i;
+		while (line[i] != '$' && line[i])
+			i++;
+		if (i- start > 0)
+		{
+			sub_str = ft_substr(line, start, i - start);
+			new_line = ft_strjoin(new_line, sub_str);
+			if (sub_str)
+				free(sub_str);
+			if (!new_line)
+				error_handler(NULL, ENOMEM);
+		}
+		if (line[i] == '$')
+		{
+			new_line = ft_strjoin(new_line, get_variable_value(line, all, &i));
+			if (!new_line)
+				error_handler(NULL, ENOMEM);
+		}
+	}
+	return (new_line);
+}
+
+void	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 {
 	t_dlst	*tmp;
 	char	*line;
@@ -65,10 +143,9 @@ int	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 	go_to_end_or_separator(&tmp);
 	if (tmp->next)
 	{
-
 		while (1)
 		{
-			ft_putstr_fd("> ", STDOUT_FILENO);
+			//ft_putstr_fd("> ", STDIN_FILENO);
 			ret = read_line(all->fd_in, &line);
 			if (ret < 0)
 				error_handler(NULL, errno);
@@ -77,10 +154,10 @@ int	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 				free(line);
 				break ;
 			}
+			line = handle_dollar_in_line(line, all);
 			ft_putendl_fd(line, all->fd_out);
 			free(line);
 			line  = NULL;
 		}
 	}
-	return (all->fd_in);
 }

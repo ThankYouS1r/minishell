@@ -12,7 +12,7 @@ char	*handle_backslash(char **line, char *startpos_line, t_all *all)
 		str = str_join_char(str, **line);
 		if (!str)
 			free_all_exit(all, startpos_line, ENOMEM);
-		if (ft_strchr(SRECIAL_CHARS, (*line)[1]))
+		if (ft_strchr(SPECIAL_CHARS, (*line)[1]))
 		{
 			(*line)++;
 			return (str);
@@ -42,17 +42,22 @@ char	*dollar_handler(char **line, char *startpos_line, t_all *all)
 		return (value);
 	}
 	name = get_str(line, startpos_line, all);
+	if (last_token(all->lst_token) == HERE_DOCUMENT || name[0] == '\0')
+	{
+		name = ft_strjoin("$", name);
+		if (!name)
+			error_handler(NULL, ENOMEM);
+		return (name);
+	}
+
 	value = getenv_from_lst(all->env, name);
+	free(name);
 	if (!value)
 	{
 		value = ft_strdup("");
 		if (!value)
-		{
-			free(name);
 			free_all_exit(all, startpos_line, ENOMEM);
-		}
 	}
-	free(name);
 	return (value);
 }
 

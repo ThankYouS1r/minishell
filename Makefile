@@ -36,7 +36,7 @@ SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
 			doubly_lst_last.c doubly_lst_append.c doubly_lst_clear.c\
 			special_symbols.c doubly_lst_delete_element.c doubly_lst_dup.c\
 			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c fd.c \
-			my_putchar.c print_logo.c
+			my_putchar.c print_logo.c is_valid_variable_name.c
 
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)

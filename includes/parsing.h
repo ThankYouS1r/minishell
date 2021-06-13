@@ -10,7 +10,7 @@
 # define CLOSING_QUOTE			0b00000010
 # define CLOSING_DOUBLE_QUOTE	0b00000100
 
-# define SRECIAL_CHARS			"$&;|<>\'\\\""
+# define SPECIAL_CHARS			"$&;|<>\'\\\""
 # define DQUOTES_EXCEPTION		"\\$`\""
 
 typedef struct s_line {

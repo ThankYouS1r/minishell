@@ -77,5 +77,8 @@ void			init_fd(t_all *all);
 void			close_fds(t_all *all);
 int				myputchar(int nb);
 void			print_logo(void);
+int				last_token(t_dlst *ptr_token);
+int				is_valid_variable_name(char *variable_name, char end_char);
+int				is_last_token_escaped(t_dlst *ptr_token);
 
 #endif

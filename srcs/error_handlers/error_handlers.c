@@ -12,3 +12,10 @@ int	error_handler(const char *message, int error_code)
 		exit(error_code);
 	return (error_code);
 }
+
+char	*check_memory_allocation_str(char *str)
+{
+	if (!str)
+		error_handler(NULL, ENOMEM);
+	return (str);
+}

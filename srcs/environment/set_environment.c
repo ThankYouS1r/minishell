@@ -14,6 +14,12 @@ char	*getenv_from_lst(t_dlst *env, const char *name)
 
 	if (!name || !env)
 		return (NULL);
+	if (!is_valid_variable_name((char *)name, '\0'))
+	{
+		variable_value = ft_strjoin("$", name);
+		check_memory_allocation_str(variable_value);
+		return (variable_value);
+	}
 	tmp_lst = env;
 	while (tmp_lst)
 	{
@@ -21,8 +27,7 @@ char	*getenv_from_lst(t_dlst *env, const char *name)
 		if (!ft_strncmp(name, tmp_lst->str, len) && tmp_lst->str[len] == '=')
 		{
 			variable_value = ft_strdup(&tmp_lst->str[len + 1]);
-			if (!variable_value)
-				error_handler(NULL, ENOMEM);
+			check_memory_allocation_str(variable_value);
 			return (variable_value);
 		}
 		tmp_lst = tmp_lst->next;

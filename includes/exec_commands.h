@@ -17,6 +17,6 @@ void	clear_array(char **str);
 char	*find_path(t_dlst *ptr_token, char *path_lst);
 int     open_fd_input_redirect(t_all *all, t_dlst **ptr_token);
 int     open_fd_output_redirect(t_all *all, t_dlst **ptr_token);
-int		open_fd_here_document(t_all *all, t_dlst **ptr_token);
+void	open_fd_here_document(t_all *all, t_dlst **ptr_token);
 
 #endif

@@ -40,8 +40,6 @@ char	*double_quotes_manager(t_line *l, t_all *all)
 	}
 	if (*l->line == '\\' && ft_strchr("\\$`\"", l->line[1]) && ++(l->line))
 		str = handle_backslash(&l->line, l->start_line, all);
-	else if (*l->line == '\'')
-		str = quote_handler(l, all);
 	else if (*l->line == '$' && ++(l->line))
 		str = dollar_handler(&l->line, l->start_line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'

@@ -89,11 +89,10 @@ t_dlst	*parsing(t_all *all)
 	t_line	line;
 
 	line.merged_str = NULL;
-	line.line = ft_strdup(all->line);
-	//read_line(STDIN_FILENO, &line.line);
+	//line.line = ft_strdup(all->line);
+	read_line(STDIN_FILENO, &line.line);
 	if (!line.line)
 		free_all_exit(all, 1);
-	// line.start_line = line.line;
 	add_history_to_lst(line.line, &all->shell_history, &all->ptr_history);
 	while (*line.line)
 	{
@@ -101,11 +100,6 @@ t_dlst	*parsing(t_all *all)
 		if (!line.str)
 			return (NULL);
 		merge_str_and_lst_append(&line, all);
-		// if (!ft_strcmp(all->lst_token->str, ";") || !(*line.line))
-		// {
-		// 	executor_loop(all);
-		// 	doubly_lst_clear(&all->lst_token);
-		// }
 	}
 	return (all->lst_token);
 }

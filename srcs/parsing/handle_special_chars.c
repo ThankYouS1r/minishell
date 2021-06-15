@@ -32,10 +32,7 @@ char	*dollar_handler(char *str, t_all *all)
 {
 	char	*name;
 	char	*value;
-	// int 	start;
 
-	// while (str[++(*i)] && str[(*i) != '$'])
-	// 	;
 	name = get_str(&str, all);
 	if (last_token(all->lst_token) == HERE_DOCUMENT || name[0] == '\0')
 	{
@@ -63,7 +60,7 @@ void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
 	char	*value;
 	char	*tmp;
 
-	while (ptr_token)
+	while (ptr_token && is_separator(ptr_token) != SEMICOLON)
 	{
 		i = 0;
 		while (!(ptr_token->flag & ESCAPED_VARIABLE) && ptr_token->str[i])
@@ -81,7 +78,9 @@ void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
 			else if (ptr_token->str[i] == '$')
 			{
 				start = i;
-				while (ptr_token->str[i + 1] && ptr_token->str[i + 1] != '$')
+				while (ptr_token->str[i + 1]
+					&& !ft_iswhitespace(ptr_token->str[i + 1])
+					&& !ft_strchr(SPECIAL_CHARS, ptr_token->str[i + 1]))
 					i++;
 				tmp = ptr_token->str;
 				value = dollar_handler(ptr_token->str + start + 1, all);

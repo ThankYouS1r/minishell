@@ -69,7 +69,8 @@ char *get_variable_value(char *line, t_all *all, int *i)
 		(*i)++;
 		return (value);
 	}
-	while (line[*i] && !ft_strchr(SPECIAL_CHARS, line[*i]))
+	while (line[*i] && !ft_strchr(SPECIAL_CHARS, line[*i])
+		&& !ft_iswhitespace(line[*i]))
 		(*i)++;
 	if (*i - start == 0)
 	{

@@ -26,7 +26,6 @@ t_dlst	*parsing(t_all *all);
 char	*quote_handler(t_line *l, t_all *all);
 char	*handle_backslash(char **line, t_all *all);
 char	*get_variable_name(char **line, t_all *all);
-// char	*dollar_handler(char **line, t_all *all);
 char	*single_operator_handler(char **line, t_all *all);
 char	*double_operator_handler(char **line, t_all *all);
 void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all);

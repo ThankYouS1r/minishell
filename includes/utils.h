@@ -27,6 +27,7 @@ enum	e_separators
 
 typedef struct s_doubly_lst {
 	char				*str;
+	int					*type;
 	int					flag;
 	struct s_doubly_lst	*next;
 	struct s_doubly_lst	*prev;

@@ -34,13 +34,15 @@ char	*parse_line(t_line *l, t_all *all, int *escaped_char)
 	s.escaped_char = NONE;
 	if ((*l->line == '\\')
 		|| (*l->line == '\'' || *l->line == '"'))
-		s.escaped_char = ESCAPED_CHAR;
+		s.escaped_char |= ESCAPED_CHAR;
+	if ((*l->line == '\\') || (*l->line == '\'')) 
+		s.escaped_char |= ESCAPED_VARIABLE;
 	if (*l->line == '\\' && ++(l->line))
 		s.str = handle_backslash(&l->line, l->start_line, all);
 	else if (*l->line == '\'' || *l->line == '"')
 		s.str = quote_handler(l, all);
 	else if (*l->line == '$' && ++(l->line))
-		s.str = dollar_handler(&l->line, l->start_line, all);
+		s.str = get_variable_name(&l->line, l->start_line, all);
 	else if ((*l->line == '>' && l->line[1] == '>')
 		|| (*l->line == '<' && l->line[1] == '<'))
 		s.str = double_operator_handler(&l->line, l->start_line, all);
@@ -101,6 +103,11 @@ t_dlst	*parsing(t_all *all)
 			return (NULL);
 		}
 		merge_str_and_lst_append(&line, all);
+		// if (!ft_strcmp(all->lst_token->str, ";") || !(*line.line))
+		// {
+		// 	executor_loop(all);
+		// 	doubly_lst_clear(&all->lst_token);
+		// }
 	}
 	add_history_to_lst(line.start_line, &all->shell_history, &all->ptr_history);
 	return (all->lst_token);

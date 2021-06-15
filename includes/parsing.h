@@ -6,10 +6,6 @@
 # include "minishell.h"
 # include "environment.h"
 
-# define ESCAPE_CHAR			0b00000001
-# define CLOSING_QUOTE			0b00000010
-# define CLOSING_DOUBLE_QUOTE	0b00000100
-
 # define SPECIAL_CHARS			"$&;|<>\'\\\""
 # define DQUOTES_EXCEPTION		"\\$`\""
 
@@ -30,10 +26,11 @@ int		read_line(int fd, char **line);
 t_dlst	*parsing(t_all *all);
 char	*quote_handler(t_line *l, t_all *all);
 char	*handle_backslash(char **line, char *startpos_line, t_all *all);
-char	*dollar_handler(char **line, char *startpos_line, t_all *all);
+char	*get_variable_name(char **line, char *startpos_line, t_all *all);
+// char	*dollar_handler(char **line, char *startpos_line, t_all *all);
 char	*single_operator_handler(char **line, char *startpos_line, t_all *all);
 char	*double_operator_handler(char **line, char *startpos_line, t_all *all);
-
+void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all);
 char	*get_str(char **line, char *startpos_line, t_all *all);
 void	merge_str_and_lst_append(t_line *l, t_all *all);
 char	*double_quotes_handler(t_line *l, t_all *all);

@@ -102,7 +102,7 @@ char	*handle_dollar_in_line(char *line, t_all *all)
 	char	*sub_str;
 
 
-	if (!ft_strchr(line, '$') || is_last_token_escaped(all->lst_token) == ESCAPED_CHAR)
+	if (!ft_strchr(line, '$') || is_last_token_escaped(all->lst_token) & ESCAPED_CHAR)
 		return (line);
 	i = -1;
 	new_line =  ft_strdup("");

@@ -14,7 +14,13 @@ char	*getenv_from_lst(t_dlst *env, const char *name)
 
 	if (!name || !env)
 		return (NULL);
-	if (!is_valid_variable_name((char *)name, '\0'))
+	if (name[0] >= '0' && name [0] <= '9')
+	{
+		variable_value = ft_substr(name, 1, ft_strlen(name) - 1);
+		check_memory_allocation_str(variable_value);
+		return (variable_value);
+	}
+	else if (!is_valid_variable_name((char *)name, '\0'))
 	{
 		variable_value = ft_strjoin("$", name);
 		check_memory_allocation_str(variable_value);

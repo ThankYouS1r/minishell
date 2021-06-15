@@ -41,7 +41,7 @@ char	*double_quotes_manager(t_line *l, t_all *all)
 	if (*l->line == '\\' && ft_strchr("\\$`\"", l->line[1]) && ++(l->line))
 		str = handle_backslash(&l->line, l->start_line, all);
 	else if (*l->line == '$' && ++(l->line))
-		str = dollar_handler(&l->line, l->start_line, all);
+		str = get_variable_name(&l->line, l->start_line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
 		|| *l->line == '>' || *l->line == '&' || ft_iswhitespace(*l->line))
 	{

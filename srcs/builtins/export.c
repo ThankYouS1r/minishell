@@ -58,7 +58,7 @@ int	export_cmd(t_dlst **ptr_token, t_dlst *env, int fd_out)
 	}
 	*ptr_token = (*ptr_token)->next;
 	status = SUCCESS;
-	if (!(*ptr_token) || next_operator(*ptr_token))
+	if (!(*ptr_token) || is_separator(*ptr_token))
 	{
 		print_sorted_env(env, fd_out);
 		return (SUCCESS);

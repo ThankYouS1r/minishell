@@ -21,7 +21,7 @@ t_dlst	*check_syntax_and_get_token_pos(t_all *all)
 	tmp = ptr_token;
 	while (tmp->next)
 		tmp = tmp->next;
-	if (ptr_token->flag == ESCAPED_CHAR)
+	if (ptr_token->flag & ESCAPED_CHAR)
 		return (ptr_token);
 	else if (is_separator(ptr_token) == PIPE || is_separator(ptr_token) == SEMICOLON)
 		syntax_error_message(all, &ptr_token, ptr_token->str);
@@ -53,12 +53,15 @@ int	executor_loop(t_all *all)
 {
 	t_dlst		*ptr_token;
 	int			fd[2];
+	int			next_pipe;
 
 	ptr_token = check_syntax_and_get_token_pos(all);
 	while (ptr_token)
 	{
+		check_and_handle_dollar(ptr_token, all);
 		all->next_operator = next_operator(ptr_token);
-		if (all->next_operator == PIPE || all->next_operator == HERE_DOCUMENT)
+		next_pipe = is_pipe(ptr_token);
+		if (next_pipe || all->next_operator == HERE_DOCUMENT)
 		{
 			if (pipe(fd) < 0)
 				return (error_handler(NULL, errno));
@@ -79,7 +82,7 @@ int	executor_loop(t_all *all)
 		}
 		exec_builtins_or_external_programs(all, &ptr_token);
 		close_fds(all);
-		if (all->next_operator == PIPE)
+		if (next_pipe)
 			all->fd_in = fd[0];
 		else
 			all->fd_in = STDIN_FILENO;

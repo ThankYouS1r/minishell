@@ -37,3 +37,13 @@ int	prev_operator(t_dlst *ptr_token)
 		ptr_token = ptr_token->prev;
 	return (is_separator(ptr_token));
 }
+
+int	is_pipe(t_dlst *ptr_token)
+{
+	while (ptr_token->next && (is_separator(ptr_token) != PIPE
+		&& is_separator(ptr_token) != SEMICOLON))
+		ptr_token = ptr_token->next;
+	if (is_separator(ptr_token) == PIPE)
+		return (PIPE);
+	return (NONE);
+}

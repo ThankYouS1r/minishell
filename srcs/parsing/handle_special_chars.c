@@ -28,20 +28,15 @@ char	*handle_backslash(char **line, char *startpos_line, t_all *all)
 	return (str);
 }
 
-char	*dollar_handler(char **line, char *startpos_line, t_all *all)
+char	*dollar_handler(char *str, t_all *all)
 {
 	char	*name;
 	char	*value;
+	// int 	start;
 
-	if (**line == '?')
-	{
-		value = ft_itoa(all->exit_status);
-		if (!value)
-			free_all_exit(all, startpos_line, ENOMEM);
-		(*line)++;
-		return (value);
-	}
-	name = get_str(line, startpos_line, all);
+	// while (str[++(*i)] && str[(*i) != '$'])
+	// 	;
+	name = get_str(&str, NULL, all);
 	if (last_token(all->lst_token) == HERE_DOCUMENT || name[0] == '\0')
 	{
 		name = ft_strjoin("$", name);
@@ -56,9 +51,58 @@ char	*dollar_handler(char **line, char *startpos_line, t_all *all)
 	{
 		value = ft_strdup("");
 		if (!value)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, NULL, ENOMEM);
 	}
 	return (value);
+}
+
+void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
+{
+	int		i;
+	int		start;
+	char	*value;
+	char	*tmp;
+
+	while (ptr_token)
+	{
+		i = -1;
+		while (!(ptr_token->flag & ESCAPED_VARIABLE) && ptr_token->str[++i])
+		{
+			if (ptr_token->str[i] == '$' && ptr_token->str[i + 1] == '?')
+			{
+				tmp = ptr_token->str;
+				value = ft_itoa(all->exit_status);
+				ptr_token->str = ft_str_replace(ptr_token->str, value, i, i + 1);
+				check_memory_allocation_str(ptr_token->str);
+				free(tmp);
+				free(value);
+				i++;
+			}
+			else if (ptr_token->str[i] == '$')
+			{
+				start = i;
+				while (ptr_token->str[i + 1] && ptr_token->str[i + 1] != '$')
+					i++;
+				tmp = ptr_token->str;
+				value = dollar_handler(ptr_token->str + start + 1, all);
+				ptr_token->str = ft_str_replace(ptr_token->str, value, start, i);
+				check_memory_allocation_str(ptr_token->str);
+				free(tmp);
+				free(value);
+			}
+		}
+		ptr_token = ptr_token->next;
+	}
+}
+
+char	*get_variable_name(char **line, char *startpos_line, t_all *all)
+{
+	char	*name;
+
+	name = ft_strjoin("$", get_str(line, startpos_line, all));
+	if (!name)
+		error_handler(NULL, ENOMEM);
+	return (name);
 }
 
 char	*single_operator_handler(char **line, char *startpos_line, t_all *all)

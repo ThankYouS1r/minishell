@@ -16,9 +16,9 @@ int	main(int argc, char *argv[], char *envp[])
 		g_sigint = 0;
 		//termcap_start(&all, &all.ptr_history);
 		all.lst_token = parsing(&all);
-		if (all.lst_token)
-			executor_loop(&all);
-		doubly_lst_clear(&all.lst_token);
+		if (all.lst_token) //delete
+			executor_loop(&all); //delete
+		doubly_lst_clear(&all.lst_token); //delete
 		if (g_sigint)
 			all.exit_status = 130;
 	}

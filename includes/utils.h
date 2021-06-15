@@ -11,6 +11,9 @@
 # define NEXT_HISTORY 2
 # define LAST_HISTORY 3
 
+# define ESCAPED_CHAR		0b00000001
+# define ESCAPED_VARIABLE	0b00000010
+
 enum	e_separators
 {
 	NONE,
@@ -19,8 +22,7 @@ enum	e_separators
 	REDIRECT_INPUT,
 	REDIRECT_OUTPUT,
 	APPEND_REDIRECT_OUTPUT,
-	HERE_DOCUMENT,
-	ESCAPED_CHAR
+	HERE_DOCUMENT
 };
 
 typedef struct s_doubly_lst {
@@ -72,6 +74,7 @@ int				is_separator(t_dlst *ptr_token);
 void			go_to_end_or_separator(t_dlst **ptr_token);
 int				is_number(char *str);
 int				next_operator(t_dlst *ptr_token);
+int				is_pipe(t_dlst *ptr_token);
 int				prev_operator(t_dlst *ptr_token);
 void			init_fd(t_all *all);
 void			close_fds(t_all *all);
@@ -80,5 +83,6 @@ void			print_logo(void);
 int				last_token(t_dlst *ptr_token);
 int				is_valid_variable_name(char *variable_name, char end_char);
 int				is_last_token_escaped(t_dlst *ptr_token);
+char			*ft_str_replace(char *dst, char *src, int dst_start, int dst_end);
 
 #endif

@@ -18,7 +18,7 @@ int	find_closing_quotes(const char *line, char quote)
 	return (0);
 }
 
-char	*get_str_single_quotes(char **line, char *startpos_line, t_all *all)
+char	*get_str_single_quotes(char **line, t_all *all)
 {
 	char	*str;
 
@@ -29,14 +29,14 @@ char	*get_str_single_quotes(char **line, char *startpos_line, t_all *all)
 			break ;
 		str = str_join_char(str, **line);
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 		(*line)++;
 	}
 	if (!str)
 	{
 		str = ft_strdup("");
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 	}
 	return (str);
 }
@@ -53,7 +53,7 @@ char	*quote_handler(t_line *l, t_all *all)
 		return (NULL);
 	}
 	if (*l->line == '\'' && ++(l->line))
-		str = get_str_single_quotes(&l->line, l->start_line, all);
+		str = get_str_single_quotes(&l->line, all);
 	else if (*l->line == '\"' && ++(l->line))
 		str = double_quotes_handler(l, all);
 	(l->line)++;

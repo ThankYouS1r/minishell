@@ -8,13 +8,13 @@ void	ctrld_press(t_all *all, int counter, struct termios s_ats)
 	{
 		write(1, "exit\n", 5);
 		tcsetattr(0, TCSANOW, &s_ats);
-		free_all_exit(all, all->line, ENOMEM);
+		free_all_exit(all, ENOMEM);
 	}
 	else
 	{
 		signal = tgetstr("bl", NULL);
 		if (!signal)
-			free_all_exit(all, all->line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 		tputs(signal, 1, myputchar);
 	}
 }
@@ -25,7 +25,7 @@ char	*ctrlc_press(t_all *all)
 		free(all->line);
 	all->line = ft_strdup(" ");
 	if (!all->line)
-		free_all_exit(all, all->line, ENOMEM);
+		free_all_exit(all, ENOMEM);
 	all->cursor_counter = 12;
 	all->sh_counter = 0;
 	print_promt();
@@ -38,7 +38,7 @@ char	*ctrll_press(t_all *all)
 
 	clear_scr = tgetstr("cl", NULL);
 	if (!clear_scr)
-		free_all_exit(all, all->line, ENOMEM);
+		free_all_exit(all, ENOMEM);
 	tputs(clear_scr, 1, myputchar);
 	print_promt();
 	if (all->line && all->sh_counter > 0 && all->cursor_counter > 12)

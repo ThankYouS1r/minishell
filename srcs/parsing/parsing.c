@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-char	*get_str(char **line, char *startpos_line, t_all *all)
+char	*get_str(char **line, t_all *all)
 {
 	char	*str;
 
@@ -13,14 +13,14 @@ char	*get_str(char **line, char *startpos_line, t_all *all)
 			break ;
 		str = str_join_char(str, **line);
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 		(*line)++;
 	}
 	if (!str)
 	{
 		str = ft_strdup("");
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 	}
 	return (str);
 }
@@ -38,19 +38,19 @@ char	*parse_line(t_line *l, t_all *all, int *escaped_char)
 	if ((*l->line == '\\') || (*l->line == '\'')) 
 		s.escaped_char |= ESCAPED_VARIABLE;
 	if (*l->line == '\\' && ++(l->line))
-		s.str = handle_backslash(&l->line, l->start_line, all);
+		s.str = handle_backslash(&l->line, all);
 	else if (*l->line == '\'' || *l->line == '"')
 		s.str = quote_handler(l, all);
 	else if (*l->line == '$' && ++(l->line))
-		s.str = get_variable_name(&l->line, l->start_line, all);
+		s.str = get_variable_name(&l->line, all);
 	else if ((*l->line == '>' && l->line[1] == '>')
 		|| (*l->line == '<' && l->line[1] == '<'))
-		s.str = double_operator_handler(&l->line, l->start_line, all);
+		s.str = double_operator_handler(&l->line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
 		|| *l->line == '>' || *l->line == '&')
-		s.str = (single_operator_handler(&l->line, l->start_line, all));
+		s.str = (single_operator_handler(&l->line, all));
 	else
-		s.str = get_str(&l->line, l->start_line, all);
+		s.str = get_str(&l->line, all);
 	*escaped_char = s.escaped_char;
 	return (s.str);
 }
@@ -64,7 +64,7 @@ void	merge_str_and_lst_append(t_line *l, t_all *all)
 	if (!l->merged_str)
 	{
 		free(l->str);
-		free_all_exit(all, l->start_line, 1);
+		free_all_exit(all, 1);
 	}
 	free(l->str);
 	if (!(*l->merged_str))
@@ -78,7 +78,7 @@ void	merge_str_and_lst_append(t_line *l, t_all *all)
 		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str, l->escaped_char)))
 		{
 			free(l->merged_str);
-			free_all_exit(all, l->start_line, 1);
+			free_all_exit(all, 1);
 		}
 		l->merged_str = NULL;
 	}
@@ -92,16 +92,14 @@ t_dlst	*parsing(t_all *all)
 	line.line = ft_strdup(all->line);
 	//read_line(STDIN_FILENO, &line.line);
 	if (!line.line)
-		free_all_exit(all, NULL, 1);
-	line.start_line = line.line;
+		free_all_exit(all, 1);
+	// line.start_line = line.line;
+	add_history_to_lst(line.line, &all->shell_history, &all->ptr_history);
 	while (*line.line)
 	{
 		line.str = parse_line(&line, all, &line.escaped_char);
 		if (!line.str)
-		{
-			free (line.start_line);
 			return (NULL);
-		}
 		merge_str_and_lst_append(&line, all);
 		// if (!ft_strcmp(all->lst_token->str, ";") || !(*line.line))
 		// {
@@ -109,6 +107,5 @@ t_dlst	*parsing(t_all *all)
 		// 	doubly_lst_clear(&all->lst_token);
 		// }
 	}
-	add_history_to_lst(line.start_line, &all->shell_history, &all->ptr_history);
 	return (all->lst_token);
 }

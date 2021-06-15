@@ -68,7 +68,7 @@ void			doubly_lst_merge_sort(t_dlst **head);
 int				doubly_lst_size(t_dlst *lst);
 void			doubly_lst_clear(t_dlst **lst);
 void			doubly_lst_delete_element(t_dlst **lst);
-int				free_all_exit(t_all *all, char *line, int error_code);
+int				free_all_exit(t_all *all, int error_code);
 void			free_doble_array(char **array);
 int				is_separator(t_dlst *ptr_token);
 void			go_to_end_or_separator(t_dlst **ptr_token);

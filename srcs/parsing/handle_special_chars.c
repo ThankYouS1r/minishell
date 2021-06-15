@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-char	*handle_backslash(char **line, char *startpos_line, t_all *all)
+char	*handle_backslash(char **line, t_all *all)
 {
 	char	*str;
 
@@ -11,7 +11,7 @@ char	*handle_backslash(char **line, char *startpos_line, t_all *all)
 			break ;
 		str = str_join_char(str, **line);
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 		if (ft_strchr(SPECIAL_CHARS, (*line)[1]))
 		{
 			(*line)++;
@@ -23,7 +23,7 @@ char	*handle_backslash(char **line, char *startpos_line, t_all *all)
 	{
 		str = ft_strdup("");
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 	}
 	return (str);
 }
@@ -36,7 +36,7 @@ char	*dollar_handler(char *str, t_all *all)
 
 	// while (str[++(*i)] && str[(*i) != '$'])
 	// 	;
-	name = get_str(&str, NULL, all);
+	name = get_str(&str, all);
 	if (last_token(all->lst_token) == HERE_DOCUMENT || name[0] == '\0')
 	{
 		name = ft_strjoin("$", name);
@@ -51,7 +51,7 @@ char	*dollar_handler(char *str, t_all *all)
 	{
 		value = ft_strdup("");
 		if (!value)
-			free_all_exit(all, NULL, ENOMEM);
+			free_all_exit(all, ENOMEM);
 	}
 	return (value);
 }
@@ -98,41 +98,41 @@ void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
 	}
 }
 
-char	*get_variable_name(char **line, char *startpos_line, t_all *all)
+char	*get_variable_name(char **line, t_all *all)
 {
 	char	*name;
 
-	name = ft_strjoin("$", get_str(line, startpos_line, all));
+	name = ft_strjoin("$", get_str(line, all));
 	if (!name)
 		error_handler(NULL, ENOMEM);
 	return (name);
 }
 
-char	*single_operator_handler(char **line, char *startpos_line, t_all *all)
+char	*single_operator_handler(char **line, t_all *all)
 {
 	char	*str;
 
 	str = str_join_char(NULL, **line);
 	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str, NONE)))
-		free_all_exit(all, startpos_line, 1);
+		free_all_exit(all, 1);
 	str = str_join_char(NULL, '\0');
 	if (!str)
-		free_all_exit(all, startpos_line, 1);
+		free_all_exit(all, 1);
 	(*line)++;
 	return (str);
 }
 
-char	*double_operator_handler(char **line, char *startpos_line, t_all *all)
+char	*double_operator_handler(char **line, t_all *all)
 {
 	char	*str;
 
 	str = str_join_char(NULL, **line);
 	str = ft_substr(*line, 0, 2);
 	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str, NONE)))
-		free_all_exit(all, startpos_line, 1);
+		free_all_exit(all, 1);
 	str = str_join_char(NULL, '\0');
 	if (!str)
-		free_all_exit(all, startpos_line, 1);
+		free_all_exit(all, 1);
 	(*line)++;
 	(*line)++;
 	return (str);

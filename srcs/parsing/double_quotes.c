@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-char	*get_str_dquotes(char **line, char *startpos_line, t_all *all)
+char	*get_str_dquotes(char **line, t_all *all)
 {
 	char	*str;
 
@@ -15,14 +15,14 @@ char	*get_str_dquotes(char **line, char *startpos_line, t_all *all)
 			break ;
 		str = str_join_char(str, **line);
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 		(*line)++;
 	}
 	if (!str)
 	{
 		str = ft_strdup("");
 		if (!str)
-			free_all_exit(all, startpos_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 	}
 	return (str);
 }
@@ -35,13 +35,13 @@ char	*double_quotes_manager(t_line *l, t_all *all)
 	{
 		str = ft_strdup("");
 		if (!str)
-			free_all_exit(all, l->start_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 		return (str);
 	}
 	if (*l->line == '\\' && ft_strchr("\\$`\"", l->line[1]) && ++(l->line))
-		str = handle_backslash(&l->line, l->start_line, all);
+		str = handle_backslash(&l->line, all);
 	else if (*l->line == '$' && ++(l->line))
-		str = get_variable_name(&l->line, l->start_line, all);
+		str = get_variable_name(&l->line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
 		|| *l->line == '>' || *l->line == '&' || ft_iswhitespace(*l->line))
 	{
@@ -49,11 +49,11 @@ char	*double_quotes_manager(t_line *l, t_all *all)
 		l->line++;
 	}
 	else
-		str = get_str_dquotes(&l->line, l->start_line, all);
+		str = get_str_dquotes(&l->line, all);
 	return (str);
 }
 
-char	*join_str_dquotes(char	*merged_str, char *str, t_all *all, char *line)
+char	*join_str_dquotes(char	*merged_str, char *str, t_all *all)
 {
 	if (!merged_str)
 		merged_str = ft_strdup(str);
@@ -62,7 +62,7 @@ char	*join_str_dquotes(char	*merged_str, char *str, t_all *all, char *line)
 	if (!merged_str)
 	{
 		free(str);
-		free_all_exit(all, line, 1);
+		free_all_exit(all, 1);
 	}
 	free(str);
 	if (!(*merged_str))
@@ -84,17 +84,14 @@ char	*double_quotes_handler(t_line *l, t_all *all)
 	{
 		str = double_quotes_manager(l, all);
 		if (!str)
-		{
-			free (l->start_line);
 			return (NULL);
-		}
-		merged_str = join_str_dquotes(merged_str, str, all, l->start_line);
+		merged_str = join_str_dquotes(merged_str, str, all);
 	}
 	if (!str)
 	{
 		merged_str = ft_strdup("");
 		if (!merged_str)
-			free_all_exit(all, l->start_line, ENOMEM);
+			free_all_exit(all, ENOMEM);
 	}
 	return (merged_str);
 }

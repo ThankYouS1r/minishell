@@ -5,7 +5,8 @@ void	handle_sigint(int signum)
 	(void)signum;
 	g_sigint = 1;
 	write(1, "\n", 1);
-	print_logo();
+	print_promt();
+
 	
 }
 

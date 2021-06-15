@@ -48,11 +48,11 @@ typedef struct s_all
 	int				next_operator;
 	int				fd_in;
 	int				fd_out;
+	int 			hist_iter;
 	int				sigint_exit_status;
 	char			*line;
 	int 			cursor_counter;
 	int 			sh_counter;
-
 }				t_all;
 
 void			*ft_realloc(void *ptr, size_t size);
@@ -79,10 +79,10 @@ int				prev_operator(t_dlst *ptr_token);
 void			init_fd(t_all *all);
 void			close_fds(t_all *all);
 int				myputchar(int nb);
-void			print_logo(void);
 int				last_token(t_dlst *ptr_token);
 int				is_valid_variable_name(char *variable_name, char end_char);
 int				is_last_token_escaped(t_dlst *ptr_token);
 char			*ft_str_replace(char *dst, char *src, int dst_start, int dst_end);
+void			print_promt(void);
 
 #endif

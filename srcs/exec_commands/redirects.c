@@ -66,6 +66,7 @@ char *get_variable_value(char *line, t_all *all, int *i)
 		value = ft_itoa(all->exit_status);
 		if (!value)
 			error_handler(NULL, ENOMEM);
+		(*i)++;
 		return (value);
 	}
 	while (line[*i] && !ft_strchr(SPECIAL_CHARS, line[*i]))
@@ -90,7 +91,6 @@ char *get_variable_value(char *line, t_all *all, int *i)
 				error_handler(NULL, ENOMEM);
 		}
 	}
-	(*i)--;
 	return (value);
 }
 
@@ -104,12 +104,12 @@ char	*handle_dollar_in_line(char *line, t_all *all)
 
 	if (!ft_strchr(line, '$') || is_last_token_escaped(all->lst_token) & ESCAPED_CHAR)
 		return (line);
-	i = -1;
+	i = 0;
 	new_line =  ft_strdup("");
 	if (!new_line)
 		error_handler(NULL, ENOMEM);
 	
-	while(line[++i])
+	while(line[i])
 	{
 		start = i;
 		while (line[i] != '$' && line[i])
@@ -145,7 +145,6 @@ void	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 	{
 		while (1)
 		{
-			//ft_putstr_fd("> ", STDIN_FILENO);
 			ret = read_line(all->fd_in, &line);
 			if (ret < 0)
 				error_handler(NULL, errno);

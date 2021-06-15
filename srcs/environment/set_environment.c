@@ -20,7 +20,7 @@ char	*getenv_from_lst(t_dlst *env, const char *name)
 		check_memory_allocation_str(variable_value);
 		return (variable_value);
 	}
-	else if (!is_valid_variable_name((char *)name, '\0'))
+	else if (name[0] != '_' && !ft_isalpha(name[0])) 
 	{
 		variable_value = ft_strjoin("$", name);
 		check_memory_allocation_str(variable_value);

@@ -24,7 +24,6 @@ void	add_history_to_lst(char *str, t_dlst **head, t_dlst **p_history)
 			(*p_history)->flag = NONE;
 		*p_history = (*p_history)->next;
 	}
-
 }
 
 void	write_to_lst(t_dlst **head, t_dlst **p_history, int fd, char **line)

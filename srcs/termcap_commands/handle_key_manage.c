@@ -1,27 +1,38 @@
 #include "termcap_commands.h"
 
+void	reallocated_memory(t_all *all, int counter)
+{
+	if (counter == 1 && all->cursor_counter == 13)
+	{
+		free(all->line);
+		all->line = NULL;
+	}
+	else if (counter > 1 && all->cursor_counter > 12)
+	{
+		all->line = ft_realloc(all->line, counter);
+		all->line[--counter] = '\0';
+	}
+}
+
 char	*escape_press(t_all *all)
 {
-	int 	counter;
+	int		counter;
+	char	*left_step;
+	char	*delete_char;
 
 	counter = all->sh_counter;
-	if (counter >= 1 && all->cursor_counter >= 12)
+	left_step = tgetstr("le", NULL);
+	if (!left_step)
+		free_all_exit(all, all->line, ENOMEM);
+	delete_char = tgetstr("dc", NULL);
+	if (!delete_char)
+		free_all_exit(all, all->line, ENOMEM);
+	if (counter >= 1 && all->cursor_counter >= 13)
 	{
-		if (all->sh_counter >= 1)
-			--all->sh_counter;
-		tputs(tgetstr("le", NULL), 1, myputchar);
-		tputs(tgetstr("dc", NULL), 1, myputchar);
-		if (counter == 1)
-		{
-			free(all->line);
-			all->line = NULL;
-			return (all->line);
-		}
-		else if (counter > 1)
-		{
-			all->line = ft_realloc(all->line, counter);
-			all->line[--counter] = '\0';
-		}
+		tputs(left_step, 1, myputchar);
+		tputs(delete_char, 1, myputchar);
+		reallocated_memory(all, counter);
+		--all->sh_counter;
 		--all->cursor_counter;
 	}
 	return (all->line);
@@ -29,7 +40,7 @@ char	*escape_press(t_all *all)
 
 char	*printf_symbols(char c, t_all *all)
 {
-	int 	counter;
+	int	counter;
 
 	counter = all->sh_counter;
 	if (counter >= 0)
@@ -44,9 +55,9 @@ char	*printf_symbols(char c, t_all *all)
 	return (all->line);
 }
 
-char	*enter_press(t_all * all)
+char	*enter_press(t_all *all)
 {
-	int 	counter;
+	int	counter;
 
 	counter = all->sh_counter;
 	if (counter == 0)
@@ -57,82 +68,34 @@ char	*enter_press(t_all * all)
 	if (!all->line)
 		all->line = ft_strdup("");
 	if (!all->line)
-		error_handler(NULL, ENOMEM);
+		free_all_exit(all, all->line, ENOMEM);
 	write(1, "\n", 1);
 	return (all->line);
 }
 
-char		*history_operation(t_dlst **ptr_history, t_all *all, int iter_hist)
+char	*history_operation(t_dlst **ptr_history, t_all *all, int iter_hist)
 {
-	char 	*left_step;
-	char 	*delete_char;
+	char	*left_step;
+	char	*delete_char;
 
 	left_step = tgetstr("cr", NULL);
 	if (!left_step)
-		ft_crash("temp_error");
+		free_all_exit(all, all->line, ENOMEM);
 	delete_char = tgetstr("dl", NULL);
 	if (!delete_char)
-		ft_crash("temp_error");
+		free_all_exit(all, all->line, ENOMEM);
+	check_history_i(all, iter_hist, ptr_history);
 	tputs(left_step, 1, myputchar);
 	tputs(delete_char, 1, myputchar);
-	print_logo();
+	print_promt();
 	print_minishell_history(ptr_history, iter_hist);
+	if (all->line)
+		free(all->line);
 	all->line = ft_strdup((*ptr_history)->str);
 	if (!all->line)
-		ft_crash("temp_error");
+		free_all_exit(all, all->line, ENOMEM);
 	ft_putstr_fd(all->line, 1);
-	all->sh_counter = ft_strlen(all->line);
-	all->cursor_counter = 12 + all->sh_counter;;
-	return (all->line);
-}
-
-void 	ctrld_press(t_all *all, t_dlst **ptr_history, int counter)
-{
-	char	*str;
-	int 	i = 0;
-
-	if (counter == 0 && !all->line)
-	{
-		write(1, "exit", 4);
-		if (ptr_history) //Не забыть все очистить
-			i = 1;
-		(void)i;	//TMP! DELETE ME! (variable ‘i’ set but not used)
-		ft_crash(" do svyazi");
-	}
-	else
-	{
-		str = tgetstr("bl", NULL);
-		if (!str)
-			ft_crash("temp_error");
-		tputs(str, 1, myputchar);
-	}
-}
-
-// char  *ctrlc_press(t_all *all)
-// {
-// 	if (all->line)
-// 		free(all->line);
-// 	all->line = ft_strdup(" ");
-// 	all->cursor_counter = 12;
-// 	all->sh_counter = 0;
-// 	print_logo();
-// 	return (all->line);
-// }
-
-char  *ctrll_press(t_all *all)
-{
-	char 	*clear_scr;
-
-	clear_scr = tgetstr("cl", NULL);
-	if (!clear_scr)
-		ft_crash("temp_error");
-	tputs(clear_scr, 1, myputchar);
-	print_logo();
-	if (all->line && all->sh_counter > 0 && all->cursor_counter > 10)
-	{
-		ft_putstr_fd(all->line, 1);
-		all->sh_counter = ft_strlen(all->line);
-		all->cursor_counter = 12 + all->sh_counter;;
-	}
+	all->sh_counter = (int)ft_strlen(all->line);
+	all->cursor_counter = 12 + all->sh_counter;
 	return (all->line);
 }

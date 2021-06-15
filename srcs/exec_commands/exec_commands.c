@@ -26,6 +26,7 @@ void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 	int		status;
 
 	pid = fork();
+	signal(SIGINT, SIG_IGN);
 	if (pid < 0)
 		all->exit_status = error_handler(NULL, errno);
 	else if (!pid)
@@ -46,6 +47,7 @@ void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 		exit(status);
 	}
 	waitpid(pid, &status, 0);
+	signal(SIGINT, handle_sigint);
 	all->exit_status = get_exit_status(status);
 }
 

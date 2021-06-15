@@ -13,7 +13,7 @@ char    *ft_str_replace(char *dst, char *src, int dst_start, int dst_end)
     if (!new_str)
         return NULL;
     ft_strlcat(new_str, dst, dst_start + 1);
-   ft_strlcat(new_str, src, ft_strlen(new_str) + ft_strlen(src) + 1);
+	ft_strlcat(new_str, src, ft_strlen(new_str) + ft_strlen(src) + 1);
     ft_strlcat(new_str, dst + dst_end + 1,
         ft_strlen(new_str) + ft_strlen(dst + dst_end + 1) + 1);
     return (new_str);

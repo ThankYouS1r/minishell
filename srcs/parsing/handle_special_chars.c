@@ -65,8 +65,8 @@ void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
 
 	while (ptr_token)
 	{
-		i = -1;
-		while (!(ptr_token->flag & ESCAPED_VARIABLE) && ptr_token->str[++i])
+		i = 0;
+		while (!(ptr_token->flag & ESCAPED_VARIABLE) && ptr_token->str[i])
 		{
 			if (ptr_token->str[i] == '$' && ptr_token->str[i + 1] == '?')
 			{
@@ -86,10 +86,13 @@ void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
 				tmp = ptr_token->str;
 				value = dollar_handler(ptr_token->str + start + 1, all);
 				ptr_token->str = ft_str_replace(ptr_token->str, value, start, i);
+				i = start + ft_strlen(value);
 				check_memory_allocation_str(ptr_token->str);
 				free(tmp);
 				free(value);
 			}
+			else// if (ptr_token->str[i]))
+				i++;
 		}
 		ptr_token = ptr_token->next;
 	}

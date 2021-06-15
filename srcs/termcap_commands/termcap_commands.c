@@ -1,76 +1,72 @@
 #include "termcap_commands.h"
 
-struct termios init_settings(void)
+struct termios	init_settings(void)
 {
 	int				check_get;
 	struct termios	term;
 	struct termios	saved_attributes;
 
 	check_get = 0;
-	tcgetattr(0, &saved_attributes); //Получить атрибут терминала. Данные будут записаны в структуру term
+	tcgetattr(0, &saved_attributes);
 	memcpy(&term, &saved_attributes, sizeof(term));
-	term.c_lflag &= ~(ECHO); //Без этого флага не будет отображения набираемых символов
-	term.c_lflag &= ~(ICANON); //Не канонический режим. В каноническом read завершается по нажатию enter
-	tcsetattr(0, TCSANOW, &term); //Установить атрибут терминала. Вернуть параметры в терминал
-	check_get = tgetent(0, getenv("TERM")); //ЗАГРУЗИТЬ ДАННЫЕ ИЗ МАССИВА //Загружаем базу данных оригинального терминала. Первый параметр не нужен, так как более нигде не используется
+	term.c_lflag &= ~(ECHO);
+	term.c_lflag &= ~(ICANON);
+	tcsetattr(0, TCSANOW, &term);
+	check_get = tgetent(0, getenv("TERM"));
 	if (check_get == -1)
-		ft_crash("Error");
+		check_get = tgetent(0, "xterm-256color");
+		// ft_crash("Error");
 	return (saved_attributes);
+}
+
+static void 	check_key_press(char *str, t_all *all, t_dlst **ptr_history)
+{
+	if (str[0] > 31 && str[0] < 127)
+		all->line = printf_symbols(str[0], all);
+	else if (!ft_strncmp(str, K_UP, 3) && ft_strcmp(str, "\n") && *ptr_history)
+		all->line = history_operation(ptr_history, all, PREVIOUS_HISTORY);
+	else if (!ft_strncmp(str, K_DOWN, 3) && ft_strcmp(str, "\n") && *ptr_history && all->hist_iter)
+		all->line = history_operation(ptr_history, all, NEXT_HISTORY);
+	else if (!ft_strcmp(str, K_CTRL_C))
+		all->line = ctrlc_press(all);
+	else if (*str == 12)
+		all->line = ctrll_press(all);
 }
 
 void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 {
 	char		str[1000];
-	int			ret;
+	uint32_t	ret;
+	int			flag;
 
-	// Защитить ft_strdup
-	// Обработать сигнал control + косая черта (sigquit sigignore) + обработать сигнал ctrl + c
-	// Если сохранить в историю команду на большое количество строк, то при перелистывании истории клавишами, на моменте вывода этой истории он будет сам принтить в терминал. Обработка множества строк - бонус
-	// Доделать вывод начала истории
-	//Не забыть все очистить в ctrld
-
-	while ((ret = read(0, str, 100))) //идти до CTRL + D(004 по терминалу)
+	flag = 0;
+	while (!flag)
 	{
+		ret = read(0, str, 999);
+		if (!ret)
+			ft_crash("Read input error");
 		str[ret] = 0;
-		
-		if (g_sigint)
-		{
-			free(all->line);
-			all->line = NULL;
-			all->sh_counter = 0; 
-			all->cursor_counter = 12;
-			all->exit_status = 130;
-			g_sigint = 0;
-		}
-		if (!ft_strncmp(str, K_CTRL_D, 3) || *str == '\t')
-			ctrld_press(all, ptr_history, all->sh_counter);
-		else if (!ft_strcmp(str, "\177")) 	//!strcmp(str, tgetstr("kb", NULL)) временно убрал
+		check_g_sigint(all);
+		if (!ft_strcmp(str, k_DEL))
 			all->line = escape_press(all);
-		else if (!ft_strncmp(str, K_UP, 3) && ft_strcmp(str, "\n") && *ptr_history)
-			all->line = history_operation(ptr_history, all, PREVIOUS_HISTORY);
-		else if (!ft_strncmp(str, K_DOWN, 3) && ft_strcmp(str, "\n") && *ptr_history)
-			all->line = history_operation(ptr_history, all, NEXT_HISTORY);
-		else if (*str == 12)
-			all->line = ctrll_press(all);
-		// else if (*str == 3)
-		// 	all->line = ctrlc_press(all);
-		else if (*str == 10 || !ft_strcmp(str, "\n"))
+		else if (!ft_strcmp(str, K_CTRL_D))
+			ctrld_press(all, all->sh_counter, s_ats);
+		else if (!ft_strcmp(str, "\n"))
 		{
 			all->line = enter_press(all);
-			break; 							//переделаю
+			++flag;
 		}
-		else if (str[0] > 31 && str[0] < 127)
-			all->line = printf_symbols(str[0], all);
+		check_key_press(str, all, ptr_history);
 	}
 	tcsetattr(0, TCSANOW, &s_ats);
 }
 
-
-
 void 	termcap_start(t_all *all, t_dlst **ptr_history)
 {
-	struct termios saved_attributes;
-	print_logo();
+	struct termios	saved_attributes;
+
+	print_promt();
+	all->hist_iter = 0;
 	all->sh_counter = 0;
 	all->cursor_counter = 12;
 	if (all->line)
@@ -81,25 +77,3 @@ void 	termcap_start(t_all *all, t_dlst **ptr_history)
 	saved_attributes = init_settings();
 	input_control(saved_attributes, all, ptr_history);
 }
-
-
-//		else if (!ft_strncmp(str, K_LEFT, 3) && all->cursor_counter >= 12)
-//		{
-//			j++;
-//			tputs(tgetstr("le", NULL), 1, myputchar);
-//			--counter;
-//			--all->cursor_counter;
-//		}
-//		else if (!ft_strncmp(str, K_RIGHT, 3) && j > 0)
-//		{
-//			tputs(tgetstr("nd", NULL), 1, myputchar);
-//			j--;
-//			++counter;
-//			++all->cursor_counter;
-//		}
-
-//		else if (!ft_strcmp(str, tgetstr("kD", NULL)))
-//		{
-//			write(1, "hi", 2);
-//		}
-//tputs(tgetstr("dc", NULL), 1, myputchar);

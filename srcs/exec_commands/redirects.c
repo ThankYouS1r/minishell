@@ -69,7 +69,7 @@ char *get_variable_value(char *line, t_all *all, int *i)
 		(*i)++;
 		return (value);
 	}
-	while (line[*i] && !ft_strchr(SPECIAL_CHARS, line[*i])
+	while (line[*i] && (line[*i]== '_' || ft_isalpha(line[*i])) // !ft_strchr(SPECIAL_CHARS, line[*i] )
 		&& !ft_iswhitespace(line[*i]))
 		(*i)++;
 	if (*i - start == 0)
@@ -130,8 +130,12 @@ char	*handle_dollar_in_line(char *line, t_all *all)
 		if (line[i] == '$')
 		{
 			tmp = new_line;
-			new_line = ft_strjoin(tmp, get_variable_value(line, all, &i));
+			sub_str = get_variable_value(line, all, &i);
+			if (!sub_str)
+				error_handler(NULL, ENOMEM);
+			new_line = ft_strjoin(tmp, sub_str);
 			free(tmp);
+			free(sub_str);
 			if (!new_line)
 				error_handler(NULL, ENOMEM);
 		}
@@ -143,6 +147,7 @@ void	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 {
 	t_dlst	*tmp;
 	char	*line;
+	char	*tmp_line;
 	int		ret;
 
 	tmp = *ptr_token;
@@ -159,7 +164,9 @@ void	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 				free(line);
 				break ;
 			}
+			tmp_line = line;
 			line = handle_dollar_in_line(line, all);
+			free(tmp_line);
 			ft_putendl_fd(line, all->fd_out);
 			free(line);
 			line  = NULL;

@@ -28,6 +28,34 @@ char	*handle_backslash(char **line, t_all *all)
 	return (str);
 }
 
+char	*get_variable_name(char **line, t_all *all)
+{
+	char	*str;
+
+	str = NULL;
+	while (**line)
+	{
+		if (ft_iswhitespace(**line))
+			break ;
+		// else if ((ft_strchr(SPECIAL_CHARS, **line)))
+		// 	break ;
+		else if (**line != '_' && !ft_isalpha(**line))
+			break ;
+		str = str_join_char(str, **line);
+		if (!str)
+			free_all_exit(all, ENOMEM);
+		(*line)++;
+	}
+	if (!str)
+	{
+		str = ft_strdup("");
+		if (!str)
+			free_all_exit(all, ENOMEM);
+	}
+	return (str);
+}
+
+
 char	*dollar_handler(char **str, t_all *all)
 {
 	char	*name;
@@ -41,7 +69,7 @@ char	*dollar_handler(char **str, t_all *all)
 		(*str)++;
 		return (value);
 	}
-	name = get_str(str, all);
+	name = get_variable_name(str, all);
 	if (last_token(all->lst_token) == HERE_DOCUMENT || name[0] == '\0')
 	{
 		value = ft_strjoin("$", name);
@@ -138,7 +166,6 @@ char	*double_operator_handler(char **line, t_all *all)
 {
 	char	*str;
 
-	str = str_join_char(NULL, **line);
 	str = ft_substr(*line, 0, 2);
 	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str, NONE)))
 		free_all_exit(all, 1);

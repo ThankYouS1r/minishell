@@ -12,7 +12,6 @@
 # define LAST_HISTORY 3
 
 # define ESCAPED_CHAR		0b00000001
-# define ESCAPED_VARIABLE	0b00000010
 
 enum	e_separators
 {

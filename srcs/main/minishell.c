@@ -14,7 +14,7 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		g_sigint = 0;
-		// termcap_start(&all, &all.ptr_history);
+		termcap_start(&all, &all.ptr_history);
 		all.lst_token = parsing(&all);
 		if (all.lst_token)
 			executor_loop(&all);

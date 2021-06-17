@@ -58,7 +58,12 @@ int	executor_loop(t_all *all)
 	ptr_token = check_syntax_and_get_token_pos(all);
 	while (ptr_token)
 	{
-		check_and_handle_dollar(ptr_token, all);
+		// check_and_handle_dollar(ptr_token, all);
+		// if (ptr_token->str[0] == '\0')
+		// {
+		// 	ptr_token = ptr_token->next;
+		// 	continue ;
+		// }
 		all->next_operator = next_operator(ptr_token);
 		next_pipe = is_pipe(ptr_token);
 		if (next_pipe || all->next_operator == HERE_DOCUMENT)

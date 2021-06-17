@@ -35,14 +35,12 @@ char	*parse_line(t_line *l, t_all *all, int *escaped_char)
 	if ((*l->line == '\\')
 		|| (*l->line == '\'' || *l->line == '"'))
 		s.escaped_char |= ESCAPED_CHAR;
-	if ((*l->line == '\\') || (*l->line == '\'')) 
-		s.escaped_char |= ESCAPED_VARIABLE;
 	if (*l->line == '\\' && ++(l->line))
 		s.str = handle_backslash(&l->line, all);
 	else if (*l->line == '\'' || *l->line == '"')
 		s.str = quote_handler(l, all);
 	else if (*l->line == '$' && ++(l->line))
-		s.str = get_variable_name(&l->line, all);
+		s.str = dollar_handler(&l->line, all);
 	else if ((*l->line == '>' && l->line[1] == '>')
 		|| (*l->line == '<' && l->line[1] == '<'))
 		s.str = double_operator_handler(&l->line, all);
@@ -57,16 +55,19 @@ char	*parse_line(t_line *l, t_all *all, int *escaped_char)
 
 void	merge_str_and_lst_append(t_line *l, t_all *all)
 {
+	char	*tmp;
+
 	if (!l->merged_str)
 		l->merged_str = ft_strdup(l->str);
 	else
-		l->merged_str = ft_strjoin(l->merged_str, l->str);
-	if (!l->merged_str)
 	{
-		free(l->str);
-		free_all_exit(all, 1);
+		tmp = l->merged_str;
+		l->merged_str = ft_strjoin(tmp, l->str);
+		free(tmp);
 	}
 	free(l->str);
+	if (!l->merged_str)
+		free_all_exit(all, 1);
 	if (!(*l->merged_str))
 	{
 		free(l->merged_str);
@@ -89,8 +90,10 @@ t_dlst	*parsing(t_all *all)
 	t_line	line;
 
 	line.merged_str = NULL;
-	//line.line = ft_strdup(all->line);
-	read_line(STDIN_FILENO, &line.line);
+	line.line = ft_strdup(all->line);
+	// read_line(STDIN_FILENO, &line.line);
+	free(all->line); // Do we need to free all->line? Sanitizer detected memory leak!!!!
+	all->line = NULL;
 	if (!line.line)
 		free_all_exit(all, 1);
 	add_history_to_lst(line.line, &all->shell_history, &all->ptr_history);

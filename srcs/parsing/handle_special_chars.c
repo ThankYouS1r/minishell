@@ -28,20 +28,28 @@ char	*handle_backslash(char **line, t_all *all)
 	return (str);
 }
 
-char	*dollar_handler(char *str, t_all *all)
+char	*dollar_handler(char **str, t_all *all)
 {
 	char	*name;
 	char	*value;
 
-	name = get_str(&str, all);
+	if (**str == '?')
+	{
+		value = ft_itoa(all->exit_status);
+		if (!value)
+			free_all_exit(all, ENOMEM);
+		(*str)++;
+		return (value);
+	}
+	name = get_str(str, all);
 	if (last_token(all->lst_token) == HERE_DOCUMENT || name[0] == '\0')
 	{
-		name = ft_strjoin("$", name);
-		if (!name)
+		value = ft_strjoin("$", name);
+		if (!value)
 			error_handler(NULL, ENOMEM);
-		return (name);
+		free(name);
+		return (value);
 	}
-
 	value = getenv_from_lst(all->env, name);
 	free(name);
 	if (!value)
@@ -53,59 +61,64 @@ char	*dollar_handler(char *str, t_all *all)
 	return (value);
 }
 
-void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
-{
-	int		i;
-	int		start;
-	char	*value;
-	char	*tmp;
+// void	check_and_handle_dollar(t_dlst *ptr_token, t_all *all)
+// {
+// 	int		i;
+// 	int		start;
+// 	char	*value;
+// 	char	*tmp;
 
-	while (ptr_token && is_separator(ptr_token) != SEMICOLON)
-	{
-		i = 0;
-		while (!(ptr_token->flag & ESCAPED_VARIABLE) && ptr_token->str[i])
-		{
-			if (ptr_token->str[i] == '$' && ptr_token->str[i + 1] == '?')
-			{
-				tmp = ptr_token->str;
-				value = ft_itoa(all->exit_status);
-				ptr_token->str = ft_str_replace(ptr_token->str, value, i, i + 1);
-				check_memory_allocation_str(ptr_token->str);
-				free(tmp);
-				free(value);
-				i++;
-			}
-			else if (ptr_token->str[i] == '$')
-			{
-				start = i;
-				while (ptr_token->str[i + 1]
-					&& !ft_iswhitespace(ptr_token->str[i + 1])
-					&& !ft_strchr(SPECIAL_CHARS, ptr_token->str[i + 1]))
-					i++;
-				tmp = ptr_token->str;
-				value = dollar_handler(ptr_token->str + start + 1, all);
-				ptr_token->str = ft_str_replace(ptr_token->str, value, start, i);
-				i = start + ft_strlen(value);
-				check_memory_allocation_str(ptr_token->str);
-				free(tmp);
-				free(value);
-			}
-			else// if (ptr_token->str[i]))
-				i++;
-		}
-		ptr_token = ptr_token->next;
-	}
-}
+// 	while (ptr_token && is_separator(ptr_token) != SEMICOLON)
+// 	{
+// 		i = 0;
+// 		while (ptr_token->str[i])
+// 		{
+// 			if (ptr_token->str[i] == 6)
+// 				ptr_token->str[i++] = '$';
+// 			else if (ptr_token->str[i] == '$' && ptr_token->str[i + 1] == '?')
+// 			{
+// 				tmp = ptr_token->str;
+// 				value = ft_itoa(all->exit_status);
+// 				ptr_token->str = ft_str_replace(ptr_token->str, value, i, i + 1);
+// 				check_memory_allocation_str(ptr_token->str);
+// 				free(tmp);
+// 				free(value);
+// 				i++;
+// 			}
+// 			else if (ptr_token->str[i] == '$')
+// 			{
+// 				start = i;
+// 				while (ptr_token->str[i + 1]
+// 					&& !ft_iswhitespace(ptr_token->str[i + 1])
+// 					&& !ft_strchr(SPECIAL_CHARS, ptr_token->str[i + 1]))
+// 					i++;
+// 				tmp = ptr_token->str;
+// 				value = dollar_handler(ptr_token->str + start + 1, all);
+// 				ptr_token->str = ft_str_replace(ptr_token->str, value, start, i);
+// 				i = start + ft_strlen(value);
+// 				check_memory_allocation_str(ptr_token->str);
+// 				free(tmp);
+// 				free(value);
+// 			}
+// 			else// if ((*ptr_token)->str[i]))
+// 				i++;
+// 		}
+// 		ptr_token = ptr_token->next;
+// 	}
+// }
 
-char	*get_variable_name(char **line, t_all *all)
-{
-	char	*name;
+// char	*get_variable_name(char **line, t_all *all)
+// {
+// 	char	*name;
+// 	char	*str;
 
-	name = ft_strjoin("$", get_str(line, all));
-	if (!name)
-		error_handler(NULL, ENOMEM);
-	return (name);
-}
+// 	str = get_str(line, all);
+// 	name = ft_strjoin("$", str);
+// 	if (!name)
+// 		error_handler(NULL, ENOMEM);
+// 	free(str);
+// 	return (name);
+// }
 
 char	*single_operator_handler(char **line, t_all *all)
 {

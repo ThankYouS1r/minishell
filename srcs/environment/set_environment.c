@@ -54,17 +54,20 @@ void	set_environment(const char	*envp[], t_all *all)
 	i = -1;
 	while (envp[++i])
 	{
-		tmp_str = ft_strdup(envp[i]);
-		if (!tmp_str)
+		if (ft_strncmp(envp[i], "OLDPWD=", 7))
 		{
-			doubly_lst_clear(&all->env);
-			error_handler(NULL, ENOMEM);
-		}
-		if (!doubly_lst_append(&all->env, doubly_lst_new(tmp_str, NONE)))
-		{
-			free(tmp_str);
-			doubly_lst_clear(&all->env);
-			error_handler(NULL, ENOMEM);
+			tmp_str = ft_strdup(envp[i]);
+			if (!tmp_str)
+			{
+				doubly_lst_clear(&all->env);
+				error_handler(NULL, ENOMEM);
+			}
+			if (!doubly_lst_append(&all->env, doubly_lst_new(tmp_str, NONE)))
+			{
+				free(tmp_str);
+				doubly_lst_clear(&all->env);
+				error_handler(NULL, ENOMEM);
+			}
 		}
 	}
 }

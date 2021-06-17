@@ -11,6 +11,6 @@ void	doubly_lst_delete_element(t_dlst **lst)
 		free((*lst)->str);
 		(*lst)->str = NULL;
 		free(*lst);
-		*lst = NULL;
+		(*lst) = NULL;
 	}
 }

@@ -101,6 +101,7 @@ char	*handle_dollar_in_line(char *line, t_all *all)
 	int		start;
 	char	*new_line;
 	char	*sub_str;
+	char	*tmp;
 
 
 	if (!ft_strchr(line, '$') || is_last_token_escaped(all->lst_token) & ESCAPED_CHAR)
@@ -118,7 +119,9 @@ char	*handle_dollar_in_line(char *line, t_all *all)
 		if (i- start > 0)
 		{
 			sub_str = ft_substr(line, start, i - start);
-			new_line = ft_strjoin(new_line, sub_str);
+			tmp = new_line;
+			new_line = ft_strjoin(tmp, sub_str);
+			free(tmp);
 			if (sub_str)
 				free(sub_str);
 			if (!new_line)
@@ -126,7 +129,9 @@ char	*handle_dollar_in_line(char *line, t_all *all)
 		}
 		if (line[i] == '$')
 		{
-			new_line = ft_strjoin(new_line, get_variable_value(line, all, &i));
+			tmp = new_line;
+			new_line = ft_strjoin(tmp, get_variable_value(line, all, &i));
+			free(tmp);
 			if (!new_line)
 				error_handler(NULL, ENOMEM);
 		}

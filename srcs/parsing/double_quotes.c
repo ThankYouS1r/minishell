@@ -41,7 +41,7 @@ char	*double_quotes_manager(t_line *l, t_all *all)
 	if (*l->line == '\\' && ft_strchr("\\$`\"", l->line[1]) && ++(l->line))
 		str = handle_backslash(&l->line, all);
 	else if (*l->line == '$' && ++(l->line))
-		str = get_variable_name(&l->line, all);
+		str = dollar_handler(&l->line, all);
 	else if (*l->line == '|' || *l->line == ';' || *l->line == '<'
 		|| *l->line == '>' || *l->line == '&' || ft_iswhitespace(*l->line))
 	{
@@ -55,10 +55,16 @@ char	*double_quotes_manager(t_line *l, t_all *all)
 
 char	*join_str_dquotes(char	*merged_str, char *str, t_all *all)
 {
+	char	*tmp;
+
 	if (!merged_str)
 		merged_str = ft_strdup(str);
 	else
-		merged_str = ft_strjoin(merged_str, str);
+	{
+		tmp = merged_str;
+		merged_str = ft_strjoin(tmp, str);
+		free(tmp);
+	}
 	if (!merged_str)
 	{
 		free(str);

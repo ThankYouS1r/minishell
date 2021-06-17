@@ -64,6 +64,7 @@ char	**fill_arg_array(t_dlst *head, int len, char ***array)
 			(*array) = NULL;
 			error_handler(NULL, ENOMEM);
 		}
+	//	printf("(*array)[%i] = %s\n", i, (*array)[i]);
 		head = head->next;
 	}
 	return (*array);
@@ -74,18 +75,18 @@ char	**make_arg_array_from_lst(t_dlst *head, int operator)
 	char	**array;
 	t_dlst	*tmp;
 	int		len;
-	int		nbr_redirections;
+	// int		nbr_redirections;
 
 	len = 0;
 	tmp = head;
-	nbr_redirections = 0;
+	// nbr_redirections = 0;
 	while (tmp)
 	{
 		if ((operator == REDIRECT_INPUT || operator == REDIRECT_OUTPUT
 			|| operator == APPEND_REDIRECT_OUTPUT || operator == HERE_DOCUMENT)
-			&& (operator == is_separator(tmp)) && nbr_redirections == 0)
+			&& (operator == is_separator(tmp)))// && nbr_redirections == 0)
 		{
-			nbr_redirections++;
+			// nbr_redirections++;
 			tmp = tmp->next->next;
 		}
 		if (!tmp || is_separator(tmp))
@@ -96,5 +97,6 @@ char	**make_arg_array_from_lst(t_dlst *head, int operator)
 	array = (char **)ft_calloc(len + 1, sizeof(char *));
 	if (!array)
 		error_handler(NULL, ENOMEM);
+	// printf("len = %d\n", len);
 	return(fill_arg_array(head, len, &array));
 }

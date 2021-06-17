@@ -1,21 +1,19 @@
 #include "exec_commands.h"
 
 
-int	open_fd_input_redirect(t_all *all, t_dlst **ptr_token)
+int	open_fd_input_redirect(t_all *all, t_dlst **ptr_token, t_dlst *tmp_token)
 {
 	int		fd;
-	t_dlst	*tmp;
 
-	tmp = *ptr_token;
-	go_to_end_or_separator(&tmp);
-	if (tmp->next)
+	go_to_end_or_separator(&tmp_token);
+	if (tmp_token->next)
 	{
 		if (all->fd_in != STDIN_FILENO)
 			close(all->fd_in);
-		fd = open(tmp->next->str, O_RDONLY, S_IRWXU);
+		fd = open(tmp_token->next->str, O_RDONLY, S_IRWXU);
 		if (fd < 0)
 		{
-			(cmd_error_message(NULL, tmp->next->str, strerror(errno)));
+			(cmd_error_message(NULL, tmp_token->next->str, strerror(errno)));
 			while (*ptr_token)
 				*ptr_token = (*ptr_token)->next;
 			all->exit_status = 1;
@@ -26,25 +24,22 @@ int	open_fd_input_redirect(t_all *all, t_dlst **ptr_token)
 	return (all->fd_in);
 }
 
-int     open_fd_output_redirect(t_all *all, t_dlst **ptr_token)
+int     open_fd_output_redirect(t_all *all, t_dlst **ptr_token, t_dlst	*tmp_token)
 {
     int		fd;
-	t_dlst	*tmp;
 
 	fd = STDOUT_FILENO;
-    tmp = *ptr_token;
-    go_to_end_or_separator(&tmp);
-    if (tmp->next)
+    if (tmp_token)
 	{
 		if (all->fd_out != STDOUT_FILENO)
 			close(all->fd_out);
         if (all->next_operator == REDIRECT_OUTPUT)
-		    fd = open(tmp->next->str, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+		    fd = open(tmp_token->next->str, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
         else if (all->next_operator == APPEND_REDIRECT_OUTPUT)
-		    fd = open(tmp->next->str, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU);
+		    fd = open(tmp_token->next->str, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU);
 		if (fd < 0)
 		{
-			(cmd_error_message(NULL, tmp->next->str, strerror(errno)));
+			(cmd_error_message(NULL, tmp_token->next->str, strerror(errno)));
 			while (*ptr_token)
 				*ptr_token = (*ptr_token)->next;
 			all->exit_status = 1;
@@ -69,7 +64,7 @@ char *get_variable_value(char *line, t_all *all, int *i)
 		(*i)++;
 		return (value);
 	}
-	while (line[*i] && (line[*i]== '_' || ft_isalpha(line[*i])) // !ft_strchr(SPECIAL_CHARS, line[*i] )
+	while (line[*i] && (line[*i]== '_' || ft_isalpha(line[*i]))
 		&& !ft_iswhitespace(line[*i]))
 		(*i)++;
 	if (*i - start == 0)
@@ -171,5 +166,25 @@ void	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 			free(line);
 			line  = NULL;
 		}
+	}
+}
+
+void	redirections(t_all *all, t_dlst **ptr_token)
+{
+	t_dlst	*tmp_token;
+
+    tmp_token = *ptr_token;
+	while (all->next_operator == REDIRECT_INPUT
+		|| all->next_operator == REDIRECT_OUTPUT
+		|| all->next_operator == APPEND_REDIRECT_OUTPUT)
+	{
+   		go_to_end_or_separator(&tmp_token);
+		if (all->next_operator == REDIRECT_INPUT)
+			all->fd_in = open_fd_input_redirect(all, ptr_token, tmp_token);
+ 	   	else if (all->next_operator == REDIRECT_OUTPUT
+  	      || all->next_operator == APPEND_REDIRECT_OUTPUT)
+			all->fd_out = open_fd_output_redirect(all, ptr_token, tmp_token);
+		tmp_token = tmp_token->next;
+		all->next_operator = next_operator(tmp_token);
 	}
 }

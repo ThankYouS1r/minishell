@@ -37,7 +37,7 @@ t_dlst	*check_syntax_and_get_token_pos(t_all *all)
 
 void	skip_separator(t_dlst **ptr_token)
 {
-	if (*ptr_token && (is_separator(*ptr_token) == REDIRECT_INPUT
+	while (*ptr_token && (is_separator(*ptr_token) == REDIRECT_INPUT
         || is_separator(*ptr_token) == REDIRECT_OUTPUT
 		|| is_separator(*ptr_token) == APPEND_REDIRECT_OUTPUT
 		|| is_separator(*ptr_token) == HERE_DOCUMENT))
@@ -74,11 +74,9 @@ int	executor_loop(t_all *all)
 		}
 		else
 			all->fd_out = STDOUT_FILENO;
-		if (all->next_operator == REDIRECT_INPUT)
-			all->fd_in = open_fd_input_redirect(all, &ptr_token);
-        else if (all->next_operator == REDIRECT_OUTPUT
-            || all->next_operator == APPEND_REDIRECT_OUTPUT)
-			all->fd_out = open_fd_output_redirect(all, &ptr_token);
+		if (all->next_operator == REDIRECT_INPUT || all->next_operator == REDIRECT_OUTPUT
+			|| all->next_operator == APPEND_REDIRECT_OUTPUT || all->next_operator == HERE_DOCUMENT)
+			redirections(all, &ptr_token);
 		else if (all->next_operator == HERE_DOCUMENT)
 		{
 			open_fd_here_document(all, &ptr_token);

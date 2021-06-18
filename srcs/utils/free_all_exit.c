@@ -22,7 +22,6 @@ int	free_all_exit(t_all *all, int error_code)
 		doubly_lst_clear(&all->lst_token);
 	if (all->shell_history)
 		doubly_lst_clear(&all->shell_history);
-	if (error_code)
-		exit (error_code);
+	exit (error_code);
 	return (0);
 }

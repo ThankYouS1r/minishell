@@ -1,7 +1,7 @@
 #include "exec_commands.h"
 
 
-int	open_fd_input_redirect(t_all *all, t_dlst **ptr_token, t_dlst *tmp_token)
+int	open_fd_output_redirect(t_all *all, t_dlst **ptr_token, t_dlst *tmp_token)
 {
 	int		fd;
 
@@ -24,7 +24,7 @@ int	open_fd_input_redirect(t_all *all, t_dlst **ptr_token, t_dlst *tmp_token)
 	return (all->fd_in);
 }
 
-int     open_fd_output_redirect(t_all *all, t_dlst **ptr_token, t_dlst	*tmp_token)
+int     open_fd_input_redirect(t_all *all, t_dlst **ptr_token, t_dlst*tmp_token)
 {
     int		fd;
 
@@ -47,7 +47,7 @@ int     open_fd_output_redirect(t_all *all, t_dlst **ptr_token, t_dlst	*tmp_toke
 		}
 		return (fd);
 	}
-	return (all->fd_in);
+	return (all->fd_out);
 }
 char *get_variable_value(char *line, t_all *all, int *i)
 {
@@ -164,9 +164,10 @@ void	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 	}
 }
 
-void	redirections(t_all *all, t_dlst **ptr_token, int fd_0)
+void	redirections(t_all *all, t_dlst **ptr_token)
 {
 	t_dlst	*tmp_token;
+	int		fd[2];
 
     tmp_token = *ptr_token;
 	while (all->next_operator == REDIRECT_INPUT
@@ -176,15 +177,22 @@ void	redirections(t_all *all, t_dlst **ptr_token, int fd_0)
 	{
    		go_to_end_or_separator(&tmp_token);
 		if (all->next_operator == REDIRECT_INPUT)
-			all->fd_in = open_fd_input_redirect(all, ptr_token, tmp_token);
+			all->fd_in = open_fd_output_redirect(all, ptr_token, tmp_token);
  	   	else if (all->next_operator == REDIRECT_OUTPUT
   	      || all->next_operator == APPEND_REDIRECT_OUTPUT)
-			all->fd_out = open_fd_output_redirect(all, ptr_token, tmp_token);
+			all->fd_out = open_fd_input_redirect(all, ptr_token, tmp_token);
 		else if (all->next_operator == HERE_DOCUMENT)
 		{
+			if (pipe(fd) < 0)
+				error_handler(NULL, errno);
+			if (all->fd_out == STDOUT_FILENO)
+				all->fd_out = fd[1];
+			else
+				close(fd[1]);
+			close_fd(&all->fd_in, STDIN_FILENO);
 			open_fd_here_document(all, &tmp_token);
-			close(all->fd_out);
-			all->fd_in = fd_0;
+			close_fds(all);
+			all->fd_in = fd[0];
 		}
 		
 		tmp_token = tmp_token->next;

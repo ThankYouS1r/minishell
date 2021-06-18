@@ -15,7 +15,7 @@ char	**make_array_from_lst(t_dlst *head);
 char	**make_arg_array_from_lst(t_dlst *head, int operator);
 void	clear_array(char **str);
 char	*find_path(t_dlst *ptr_token, char *path_lst);
-void	redirections(t_all *all, t_dlst **ptr_token, int fd_0);
+void	redirections(t_all *all, t_dlst **ptr_token);
 void	open_fd_here_document(t_all *all, t_dlst **ptr_token);
 void	handle_sigint(int signum);
 

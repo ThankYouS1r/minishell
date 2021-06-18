@@ -78,6 +78,7 @@ int				is_pipe(t_dlst *ptr_token);
 int				prev_operator(t_dlst *ptr_token);
 void			init_fd(t_all *all);
 void			close_fds(t_all *all);
+void			close_fd(int *fd, int value);
 int				myputchar(int nb);
 int				last_token(t_dlst *ptr_token);
 int				is_valid_variable_name(char *variable_name, char end_char);

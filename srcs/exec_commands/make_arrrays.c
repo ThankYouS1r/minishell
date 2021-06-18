@@ -64,7 +64,6 @@ char	**fill_arg_array(t_dlst *head, int len, char ***array)
 			(*array) = NULL;
 			error_handler(NULL, ENOMEM);
 		}
-		// dprintf(2, "(*array)[%i] = %s\n", i, (*array)[i]);
 		head = head->next;
 	}
 	return (*array);
@@ -92,6 +91,5 @@ char	**make_arg_array_from_lst(t_dlst *head, int operator)
 	array = (char **)ft_calloc(len + 1, sizeof(char *));
 	if (!array)
 		error_handler(NULL, ENOMEM);
-	// dprintf(2, "len = %d\n", len);
 	return(fill_arg_array(head, len, &array));
 }

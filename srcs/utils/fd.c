@@ -13,3 +13,12 @@ void    close_fds(t_all *all)
         all->fd_out = STDOUT_FILENO;
     }
 }
+
+void    close_fd(int *fd, int value)
+{
+    if (*fd != value)
+    {
+        close(*fd);
+        *fd = value;
+    }
+}

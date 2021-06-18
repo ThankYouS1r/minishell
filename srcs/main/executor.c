@@ -58,12 +58,6 @@ int	executor_loop(t_all *all)
 	ptr_token = check_syntax_and_get_token_pos(all);
 	while (ptr_token)
 	{
-		// check_and_handle_dollar(ptr_token, all);
-		// if (ptr_token->str[0] == '\0')
-		// {
-		// 	ptr_token = ptr_token->next;
-		// 	continue ;
-		// }
 		all->next_operator = next_operator(ptr_token);
 		next_pipe = is_pipe(ptr_token);
 		if (next_pipe || all->next_operator == HERE_DOCUMENT)
@@ -76,13 +70,13 @@ int	executor_loop(t_all *all)
 			all->fd_out = STDOUT_FILENO;
 		if (all->next_operator == REDIRECT_INPUT || all->next_operator == REDIRECT_OUTPUT
 			|| all->next_operator == APPEND_REDIRECT_OUTPUT || all->next_operator == HERE_DOCUMENT)
-			redirections(all, &ptr_token);
-		else if (all->next_operator == HERE_DOCUMENT)
-		{
-			open_fd_here_document(all, &ptr_token);
-			close(all->fd_out);
-			all->fd_in = fd[0];
-		}
+			redirections(all, &ptr_token, fd[0]);
+		// else if (all->next_operator == HERE_DOCUMENT)
+		// {
+		// 	open_fd_here_document(all, &ptr_token);
+		// 	close(all->fd_out);
+		// 	all->fd_in = fd[0];
+		// }
 		exec_builtins_or_external_programs(all, &ptr_token);
 		close_fds(all);
 		if (next_pipe)

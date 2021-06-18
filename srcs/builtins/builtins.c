@@ -15,8 +15,7 @@ int	builtins(t_dlst **ptr_token, t_all *all)
 	else if (!ft_strcmp((*ptr_token)->str, "env"))
 		all->exit_status = env_cmd(ptr_token, all->env, all->fd_out);
 	else if (!ft_strcmp((*ptr_token)->str, "exit"))
-		all->exit_status = exit_cmd(ptr_token, all->exit_status,
-				&all->shell_history);
+		exit_cmd(all, ptr_token, all->exit_status, &all->shell_history);
 	else
 		return (0);
 	return (1);

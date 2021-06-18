@@ -104,5 +104,6 @@ t_dlst	*parsing(t_all *all)
 			return (NULL);
 		merge_str_and_lst_append(&line, all);
 	}
+
 	return (all->lst_token);
 }

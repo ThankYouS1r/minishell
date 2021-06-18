@@ -50,10 +50,10 @@ char	**fill_arg_array(t_dlst *head, int len, char ***array)
 	i = -1;
 	while (++i < len)
 	{
-		if (is_separator(head) == REDIRECT_INPUT
+		while (head && (is_separator(head) == REDIRECT_INPUT
 			|| is_separator(head) == REDIRECT_OUTPUT
 			|| is_separator(head) == APPEND_REDIRECT_OUTPUT
-			|| is_separator(head) == HERE_DOCUMENT)
+			|| is_separator(head) == HERE_DOCUMENT))
 			head = head->next->next;
 		(*array)[i] = ft_strdup(head->str);
 		if (!(*array)[i])
@@ -64,7 +64,7 @@ char	**fill_arg_array(t_dlst *head, int len, char ***array)
 			(*array) = NULL;
 			error_handler(NULL, ENOMEM);
 		}
-	//	printf("(*array)[%i] = %s\n", i, (*array)[i]);
+		// dprintf(2, "(*array)[%i] = %s\n", i, (*array)[i]);
 		head = head->next;
 	}
 	return (*array);
@@ -75,20 +75,15 @@ char	**make_arg_array_from_lst(t_dlst *head, int operator)
 	char	**array;
 	t_dlst	*tmp;
 	int		len;
-	// int		nbr_redirections;
 
 	len = 0;
 	tmp = head;
-	// nbr_redirections = 0;
+	(void)operator;
 	while (tmp)
 	{
-		if ((operator == REDIRECT_INPUT || operator == REDIRECT_OUTPUT
-			|| operator == APPEND_REDIRECT_OUTPUT || operator == HERE_DOCUMENT)
-			&& (operator == is_separator(tmp)))// && nbr_redirections == 0)
-		{
-			// nbr_redirections++;
+		while (tmp && (is_separator(tmp) == REDIRECT_INPUT || is_separator(tmp) == REDIRECT_OUTPUT
+			|| is_separator(tmp) == APPEND_REDIRECT_OUTPUT || is_separator(tmp) == HERE_DOCUMENT))
 			tmp = tmp->next->next;
-		}
 		if (!tmp || is_separator(tmp))
 			break ;
 		len++;
@@ -97,6 +92,6 @@ char	**make_arg_array_from_lst(t_dlst *head, int operator)
 	array = (char **)ft_calloc(len + 1, sizeof(char *));
 	if (!array)
 		error_handler(NULL, ENOMEM);
-	// printf("len = %d\n", len);
+	// dprintf(2, "len = %d\n", len);
 	return(fill_arg_array(head, len, &array));
 }

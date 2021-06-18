@@ -135,6 +135,7 @@ char	*handle_dollar_in_line(char *line, t_all *all)
 				error_handler(NULL, ENOMEM);
 		}
 	}
+	free(line);
 	return (new_line);
 }
 
@@ -142,41 +143,36 @@ void	open_fd_here_document(t_all *all, t_dlst **ptr_token)
 {
 	t_dlst	*tmp;
 	char	*line;
-	char	*tmp_line;
 	int		ret;
 
 	tmp = *ptr_token;
 	go_to_end_or_separator(&tmp);
-	if (tmp->next)
+	while (tmp->next)
 	{
-		while (1)
+		ret = read_line(all->fd_in, &line);
+		if (ret < 0)
+			error_handler(NULL, errno);
+		if (!ft_strcmp(line, tmp->next->str))
 		{
-			ret = read_line(all->fd_in, &line);
-			if (ret < 0)
-				error_handler(NULL, errno);
-			if (!ft_strcmp(line, tmp->next->str))
-			{
-				free(line);
-				break ;
-			}
-			tmp_line = line;
-			line = handle_dollar_in_line(line, all);
-			free(tmp_line);
-			ft_putendl_fd(line, all->fd_out);
 			free(line);
-			line  = NULL;
+			break ;
 		}
+		line = handle_dollar_in_line(line, all);
+		ft_putendl_fd(line, all->fd_out);
+		free(line);
+		line  = NULL;
 	}
 }
 
-void	redirections(t_all *all, t_dlst **ptr_token)
+void	redirections(t_all *all, t_dlst **ptr_token, int fd_0)
 {
 	t_dlst	*tmp_token;
 
     tmp_token = *ptr_token;
 	while (all->next_operator == REDIRECT_INPUT
 		|| all->next_operator == REDIRECT_OUTPUT
-		|| all->next_operator == APPEND_REDIRECT_OUTPUT)
+		|| all->next_operator == APPEND_REDIRECT_OUTPUT
+		|| all->next_operator == HERE_DOCUMENT)
 	{
    		go_to_end_or_separator(&tmp_token);
 		if (all->next_operator == REDIRECT_INPUT)
@@ -184,6 +180,13 @@ void	redirections(t_all *all, t_dlst **ptr_token)
  	   	else if (all->next_operator == REDIRECT_OUTPUT
   	      || all->next_operator == APPEND_REDIRECT_OUTPUT)
 			all->fd_out = open_fd_output_redirect(all, ptr_token, tmp_token);
+		else if (all->next_operator == HERE_DOCUMENT)
+		{
+			open_fd_here_document(all, &tmp_token);
+			close(all->fd_out);
+			all->fd_in = fd_0;
+		}
+		
 		tmp_token = tmp_token->next;
 		all->next_operator = next_operator(tmp_token);
 	}

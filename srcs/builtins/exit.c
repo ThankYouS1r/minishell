@@ -1,6 +1,6 @@
 #include "builtins.h"
 
-int	exit_cmd(t_dlst **ptr_token, unsigned char exit_status, t_dlst **shell_hist)
+void	exit_cmd(t_all	*all, t_dlst **ptr_token, unsigned char exit_status, t_dlst **shell_hist)
 {
 	unsigned char	status;
 
@@ -29,5 +29,5 @@ int	exit_cmd(t_dlst **ptr_token, unsigned char exit_status, t_dlst **shell_hist)
 		go_to_end_or_separator(ptr_token);
 	}
 	save_history_to_file_and_close(shell_hist);
-	exit(status);
+	free_all_exit(all, status);
 }

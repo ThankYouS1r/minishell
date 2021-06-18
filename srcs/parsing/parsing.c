@@ -91,9 +91,9 @@ t_dlst	*parsing(t_all *all)
 
 	line.merged_str = NULL;
 	line.line = ft_strdup(all->line);
-	// read_line(STDIN_FILENO, &line.line);
 	free(all->line); // Do we need to free all->line? Sanitizer detected memory leak!!!!
 	all->line = NULL;
+	// read_line(STDIN_FILENO, &line.line);
 	if (!line.line)
 		free_all_exit(all, 1);
 	add_history_to_lst(line.line, &all->shell_history, &all->ptr_history);

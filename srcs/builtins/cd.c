@@ -41,19 +41,21 @@ int	change_environment(t_dlst **env, char *name, char *value)
 	t_dlst	*tmp;
 
 	tmp = *env;
+	new_str = ft_strjoin(name, value);
+	if (!new_str)
+		error_handler(NULL, ENOMEM);
 	while (tmp)
 	{
 		if (!ft_strncmp(name, tmp->str, ft_strlen(name)))
 		{
-			new_str = ft_strjoin(name, value);
-			if (!new_str)
-				error_handler(NULL, ENOMEM);
 			free(tmp->str);
 			tmp->str = new_str;
 			return (SUCCESS);
 		}
 		tmp = tmp->next;
 	}
+	if (!tmp)
+		doubly_lst_append(env, doubly_lst_new(new_str, NONE));
 	return (SUCCESS);
 }
 

@@ -37,9 +37,7 @@ char	*get_variable_name(char **line, t_all *all)
 	{
 		if (ft_iswhitespace(**line))
 			break ;
-		// else if ((ft_strchr(SPECIAL_CHARS, **line)))
-		// 	break ;
-		else if (**line != '_' && !ft_isalpha(**line))
+		else if (**line != '_' && !ft_isalnum(**line))
 			break ;
 		str = str_join_char(str, **line);
 		if (!str)

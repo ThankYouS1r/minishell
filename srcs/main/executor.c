@@ -60,7 +60,7 @@ int	executor_loop(t_all *all)
 	{
 		all->next_operator = next_operator(ptr_token);
 		next_pipe = is_pipe(ptr_token);
-		if (next_pipe)// || all->next_operator == HERE_DOCUMENT)
+		if (next_pipe)
 		{
 			if (pipe(fd) < 0)
 				return (error_handler(NULL, errno));

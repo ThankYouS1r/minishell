@@ -1,6 +1,6 @@
 #include "utils.h"
 
-t_dlst *doubly_lst_dup(t_dlst *head)
+t_dlst	*doubly_lst_dup(t_dlst *head)
 {
 	t_dlst	*new_head;
 	char	*str_dup;

@@ -1,6 +1,6 @@
 #include "builtins.h"
 
-void	print_sorted_env(t_dlst *env, int fd_out)
+int	print_sorted_env(t_dlst *env, int fd_out)
 {
 	t_dlst	*sorted_env;
 	t_dlst	*tmp;
@@ -17,6 +17,7 @@ void	print_sorted_env(t_dlst *env, int fd_out)
 		tmp = tmp->next;
 	}
 	doubly_lst_clear(&sorted_env);
+	return (SUCCESS);
 }
 
 void	add_environment(t_dlst **env, char *str)
@@ -59,10 +60,7 @@ int	export_cmd(t_dlst **ptr_token, t_dlst *env, int fd_out)
 	*ptr_token = (*ptr_token)->next;
 	status = SUCCESS;
 	if (!(*ptr_token) || is_separator(*ptr_token))
-	{
-		print_sorted_env(env, fd_out);
-		return (SUCCESS);
-	}
+		return (print_sorted_env(env, fd_out));
 	while (*ptr_token && !is_separator(*ptr_token))
 	{
 		if (!is_valid_variable_name((*ptr_token)->str, '='))

@@ -1,6 +1,14 @@
 #include "builtins.h"
 
-void	exit_cmd(t_all	*all, t_dlst **ptr_token, unsigned char exit_status, t_dlst **shell_hist)
+int	exit_error_msg(char *msg, char *arg_name, t_dlst **ptr_token, int status)
+{
+	cmd_error_message("exit", arg_name, msg);
+	go_to_end_or_separator(ptr_token);
+	return (status);
+}
+
+void	exit_cmd(t_all	*all, t_dlst **ptr_token,
+		unsigned char exit_status, t_dlst **shell_hist)
 {
 	unsigned char	status;
 
@@ -10,19 +18,11 @@ void	exit_cmd(t_all	*all, t_dlst **ptr_token, unsigned char exit_status, t_dlst 
 	if (!(*ptr_token))
 		status = exit_status;
 	else if (!is_number((*ptr_token)->str) && !is_separator(*ptr_token))
-	{
-		cmd_error_message("exit", (*ptr_token)->str,
-			"numeric argument required");
-		go_to_end_or_separator(ptr_token);
-		status = 2;
-	}
+		status = exit_error_msg("numeric argument required",
+				(*ptr_token)->str, ptr_token, 2);
 	else if (!is_separator(*ptr_token)
 		&& (*ptr_token)->next && !is_separator((*ptr_token)->next))
-	{
-		cmd_error_message("exit", NULL, "too many arguments");
-		go_to_end_or_separator(ptr_token);
-		status = 1;
-	}
+		status = exit_error_msg("too many arguments", NULL, ptr_token, 1);
 	else if (is_number((*ptr_token)->str))
 	{
 		status = ft_atoi((*ptr_token)->str);

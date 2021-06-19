@@ -1,5 +1,24 @@
 #include "environment.h"
 
+char	*is_wrong_first_char_in_name(const char *name)
+{
+	char	*variable_value;
+
+	if (name[0] >= '0' && name [0] <= '9')
+	{
+		variable_value = ft_substr(name, 1, ft_strlen(name) - 1);
+		check_memory_allocation_str(variable_value);
+		return (variable_value);
+	}
+	else if (name[0] != '_' && !ft_isalpha(name[0]))
+	{
+		variable_value = ft_strjoin("$", name);
+		check_memory_allocation_str(variable_value);
+		return (variable_value);
+	}
+	return (NULL);
+}
+
 /*
 ** The getenv_from_lst() function searches the environment array to find the
 ** environment variable name, and returns a pointer to the corresponding value
@@ -14,18 +33,9 @@ char	*getenv_from_lst(t_dlst *env, const char *name)
 
 	if (!name || !env)
 		return (NULL);
-	if (name[0] >= '0' && name [0] <= '9')
-	{
-		variable_value = ft_substr(name, 1, ft_strlen(name) - 1);
-		check_memory_allocation_str(variable_value);
+	variable_value = is_wrong_first_char_in_name(name);
+	if (variable_value)
 		return (variable_value);
-	}
-	else if (name[0] != '_' && !ft_isalpha(name[0])) 
-	{
-		variable_value = ft_strjoin("$", name);
-		check_memory_allocation_str(variable_value);
-		return (variable_value);
-	}
 	tmp_lst = env;
 	while (tmp_lst)
 	{

@@ -18,5 +18,6 @@ int		cd_cmd(t_dlst **ptr_token, t_dlst *env);
 void	exit_cmd(t_all	*all, t_dlst **ptr_token,
 		unsigned char exit_status, t_dlst **shell_hist);
 void 	save_history_to_file_and_close(t_dlst **head_history);
+int		change_pwd(char *oldpwd, t_dlst **env);
 
 #endif

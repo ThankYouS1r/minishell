@@ -2,10 +2,11 @@
 
 void	print_minishell_history(t_dlst **ptr_history, int direction)
 {
-	
-	if (direction == PREVIOUS_HISTORY && *ptr_history && (*ptr_history)->flag == LAST_HISTORY)
+	if (direction == PREVIOUS_HISTORY
+		&& *ptr_history && (*ptr_history)->flag == LAST_HISTORY)
 		(*ptr_history)->flag = NONE;
-	else if (direction == PREVIOUS_HISTORY && *ptr_history && (*ptr_history)->prev)
+	else if (direction == PREVIOUS_HISTORY
+		&& *ptr_history && (*ptr_history)->prev)
 		(*ptr_history) = (*ptr_history)->prev;
 	else if (direction == NEXT_HISTORY && *ptr_history && (*ptr_history)->next)
 		(*ptr_history) = (*ptr_history)->next;
@@ -13,8 +14,6 @@ void	print_minishell_history(t_dlst **ptr_history, int direction)
 
 void	add_history_to_lst(char *str, t_dlst **head, t_dlst **p_history)
 {
-	if (str[0] == '\0')
-		return ;
 	if (!doubly_lst_append(head, doubly_lst_new(str, LAST_HISTORY)))
 		error_handler(NULL, ENOMEM);
 	*p_history = *head;

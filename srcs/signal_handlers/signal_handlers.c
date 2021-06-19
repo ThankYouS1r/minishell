@@ -6,15 +6,12 @@ void	handle_sigint(int signum)
 	g_sigint = 1;
 	write(1, "\n", 1);
 	print_promt();
-
-	
 }
 
 void	handle_sigquit(int signum)
 {
 	(void)signum;
 }
-
 
 void	set_signal_handlers(void)
 {

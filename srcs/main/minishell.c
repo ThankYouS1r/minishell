@@ -1,5 +1,5 @@
 #include "minishell.h"
-int g_sigint;
+int	g_sigint;
 
 int	main(int argc, char *argv[], char *envp[])
 {

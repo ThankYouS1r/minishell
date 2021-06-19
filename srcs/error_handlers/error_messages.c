@@ -22,7 +22,7 @@ void	cmd_error_message(char *cmd_name, char *arg_name, char *description)
 void	syntax_error_message(t_all *all, t_dlst **ptr_token, char *unexpected)
 {
 	while (*ptr_token)
-		(*ptr_token)=(*ptr_token)->next;
+		(*ptr_token) = (*ptr_token)->next;
 	ft_putstr_fd(RED_COLOR, STDERR_FILENO);
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(NONE_COLOR, STDERR_FILENO);

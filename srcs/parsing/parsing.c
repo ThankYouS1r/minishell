@@ -67,20 +67,15 @@ void	merge_str_and_lst_append(t_line *l, t_all *all)
 	}
 	free(l->str);
 	if (!l->merged_str)
-		free_all_exit(all, 1);
+		free_all_exit(all, ERROR);
 	if (!(*l->merged_str))
-	{
-		free(l->merged_str);
-		l->merged_str = NULL;
-	}
+		free_char_and_null(&l->merged_str);
 	else if (!*l->line || (ft_strchr("\'\"", *l->line) && (!(*(l->line + 1))))
 		|| ft_iswhitespace(*l->line) || ft_strchr("|><;", (*l->line)))
 	{
-		if (!doubly_lst_append(&all->lst_token, doubly_lst_new(l->merged_str, l->escaped_char)))
-		{
-			free(l->merged_str);
-			free_all_exit(all, 1);
-		}
+		if (!doubly_lst_append(&all->lst_token,
+				doubly_lst_new(l->merged_str, l->escaped_char)))
+			error_handler(NULL, ENOMEM);
 		l->merged_str = NULL;
 	}
 }
@@ -91,19 +86,17 @@ t_dlst	*parsing(t_all *all)
 
 	line.merged_str = NULL;
 	line.line = ft_strdup(all->line);
-	free(all->line); // Do we need to free all->line? Sanitizer detected memory leak!!!!
+	free(all->line);
 	all->line = NULL;
-	// read_line(STDIN_FILENO, &line.line);
 	if (!line.line)
-		free_all_exit(all, 1);
+		free_all_exit(all, ERROR);
 	add_history_to_lst(line.line, &all->shell_history, &all->ptr_history);
-	while (*line.line)
+	while (line.line && *line.line)
 	{
 		line.str = parse_line(&line, all, &line.escaped_char);
 		if (!line.str)
 			return (NULL);
 		merge_str_and_lst_append(&line, all);
 	}
-
 	return (all->lst_token);
 }

@@ -85,5 +85,6 @@ int				is_valid_variable_name(char *variable_name, char end_char);
 int				is_last_token_escaped(t_dlst *ptr_token);
 char			*ft_str_replace(char *dst, char *src, int dst_start, int dst_end);
 void			print_promt(void);
+void			free_char_and_null(char	**str);
 
 #endif

@@ -23,7 +23,8 @@ t_dlst	*check_syntax_and_get_token_pos(t_all *all)
 		tmp = tmp->next;
 	if (ptr_token->flag & ESCAPED_CHAR)
 		return (ptr_token);
-	else if (is_separator(ptr_token) == PIPE || is_separator(ptr_token) == SEMICOLON)
+	else if (is_separator(ptr_token) == PIPE
+		|| is_separator(ptr_token) == SEMICOLON)
 		syntax_error_message(all, &ptr_token, ptr_token->str);
 	else if ((is_separator(tmp) == PIPE)
 		|| (is_separator(tmp) == SEMICOLON
@@ -38,9 +39,9 @@ t_dlst	*check_syntax_and_get_token_pos(t_all *all)
 void	skip_separator(t_dlst **ptr_token)
 {
 	while (*ptr_token && (is_separator(*ptr_token) == REDIRECT_INPUT
-        || is_separator(*ptr_token) == REDIRECT_OUTPUT
-		|| is_separator(*ptr_token) == APPEND_REDIRECT_OUTPUT
-		|| is_separator(*ptr_token) == HERE_DOCUMENT))
+			|| is_separator(*ptr_token) == REDIRECT_OUTPUT
+			|| is_separator(*ptr_token) == APPEND_REDIRECT_OUTPUT
+			|| is_separator(*ptr_token) == HERE_DOCUMENT))
 	{
 		*ptr_token = (*ptr_token)->next;
 		go_to_end_or_separator(ptr_token);
@@ -73,10 +74,7 @@ int	executor_loop(t_all *all)
 			redirections(all, &ptr_token);
 		exec_builtins_or_external_programs(all, &ptr_token);
 		close_fds(all);
-		if (next_pipe)
-			all->fd_in = fd[0];
-		else
-			all->fd_in = STDIN_FILENO;
+		all->fd_in = (next_pipe != NONE) * fd[0];
 		skip_separator(&ptr_token);
 	}
 	return (all->exit_status);

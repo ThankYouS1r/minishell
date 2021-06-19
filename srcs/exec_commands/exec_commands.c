@@ -1,6 +1,6 @@
 #include "exec_commands.h"
 
-int get_exit_status(int wstatus)
+int	get_exit_status(int wstatus)
 {
 	int	signal;
 
@@ -15,13 +15,33 @@ int get_exit_status(int wstatus)
 		}
 		return (signal + 128);
 	}
-	return WEXITSTATUS(wstatus);
+	return (WEXITSTATUS(wstatus));
+}
+
+void	child_process(t_dlst **ptr_token, t_all *all, char *path)
+{
+	char	**arg_array;
+	char	**envp_array;
+	int		status;
+
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	if (all->fd_in != STDIN_FILENO)
+		dup2(all->fd_in, STDIN_FILENO);
+	if ((all->fd_out != STDOUT_FILENO))
+		dup2(all->fd_out, STDOUT_FILENO);
+	close_fds(all);
+	arg_array = make_arg_array_from_lst(*ptr_token, all->next_operator);
+	envp_array = make_array_from_lst(all->env);
+	status = execve(path, arg_array, envp_array);
+	cmd_error_message((*ptr_token)->str, NULL, strerror(errno));
+	clear_array(arg_array);
+	clear_array(envp_array);
+	exit(status);
 }
 
 void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 {
-	char	**arg_array;
-	char	**envp_array;
 	pid_t	pid;
 	int		status;
 
@@ -30,22 +50,7 @@ void	run_program(t_dlst **ptr_token, t_all *all, char *path)
 	if (pid < 0)
 		all->exit_status = error_handler(NULL, errno);
 	else if (!pid)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
-		if (all->fd_in != STDIN_FILENO)
-			dup2(all->fd_in, STDIN_FILENO);
-		if ((all->fd_out != STDOUT_FILENO))
-			dup2(all->fd_out, STDOUT_FILENO);
-		close_fds(all);
-		arg_array = make_arg_array_from_lst(*ptr_token, all->next_operator);
-		envp_array = make_array_from_lst(all->env);
-		status = execve(path, arg_array, envp_array);
-		cmd_error_message((*ptr_token)->str, NULL, strerror(errno));
-		clear_array(arg_array);
-		clear_array(envp_array);
-		exit(status);
-	}
+		child_process(ptr_token, all, path);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, handle_sigint);
 	all->exit_status = get_exit_status(status);

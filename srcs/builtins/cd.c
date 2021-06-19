@@ -35,48 +35,10 @@ int	go_path(t_dlst **ptr_token)
 	return (SUCCESS);
 }
 
-int	change_environment(t_dlst **env, char *name, char *value)
+int	cd_error_msg(char *msg, t_dlst **ptr_token, int status)
 {
-	char	*new_str;
-	t_dlst	*tmp;
-
-	tmp = *env;
-	new_str = ft_strjoin(name, value);
-	if (!new_str)
-		error_handler(NULL, ENOMEM);
-	while (tmp)
-	{
-		if (!ft_strncmp(name, tmp->str, ft_strlen(name)))
-		{
-			free(tmp->str);
-			tmp->str = new_str;
-			return (SUCCESS);
-		}
-		tmp = tmp->next;
-	}
-	if (!tmp)
-		doubly_lst_append(env, doubly_lst_new(new_str, NONE));
-	return (SUCCESS);
-}
-
-int	change_pwd(char *oldpwd, t_dlst **env)
-{
-	char	*cwd;
-	int		status;
-
-	status = SUCCESS;
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		cmd_error_message("pwd", NULL, strerror(errno));
-		status = ERROR;
-	}
-	else
-	{
-		status = change_environment(env, "PWD=", cwd);
-		free(cwd);
-	}
-	status += change_environment(env, "OLDPWD=", oldpwd);
+	cmd_error_message("cd", NULL, msg);
+	go_to_end_or_separator(ptr_token);
 	return (status);
 }
 
@@ -88,22 +50,16 @@ int	cd_cmd(t_dlst **ptr_token, t_dlst *env)
 	*ptr_token = (*ptr_token)->next;
 	if ((*ptr_token) && !is_separator(*ptr_token)
 		&& (*ptr_token)->next && !is_separator((*ptr_token)->next))
-	{
-		cmd_error_message("cd", NULL, "too many arguments");
-		go_to_end_or_separator(ptr_token);
-		return (ERROR);
-	}
+		return (cd_error_msg("too many arguments", ptr_token, ERROR));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-	{
-		cmd_error_message("cd", NULL, strerror(errno));
-		go_to_end_or_separator(ptr_token);
-		return (ERROR);
-	}
+		return (cd_error_msg(strerror(errno), ptr_token, ERROR));
 	status = 0;
-	if (*ptr_token && !is_separator(*ptr_token) && prev_operator(*ptr_token) != PIPE)
+	if (*ptr_token && !is_separator(*ptr_token)
+		&& prev_operator(*ptr_token) != PIPE)
 		status = go_path(ptr_token);
-	else if ((!*ptr_token || is_separator(*ptr_token)) && prev_operator(*ptr_token) != PIPE)
+	else if ((!*ptr_token || is_separator(*ptr_token))
+		&& prev_operator(*ptr_token) != PIPE)
 		status = go_home(env);
 	go_to_end_or_separator(ptr_token);
 	if (!status)

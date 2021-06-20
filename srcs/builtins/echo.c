@@ -6,7 +6,7 @@ int	echo_cmd(t_dlst **ptr_token, int fd_out)
 
 	n_option = 0;
 	*ptr_token = (*ptr_token)->next;
-	if (*ptr_token && !ft_strcmp((*ptr_token)->str, "-n"))
+	while (*ptr_token && !ft_strcmp((*ptr_token)->str, "-n"))
 	{
 		n_option = 1;
 		*ptr_token = (*ptr_token)->next;

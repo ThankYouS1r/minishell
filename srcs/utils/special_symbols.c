@@ -9,16 +9,16 @@ int	is_separator(t_dlst *ptr_token)
 		return (SEMICOLON);
 	else if (ptr_token->str[0] == '<' && ptr_token->str[1] == '\0'
 		&& ptr_token->flag == NONE)
-		return (REDIRECT_INPUT);
+		return (INPUT);
 	else if (ptr_token->str[0] == '>' && ptr_token->str[1] == '\0'
 		&& ptr_token->flag == NONE)
-		return (REDIRECT_OUTPUT);
+		return (TRUNC);
 	else if (ptr_token->str[0] == '>' && ptr_token->str[1] == '>'
 		&& ptr_token->str[2] == '\0' && ptr_token->flag == NONE)
-		return (APPEND_REDIRECT_OUTPUT);
+		return (APPEND);
 	else if (ptr_token->str[0] == '<' && ptr_token->str[1] == '<'
 		&& ptr_token->str[2] == '\0' && ptr_token->flag == NONE)
-		return (HERE_DOCUMENT);
+		return (HEREDOC);
 	return (NONE);
 }
 

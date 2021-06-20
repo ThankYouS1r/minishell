@@ -53,21 +53,26 @@ char	*get_variable_name(char **line, t_all *all)
 	return (str);
 }
 
+char	*get_status(char **str, t_all *all)
+{
+	char	*value;
+
+	value = ft_itoa(all->exit_status);
+	if (!value)
+		free_all_exit(all, ENOMEM);
+	(*str)++;
+	return (value);
+}
+
 char	*dollar_handler(char **str, t_all *all)
 {
 	char	*name;
 	char	*value;
 
 	if (**str == '?')
-	{
-		value = ft_itoa(all->exit_status);
-		if (!value)
-			free_all_exit(all, ENOMEM);
-		(*str)++;
-		return (value);
-	}
+		return (get_status(str, all));
 	name = get_variable_name(str, all);
-	if (last_token(all->lst_token) == HERE_DOCUMENT || name[0] == '\0')
+	if (last_token(all->lst_token) == HEREDOC || name[0] == '\0')
 	{
 		value = ft_strjoin("$", name);
 		if (!value)
@@ -84,33 +89,4 @@ char	*dollar_handler(char **str, t_all *all)
 			free_all_exit(all, ENOMEM);
 	}
 	return (value);
-}
-
-char	*single_operator_handler(char **line, t_all *all)
-{
-	char	*str;
-
-	str = str_join_char(NULL, **line);
-	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str, NONE)))
-		free_all_exit(all, 1);
-	str = str_join_char(NULL, '\0');
-	if (!str)
-		free_all_exit(all, 1);
-	(*line)++;
-	return (str);
-}
-
-char	*double_operator_handler(char **line, t_all *all)
-{
-	char	*str;
-
-	str = ft_substr(*line, 0, 2);
-	if (!str || !doubly_lst_append(&all->lst_token, doubly_lst_new(str, NONE)))
-		free_all_exit(all, 1);
-	str = str_join_char(NULL, '\0');
-	if (!str)
-		free_all_exit(all, 1);
-	(*line)++;
-	(*line)++;
-	return (str);
 }

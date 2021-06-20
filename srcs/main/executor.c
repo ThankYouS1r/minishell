@@ -38,16 +38,23 @@ t_dlst	*check_syntax_and_get_token_pos(t_all *all)
 
 void	skip_separator(t_dlst **ptr_token)
 {
-	while (*ptr_token && (is_separator(*ptr_token) == REDIRECT_INPUT
-			|| is_separator(*ptr_token) == REDIRECT_OUTPUT
-			|| is_separator(*ptr_token) == APPEND_REDIRECT_OUTPUT
-			|| is_separator(*ptr_token) == HERE_DOCUMENT))
+	while (*ptr_token && (is_separator(*ptr_token) == INPUT
+			|| is_separator(*ptr_token) == TRUNC
+			|| is_separator(*ptr_token) == APPEND
+			|| is_separator(*ptr_token) == HEREDOC))
 	{
 		*ptr_token = (*ptr_token)->next;
 		go_to_end_or_separator(ptr_token);
 	}
 	if (*ptr_token && (is_separator(*ptr_token)))
 		*ptr_token = (*ptr_token)->next;
+}
+
+void	check_redirections(t_all *all, t_dlst **ptr_token)
+{
+	if (all->next_operator == INPUT || all->next_operator == TRUNC
+		|| all->next_operator == APPEND || all->next_operator == HEREDOC)
+		redirections(all, ptr_token);
 }
 
 int	executor_loop(t_all *all)
@@ -69,9 +76,7 @@ int	executor_loop(t_all *all)
 		}
 		else
 			all->fd_out = STDOUT_FILENO;
-		if (all->next_operator == REDIRECT_INPUT || all->next_operator == REDIRECT_OUTPUT
-			|| all->next_operator == APPEND_REDIRECT_OUTPUT || all->next_operator == HERE_DOCUMENT)
-			redirections(all, &ptr_token);
+		check_redirections(all, &ptr_token);
 		exec_builtins_or_external_programs(all, &ptr_token);
 		close_fds(all);
 		all->fd_in = (next_pipe != NONE) * fd[0];

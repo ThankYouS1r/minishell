@@ -50,10 +50,10 @@ char	**fill_arg_array(t_dlst *head, int len, char ***array)
 	i = -1;
 	while (++i < len)
 	{
-		while (head && (is_separator(head) == REDIRECT_INPUT
-				|| is_separator(head) == REDIRECT_OUTPUT
-				|| is_separator(head) == APPEND_REDIRECT_OUTPUT
-				|| is_separator(head) == HERE_DOCUMENT))
+		while (head && (is_separator(head) == INPUT
+				|| is_separator(head) == TRUNC
+				|| is_separator(head) == APPEND
+				|| is_separator(head) == HEREDOC))
 			head = head->next->next;
 		(*array)[i] = ft_strdup(head->str);
 		if (!(*array)[i])
@@ -80,10 +80,10 @@ char	**make_arg_array_from_lst(t_dlst *head, int operator)
 	(void)operator;
 	while (tmp)
 	{
-		while (tmp && (is_separator(tmp) == REDIRECT_INPUT
-				|| is_separator(tmp) == REDIRECT_OUTPUT
-				|| is_separator(tmp) == APPEND_REDIRECT_OUTPUT
-				|| is_separator(tmp) == HERE_DOCUMENT))
+		while (tmp && (is_separator(tmp) == INPUT
+				|| is_separator(tmp) == TRUNC
+				|| is_separator(tmp) == APPEND
+				|| is_separator(tmp) == HEREDOC))
 			tmp = tmp->next->next;
 		if (!tmp || is_separator(tmp))
 			break ;

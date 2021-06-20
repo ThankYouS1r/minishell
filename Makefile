@@ -37,7 +37,7 @@ SRCS_UTILS = ft_realloc.c ft_malloc.c ft_crash.c\
 			special_symbols.c doubly_lst_delete_element.c doubly_lst_dup.c\
 			doubly_lst_merge_sort.c other.c is_number.c doubly_lst_size.c fd.c \
 			my_putchar.c is_valid_variable_name.c ft_str_replace.c \
-			print_promt.c check_history_i.c
+			doubly_lst_split.c print_promt.c check_history_i.c
 
 OBJ_UTILS = $(addprefix $(OBJDIR), $(SRCS_UTILS:.c=.o))
 HEADER_UTILS = $(addprefix $(HEADERDIR), utils.h)
@@ -50,7 +50,7 @@ HEADER_TERMCAP_COMMANDS = $(addprefix $(HEADERDIR), termcap_commands.h)
 
 SRC_PARSING_DIR = ./srcs/parsing/
 SRCS_PARSING = read_line.c parsing.c quote_handler.c handle_special_chars.c\
-			double_quotes.c
+			double_quotes.c operator_handler.c
 OBJ_PARSING = $(addprefix $(OBJDIR), $(SRCS_PARSING:.c=.o))
 HEADER_PARSING = $(addprefix $(HEADERDIR), parsing.h)
 

@@ -32,10 +32,10 @@ int	open_fd_input_redirect(t_all *all, t_dlst **ptr_token, t_dlst*tmp_token)
 	{
 		if (all->fd_out != STDOUT_FILENO)
 			close(all->fd_out);
-		if (all->next_operator == REDIRECT_OUTPUT)
+		if (all->next_operator == TRUNC)
 			fd = open(tmp_token->next->str,
 					O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
-		else if (all->next_operator == APPEND_REDIRECT_OUTPUT)
+		else if (all->next_operator == APPEND)
 			fd = open(tmp_token->next->str,
 					O_WRONLY | O_CREAT | O_APPEND, S_IRWXU);
 		if (fd < 0)
@@ -97,18 +97,16 @@ void	redirections(t_all *all, t_dlst **ptr_token)
 	t_dlst	*tmp_token;
 
 	tmp_token = *ptr_token;
-	while (all->next_operator == REDIRECT_INPUT
-		|| all->next_operator == REDIRECT_OUTPUT
-		|| all->next_operator == APPEND_REDIRECT_OUTPUT
-		|| all->next_operator == HERE_DOCUMENT)
+	while (all->next_operator == INPUT || all->next_operator == TRUNC
+		|| all->next_operator == APPEND || all->next_operator == HEREDOC)
 	{
 		go_to_end_or_separator(&tmp_token);
-		if (all->next_operator == REDIRECT_INPUT)
+		if (all->next_operator == INPUT)
 			all->fd_in = open_fd_output_redirect(all, ptr_token, tmp_token);
-		else if (all->next_operator == REDIRECT_OUTPUT
-			|| all->next_operator == APPEND_REDIRECT_OUTPUT)
+		else if (all->next_operator == TRUNC
+			|| all->next_operator == APPEND)
 			all->fd_out = open_fd_input_redirect(all, ptr_token, tmp_token);
-		else if (all->next_operator == HERE_DOCUMENT)
+		else if (all->next_operator == HEREDOC)
 			heredoc_processing(all, &tmp_token);
 		tmp_token = tmp_token->next;
 		all->next_operator = next_operator(tmp_token);

@@ -1,6 +1,6 @@
 #include "termcap_commands.h"
 
-void check_g_sigint(t_all *all)
+void	check_g_sigint(t_all *all)
 {
 	if (g_sigint)
 	{

@@ -15,7 +15,8 @@ struct termios	init_settings(void)
 	check_get = tgetent(0, getenv("TERM"));
 	if (check_get == -1)
 		check_get = tgetent(0, "xterm-256color");
-		// ft_crash("Error");
+	if (check_get == -1)
+		ft_crash("Error");
 	return (saved_attributes);
 }
 
@@ -25,7 +26,8 @@ static void 	check_key_press(char *str, t_all *all, t_dlst **ptr_history)
 		all->line = printf_symbols(str[0], all);
 	else if (!ft_strncmp(str, K_UP, 3) && ft_strcmp(str, "\n") && *ptr_history)
 		all->line = history_operation(ptr_history, all, PREVIOUS_HISTORY);
-	else if (!ft_strncmp(str, K_DOWN, 3) && ft_strcmp(str, "\n") && *ptr_history && all->hist_iter)
+	else if (!ft_strncmp(str, K_DOWN, 3) && ft_strcmp(str, "\n")
+		&& *ptr_history && all->hist_iter)
 		all->line = history_operation(ptr_history, all, NEXT_HISTORY);
 	else if (!ft_strcmp(str, K_CTRL_C))
 		all->line = ctrlc_press(all);
@@ -47,15 +49,12 @@ void 	input_control(struct termios s_ats, t_all *all, t_dlst **ptr_history)
 			ft_crash("Read input error");
 		str[ret] = 0;
 		check_g_sigint(all);
-		if (!ft_strcmp(str, k_DEL))
+		if (!ft_strcmp(str, K_DEL))
 			all->line = escape_press(all);
 		else if (!ft_strcmp(str, K_CTRL_D))
 			ctrld_press(all, all->sh_counter, s_ats);
 		else if (!ft_strcmp(str, "\n"))
-		{
-			all->line = enter_press(all);
-			++flag;
-		}
+			all->line = enter_press(all, &flag);
 		check_key_press(str, all, ptr_history);
 	}
 	tcsetattr(0, TCSANOW, &s_ats);

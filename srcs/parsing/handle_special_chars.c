@@ -69,7 +69,7 @@ char	*dollar_handler(char **str, t_all *all)
 	char	*name;
 	char	*value;
 
-	if (**str == '?')
+	if (**str == '?' && last_token(all->lst_token) != HEREDOC)
 		return (get_status(str, all));
 	name = get_variable_name(str, all);
 	if (last_token(all->lst_token) == HEREDOC || name[0] == '\0')

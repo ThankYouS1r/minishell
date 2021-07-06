@@ -9,8 +9,8 @@ void	reallocated_memory(t_all *all, int counter)
 	}
 	else if (counter > 1 && all->cursor_counter > 12)
 	{
-		all->line = ft_realloc(all->line, counter);
-		all->line[--counter] = '\0';
+		all->line = ft_realloc(all->line, counter + 1);
+		all->line[counter] = '\0';
 	}
 }
 
